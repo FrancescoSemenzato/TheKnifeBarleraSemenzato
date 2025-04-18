@@ -50,13 +50,135 @@ public class GestoreRistoranti {
         return listaRistoranti;
     }
 
-    public ArrayList<Ristorante> filtraPerCitta(String citta) {
+    //Aggiungi un ristorante, solo il ristoratore
+    public void AggiungiRistorante(Ristorante r) {
+        this.listaRistoranti.add(r);
+    }
+
+
+    //Una lista perchè restituisce i ristoranti con il nome simile a quello cercato
+    public ArrayList<Ristorante> filtraPerNomeRistorante(String nome) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         for (Ristorante r : listaRistoranti) {
-            if (r.getCitta().equalsIgnoreCase(citta)) {
+            if (r.getNome().toLowerCase().contains(nome.toLowerCase())) {
                 filtrati.add(r);
             }
         }
         return filtrati;
+    }
+
+    //Filtra in base alla città, filtra anche in condizioni parziali
+    public ArrayList<Ristorante> filtraPerCitta(String citta) {
+        ArrayList<Ristorante> filtrati = new ArrayList<>();
+        for (Ristorante r : listaRistoranti) {
+            if (r.getCitta().toLowerCase().contains(citta.toLowerCase())) {
+                filtrati.add(r);
+            }
+        }
+        return filtrati;
+    }
+
+    //Filtra in base al tipo di cucina, controlla se la stringa tipo cercata è presente nel tipo di cucina del ristorante, ignorando maiuscole/minuscole
+    public ArrayList<Ristorante> filtraPerTipoDiCucina(String tipo, String citta) {
+        ArrayList<Ristorante> filtrati = new ArrayList<>();
+        for (Ristorante r : filtraPerCitta(citta)) {
+            if (r.getTipoDiCucina().toLowerCase().contains(tipo.toLowerCase())) {
+                filtrati.add(r);
+            }
+        }
+        return filtrati;
+    }
+
+    //Filtra in base prezzo maggiore, minore o uguale
+    public ArrayList<Ristorante> filtraPerFasciaDiPrezzo(int fascia, char segno, String citta) {
+        ArrayList<Ristorante> filtrati = new ArrayList<>();
+        switch (segno) {
+            case '>': for (Ristorante r : filtraPerCitta(citta)) {
+                        if (r.getFasciaDiPrezzo() > fascia) {
+                            filtrati.add(r);
+                        }
+                    }
+                break;
+            case '<': for (Ristorante r : filtraPerCitta(citta)) {
+                        if (r.getFasciaDiPrezzo() < fascia) {
+                            filtrati.add(r);
+                        }
+                    }
+                break;
+            case '=': for (Ristorante r : filtraPerCitta(citta)) {
+                        if (r.getFasciaDiPrezzo() == fascia) {
+                            filtrati.add(r);
+                        }
+                    }
+                break;
+            default:
+                break;
+        }
+        return filtrati;
+    }
+    //Filtra in base alla fascia di prezzo, prima piccolo poi grande
+    public ArrayList<Ristorante> filtraPerFasciaDiPrezzo(int fascia1, int fascia2, String citta) {
+        ArrayList<Ristorante> filtrati = new ArrayList<>();
+        for (Ristorante r : filtraPerCitta(citta)) {
+            if (r.getFasciaDiPrezzo() >= fascia1 && r.getFasciaDiPrezzo() <= fascia2) {
+                filtrati.add(r);
+            }
+        }
+        return filtrati;
+    }
+
+    //Filtra in base al delivery
+    public ArrayList<Ristorante> filtraPerDelivery(String citta) {
+        ArrayList<Ristorante> filtrati = new ArrayList<>();
+        for (Ristorante r : filtraPerCitta(citta)) {
+            if (r.getDelivery()) {
+                filtrati.add(r);
+            }
+        }
+        return filtrati;
+    }
+
+    //Filtra in base al servizio di prenotazioneOnline
+    public ArrayList<Ristorante> filtraPerPrenotazioneOnline(String citta) {
+        ArrayList<Ristorante> filtrati = new ArrayList<>();
+        for (Ristorante r : filtraPerCitta(citta)) {
+            if (r.getPrenotazioneOnline()) {
+                filtrati.add(r);
+            }
+        }
+        return filtrati;
+    }
+
+    //Filtra in base alla media delle stelle
+    public ArrayList<Ristorante> filtraPerMediaStelle(float numero, String citta) {
+        ArrayList<Ristorante> filtrati = new ArrayList<>();
+        for (Ristorante r : filtraPerCitta(citta)) {
+            if(Character.isDigit(r.getStelle().charAt(0))) {
+                float stelle = Float.parseFloat(String.valueOf(r.getStelle().charAt(0)));
+                if (stelle >= numero) {
+                    filtrati.add(r);
+                }
+            }
+        }
+        return filtrati;
+    }
+
+    //Per quando hai due criteri di ricerche
+    public ArrayList<Ristorante> unisciListe(ArrayList<Ristorante> lista1, ArrayList<Ristorante> lista2) {
+        ArrayList<Ristorante> unita = new ArrayList<>(lista1);
+        for (Ristorante r : lista2) {
+            if (!unita.contains(r)) {
+                unita.add(r);
+            }
+        }
+        return unita;
+    }
+    //Per quando hai tre criteri di ricerca
+    public ArrayList<Ristorante> unisciListe(ArrayList<Ristorante> lista1, ArrayList<Ristorante> lista2, ArrayList<Ristorante> lista3) {
+        return unisciListe(lista1, unisciListe(lista2, lista3));
+    }
+    //Per quando hai quattro criteri di ricerca
+    public ArrayList<Ristorante> unisciListe(ArrayList<Ristorante> lista1, ArrayList<Ristorante> lista2, ArrayList<Ristorante> lista3,  ArrayList<Ristorante> lista4) {
+        return unisciListe(unisciListe(lista1, lista2), unisciListe(lista3, lista4));
     }
 }

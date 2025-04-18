@@ -39,24 +39,63 @@ public class Ristorante {
     public float getLongitudine() { return Longitudine; }
     public int getFasciaDiPrezzo() { return FasciaDiPrezzo; }
     public String getStelle() { return Stelle; }
-    
+    public boolean getDelivery() { return Delivery; }
+    public boolean getPrenotazioneOnline() { return PrenotazioneOnline; }
+    public String getPrezzo() { return Prezzo; }
+
+    public String visualizzaRistorante() {
+        return "Ristorante:" + Nome + ", " + Indirizzo + "\n" +
+                "Tipo di cucina: " + TipoDiCucina + "\n" +
+                "Servizi: " + Servizi + "\n" +
+                "SitoWeb: " + URLWeb + "\n" +
+                "Prezzo: " + Prezzo + "\n" +
+                "delivery = " + (Delivery ? "Ha il servizio di Delivery" : "Non ha il servizio di delivery" )+ '\n' +
+                "prenotazioneOnline = " + (PrenotazioneOnline ? "E' possibile prenotare online" : "Non è possibile prenotare online" )+ '\n';
+    }
+
     @Override
     public String toString() {
-    return "Ristorante{" +
-            "nome='" + Nome + '\'' +
-            ", nazione='" + Nazione + '\'' +
-            ", citta='" + Citta + '\'' +
-            ", indirizzo='" + Indirizzo + '\'' +
-            ", tipoDiCucina='" + TipoDiCucina + '\'' +
-            ", servizi='" + Servizi + '\'' +
-            ", urlWeb='" + URLWeb + '\'' +
-            ", latitudine=" + Latitudine +
-            ", longitudine=" + Longitudine +
-            ", prezzo='" + Prezzo + '\'' +
-            ", fasciaDiPrezzo=" + FasciaDiPrezzo +
-            ", stelle=" + Stelle +
-            ", delivery=" + Delivery +
-            ", prenotazioneOnline=" + PrenotazioneOnline +
-            '}';
-}
+    return "Ristorante {\n" +
+            "nome = " + Nome + '\n' +
+            "nazione = " + Nazione + '\n' +
+            "citta = " + Citta + '\n' +
+            "indirizzo = " + Indirizzo + '\n' +
+            "tipoDiCucina = " + TipoDiCucina + '\n' +
+            "servizi = " + Servizi + '\n' +
+            "urlWeb = " + URLWeb + '\n' +
+            "latitudine = " + Latitudine + '\n' +
+            "longitudine = " + Longitudine + '\n' +
+            "prezzo = " + Prezzo + '\n' +
+            "fasciaDiPrezzo = " + FasciaDiPrezzo + '\n' +
+            "stelle = " + Stelle + '\n' +
+            "delivery = " + (Delivery ? "SI" : "NO" )+ '\n' +
+            "prenotazioneOnline = " + (PrenotazioneOnline ? "SI" : "NO" )+ '\n' +
+            "\n}\n";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        Ristorante that = (Ristorante) obj;
+
+        return Nome.equals(that.Nome) &&
+                Nazione.equals(that.Nazione) &&
+                Citta.equals(that.Citta) &&
+                Indirizzo.equals(that.Indirizzo) &&
+                TipoDiCucina.equals(that.TipoDiCucina) &&
+                Servizi.equals(that.Servizi) &&
+                URLWeb.equals(that.URLWeb) &&
+                Prezzo.equals(that.Prezzo) &&
+                Stelle.equals(that.Stelle) &&
+                FasciaDiPrezzo == that.FasciaDiPrezzo &&
+                Float.compare(Latitudine, that.Latitudine) == 0 &&
+                Float.compare(Longitudine, that.Longitudine) == 0 &&
+                Delivery == that.Delivery &&
+                PrenotazioneOnline == that.PrenotazioneOnline;
+    }
+
 }

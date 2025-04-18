@@ -6,6 +6,8 @@ package src;
 public class Main {
     public static void main(String[] args) {
         GestoreRistoranti gestoreRistoranti = new GestoreRistoranti();
-        System.out.println(gestoreRistoranti.filtraPerCitta("New York"));
+        for (Ristorante r : gestoreRistoranti.filtraPerCitta("Vienna")) {
+            System.out.println(r.toString());
+        }
     }
 }

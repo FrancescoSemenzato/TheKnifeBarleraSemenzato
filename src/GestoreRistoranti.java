@@ -55,6 +55,10 @@ public class GestoreRistoranti {
         this.listaRistoranti.add(r);
     }
 
+    //Rimuovi un ristorante, solo il ristoratore
+    public void Rimuovi(Ristorante r) {
+        this.listaRistoranti.remove(r);
+    }
 
     //Una lista perchè restituisce i ristoranti con il nome simile a quello cercato
     public ArrayList<Ristorante> filtraPerNomeRistorante(String nome) {

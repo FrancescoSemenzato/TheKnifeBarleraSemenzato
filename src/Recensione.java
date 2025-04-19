@@ -1,5 +1,6 @@
 package src;
 public class Recensione {
-    private String Commento;
-    private int Voto;
+    private String commento, risposta;
+    private int idUtente;
+    private double voto;
 }

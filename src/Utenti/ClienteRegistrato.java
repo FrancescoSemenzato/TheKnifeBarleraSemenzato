@@ -48,11 +48,13 @@ public class ClienteRegistrato extends Utente{
             System.out.println(i + "- " + ListaRecensioniUtente.get(i));
     }
 
-    public void RemoveRecensione(int index){
+    public void RemoveRecensione(int index, Ristorante ristorante){
+        ristorante.RimuoviRecensione(getUsername(), ListaRecensioniUtente.get(index).getCommento());
         ListaRecensioniUtente.remove(index);
     }
 
-    public void ModificaRecensione(int index, String newCommento, int newVoto){
+    public void ModificaRecensione(int index, String newCommento, int newVoto, Ristorante ristorante){
+        ristorante.ModificaRecensione(getUsername(), newCommento, newVoto);
         ListaRecensioniUtente.get(index).setCommento(newCommento);
         ListaRecensioniUtente.get(index).setVoto(newVoto);
     }

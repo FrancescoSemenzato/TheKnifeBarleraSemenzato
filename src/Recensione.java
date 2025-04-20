@@ -14,6 +14,7 @@ public class Recensione {
     public String getCommento(){return Commento;}
     public int getVoto(){return Voto;}
     public String getRisposta(){return Risposta;}
+    public String getUsername(){return Username;}
     
     public void setCommento(String newCommento){Commento = newCommento;}
     public void setVoto(int newVoto){Voto = newVoto;}

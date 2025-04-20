@@ -1,17 +1,16 @@
 package src.Ristoranti;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import src.Recensione;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class Ristorante {
     private String Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo, Stelle;
     private int FasciaDiPrezzo;
-    private float Latitudine, Longitudine;
+    private float Latitudine, Longitudine, MediaStelle;
     private boolean Delivery, PrenotazioneOnline;
     private ArrayList<Recensione> ListaRecensioni;
     
@@ -30,8 +29,8 @@ public class Ristorante {
         this.Stelle = Stelle;
         this.Delivery = Delivery;
         this.PrenotazioneOnline = PrenotazioneOnline;
-
-        ListaRecensioni = new ArrayList<Recensione>();
+        this.ListaRecensioni = leggiDaFile("FilesCSV/ListaRecensioni");
+        this.MediaStelle = MediaStelle();
     }
 
     public String getNome() { return Nome; }
@@ -48,6 +47,7 @@ public class Ristorante {
     public boolean getDelivery() { return Delivery; }
     public boolean getPrenotazioneOnline() { return PrenotazioneOnline; }
     public String getPrezzo() { return Prezzo; }
+    public ArrayList<Recensione> getRecensioni(){ return ListaRecensioni;}
 
     public String visualizzaRistorante() {
         return "Ristorante:" + Nome + ", " + Indirizzo + "\n" +
@@ -55,17 +55,54 @@ public class Ristorante {
                 "Servizi: " + Servizi + "\n" +
                 "SitoWeb: " + URLWeb + "\n" +
                 "Prezzo: " + Prezzo + "\n" +
-                "delivery = " + (Delivery ? "Ha il servizio di Delivery" : "Non ha il servizio di delivery" )+ '\n' +
-                "prenotazioneOnline = " + (PrenotazioneOnline ? "E' possibile prenotare online" : "Non è possibile prenotare online" )+ '\n';
+                "Stelle: " + (MediaStelle > 0 ? MediaStelle : "Nessuna recensione" ) + "\n" +
+                "Delivery = " + (Delivery ? "Ha il servizio di Delivery" : "Non ha il servizio di delivery" )+ '\n' +
+                "PrenotazioneOnline = " + (PrenotazioneOnline ? "E' possibile prenotare online" : "Non è possibile prenotare online" )+ '\n';
     }
 
-    public void getRecensioni(){
+    public String visualizzaRecensioni(){
+        String s = "";
         for(Recensione r : ListaRecensioni)
-            r.toString();
+            s += r.visualizzaRecensione() + "\n";
+        return s;
     }
 
     public void AggiungiRecensione(Recensione recensione){
         ListaRecensioni.add(recensione);
+    }
+
+    public float MediaStelle(){
+        float somma = 0;
+        for(Recensione r : ListaRecensioni)
+            somma += r.getVoto();
+        return somma / ListaRecensioni.size();
+    }
+
+    private ArrayList<Recensione> leggiDaFile(String FilePath) {
+        ArrayList<Recensione> lista = new ArrayList<>();
+        String line;
+        try (BufferedReader br = new BufferedReader(new FileReader(FilePath))) {
+            br.readLine();  // Questa riga legge la prima riga e la ignora
+            while ((line = br.readLine()) != null) {
+                String[] campi = line.split(";");
+                if (campi.length == 5 && campi[0].equals(this.Nome)) {
+                    String nome = campi[0];
+                    int voto = Integer.parseInt(campi[1]);
+                    String recensione = campi[2];
+                    String risposta = campi[3];
+                    String username = campi[4];
+                    Recensione r;
+                    if(risposta.equals(""))
+                        r = new Recensione(voto, recensione, username, nome);
+                    else
+                        r = new Recensione(voto, recensione, username, nome, risposta);
+                    lista.add(r);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella lettura del file: " + e.getMessage());
+        }
+        return lista;
     }
 
 

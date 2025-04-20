@@ -10,7 +10,7 @@ public class Ristorante {
     private int FasciaDiPrezzo;
     private float Latitudine, Longitudine;
     private boolean Delivery, PrenotazioneOnline;
-    private ArrayList<Recensione> listaRecensioni;
+    private ArrayList<Recensione> ListaRecensioni;
     
     public Ristorante(String Nome, String Nazione, String Citta, String Indirizzo, String TipoDiCucina, String Servizi, String URLWeb, String Prezzo, float Latitudine, float Logitudine, int FasciaDiPrezzo, String Stelle, boolean Delivery, boolean PrenotazioneOnline){
         this.Nome = Nome;
@@ -27,6 +27,8 @@ public class Ristorante {
         this.Stelle = Stelle;
         this.Delivery = Delivery;
         this.PrenotazioneOnline = PrenotazioneOnline;
+
+        ListaRecensioni = new ArrayList<Recensione>();
     }
 
     public String getNome() { return Nome; }
@@ -53,6 +55,16 @@ public class Ristorante {
                 "delivery = " + (Delivery ? "Ha il servizio di Delivery" : "Non ha il servizio di delivery" )+ '\n' +
                 "prenotazioneOnline = " + (PrenotazioneOnline ? "E' possibile prenotare online" : "Non è possibile prenotare online" )+ '\n';
     }
+
+    public void getRecensioni(){
+        for(Recensione r : ListaRecensioni)
+            r.toString();
+    }
+
+    public void AggiungiRecensione(Recensione recensione){
+        ListaRecensioni.add(recensione);
+    }
+
 
     @Override
     public String toString() {

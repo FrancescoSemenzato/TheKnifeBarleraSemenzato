@@ -48,6 +48,7 @@ public class Ristorante {
     public boolean getPrenotazioneOnline() { return PrenotazioneOnline; }
     public String getPrezzo() { return Prezzo; }
     public ArrayList<Recensione> getRecensioni(){ return ListaRecensioni;}
+    public Recensione getRecensione(int index){return ListaRecensioni.get(index);}
 
     public String visualizzaRistorante() {
         return "Ristorante:" + Nome + ", " + Indirizzo + "\n" +

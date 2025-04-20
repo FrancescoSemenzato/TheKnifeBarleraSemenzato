@@ -46,7 +46,7 @@ public class GestoreRistoranti {
         return lista;
     }
 
-    public ArrayList<Ristorante> getLista() {
+    public ArrayList<Ristorante> getListaRistoranti() {
         return listaRistoranti;
     }
 
@@ -56,7 +56,7 @@ public class GestoreRistoranti {
     }
 
     //Rimuovi un ristorante, solo il ristoratore
-    public void Rimuovi(Ristorante r) {
+    public void RimuoviRistorante(Ristorante r) {
         this.listaRistoranti.remove(r);
     }
 

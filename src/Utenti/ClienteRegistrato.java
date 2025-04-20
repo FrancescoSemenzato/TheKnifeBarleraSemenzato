@@ -1,6 +1,9 @@
-package src;
+package src.Utenti;
 
 import java.util.ArrayList;
+
+import src.Recensione;
+import src.Ristoranti.Ristorante;
 
 public class ClienteRegistrato extends Utente{
     private ArrayList <Recensione> ListaRecensioniUtente;
@@ -32,9 +35,9 @@ public class ClienteRegistrato extends Utente{
         return ris;
     }
 
-    public Recensione AggiungiRecensione(int voto, String commento, Ristorante Ristorante){
-        Recensione rec = new Recensione(voto, commento, getUsername(), Ristorante.getNome());
-        Ristorante.AggiungiRecensione(rec);
+    public Recensione AggiungiRecensione(int voto, String commento, Ristorante ristorante){
+        Recensione rec = new Recensione(voto, commento, getUsername(), ristorante.getNome());
+        ristorante.AggiungiRecensione(rec);
         ListaRecensioniUtente.add(rec);
         return rec;
     }
@@ -49,8 +52,8 @@ public class ClienteRegistrato extends Utente{
         ListaRecensioniUtente.remove(index);
     }
 
-    public void ModificaRecensione(int index, String newCommento, int voto){
+    public void ModificaRecensione(int index, String newCommento, int newVoto){
         ListaRecensioniUtente.get(index).setCommento(newCommento);
-        ListaRecensioniUtente.get(index).setVoto(voto);
+        ListaRecensioniUtente.get(index).setVoto(newVoto);
     }
 }

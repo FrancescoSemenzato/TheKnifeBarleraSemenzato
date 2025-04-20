@@ -1,4 +1,6 @@
-package src;
+package src.Utenti;
+
+import src.Ristoranti.Ristorante;
 
 public class UtenteNonRegistrato extends Utente{
     public UtenteNonRegistrato(){

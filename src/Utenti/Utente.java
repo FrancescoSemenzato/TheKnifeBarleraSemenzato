@@ -1,4 +1,4 @@
-package src;
+package src.Utenti;
 
 public abstract class Utente {
     private String Nome, Cognome, Username, Password, Domicilio, Ruolo;

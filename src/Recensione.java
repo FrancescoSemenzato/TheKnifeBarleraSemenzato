@@ -1,8 +1,7 @@
 package src;
 public class Recensione {
-    private String Commento, Username, NomeRistorante;
-    private int idUtente;
-    private double Voto;
+    private String Commento, Username, NomeRistorante, Risposta;
+    private int Voto;
 
     public Recensione(int Voto, String Commento, String Username, String NomeRistorante){
         this.Commento = Commento;
@@ -12,9 +11,13 @@ public class Recensione {
     }
 
     public String getNomeRistorante(){return NomeRistorante;}
+    public String getCommento(){return Commento;}
+    public int getVoto(){return Voto;}
+    public String getRisposta(){return Risposta;}
     
     public void setCommento(String newCommento){Commento = newCommento;}
     public void setVoto(int newVoto){Voto = newVoto;}
+    public void setRisposta(String newRisposta){Risposta = newRisposta;}
 
     @Override
     public String toString(){

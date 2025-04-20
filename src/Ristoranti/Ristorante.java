@@ -1,6 +1,9 @@
-package src;
+package src.Ristoranti;
 
 import java.util.ArrayList;
+
+import src.Recensione;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

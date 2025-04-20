@@ -67,6 +67,24 @@ public class Ristorante {
         return s;
     }
 
+    public void RimuoviRecensione(String username, String commento){
+        for(Recensione r : ListaRecensioni)
+            if(r.getUsername().equals(username) && r.getCommento().equals(commento))
+                ListaRecensioni.remove(r);
+    }
+
+    public void ModificaRecensione(String username, String commento, int voto){
+        int i=0;
+        for(Recensione r : ListaRecensioni){
+            if(r.getUsername().equals(username) && r.getCommento().equals(commento) && r.getVoto() == voto){
+                ListaRecensioni.get(i).setCommento(commento);
+                ListaRecensioni.get(i).setVoto(voto);
+            }
+            i++;
+        }
+
+    }
+
     public void AggiungiRecensione(Recensione recensione){
         ListaRecensioni.add(recensione);
     }

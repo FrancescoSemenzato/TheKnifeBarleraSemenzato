@@ -9,7 +9,7 @@ import src.Recensione;
 
 public class Ristorante {
     private String Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo, Stelle;
-    private int FasciaDiPrezzo;
+    private int FasciaDiPrezzo, ContaRecensioni = 0;
     private float Latitudine, Longitudine, MediaStelle;
     private boolean Delivery, PrenotazioneOnline;
     private ArrayList<Recensione> ListaRecensioni;
@@ -49,6 +49,8 @@ public class Ristorante {
     public String getPrezzo() { return Prezzo; }
     public ArrayList<Recensione> getRecensioni(){ return ListaRecensioni;}
     public Recensione getRecensione(int index){return ListaRecensioni.get(index);}
+    public float getMediaStelle(){return MediaStelle;}
+    public int getNumeroRecensioni(){return ContaRecensioni;}
 
     public String visualizzaRistorante() {
         return "Ristorante:" + Nome + ", " + Indirizzo + "\n" +
@@ -61,7 +63,7 @@ public class Ristorante {
                 "PrenotazioneOnline = " + (PrenotazioneOnline ? "E' possibile prenotare online" : "Non è possibile prenotare online" )+ '\n';
     }
 
-    public String visualizzaRecensioni(){
+    public String VisualizzaRecensioni(){
         String s = "";
         for(Recensione r : ListaRecensioni)
             s += r.visualizzaRecensione() + "\n";
@@ -70,8 +72,11 @@ public class Ristorante {
 
     public void RimuoviRecensione(String username, String commento){
         for(Recensione r : ListaRecensioni)
-            if(r.getUsername().equals(username) && r.getCommento().equals(commento))
+            if(r.getUsername().equals(username) && r.getCommento().equals(commento)){
                 ListaRecensioni.remove(r);
+                ContaRecensioni--;
+            }
+        
     }
 
     public void ModificaRecensione(String username, String commento, int voto){
@@ -83,11 +88,11 @@ public class Ristorante {
             }
             i++;
         }
-
     }
 
     public void AggiungiRecensione(Recensione recensione){
         ListaRecensioni.add(recensione);
+        ContaRecensioni++;
     }
 
     public float MediaStelle(){
@@ -105,6 +110,7 @@ public class Ristorante {
             while ((line = br.readLine()) != null) {
                 String[] campi = line.split(";");
                 if (campi.length == 5 && campi[0].equals(this.Nome)) {
+                    ContaRecensioni++;
                     String nome = campi[0];
                     int voto = Integer.parseInt(campi[1]);
                     String recensione = campi[2];

@@ -68,4 +68,23 @@ public class Ristoratore extends Utente {
 
         return "Recensione aggiunta correttamente";
     }
+
+    public String RecensioneMediaRistoranti(){
+        String ris = "VALUTAZIONE MEDIA DI TUTTI I TUOI RISTORANTI: \n";
+        float media=0;
+        for(Ristorante r : ListaRistoranti){
+            ris += r.getNome() + ": " + r.getMediaStelle() + "\n";
+            media += r.getMediaStelle();
+        }
+        ris += "MEDIA GENERALE: " + (media/ListaRistoranti.size());
+        return ris;
+    }
+
+    public String NumeroRecensioniRicevute(){
+        String ris = "NUMERO RECENSUIONI DI TUTTI I TUOI RISTORANTI: \n";
+        for(Ristorante r : ListaRistoranti)
+            ris += r.getNome() + ": " + r.getNumeroRecensioni() + " RECENSIONI\n";
+        
+        return ris;
+    }
 }

@@ -8,9 +8,5 @@ import src.Ristoranti.Ristorante;
 
 public class Main {
     public static void main(String[] args) {
-        GestoreRistoranti gestoreRistoranti = new GestoreRistoranti();
-        for (Ristorante r : gestoreRistoranti.filtraPerCitta("Vienna")) {
-            System.out.println(r.toString());
-        }
     }
 }

@@ -13,6 +13,15 @@ public class GestoreRistoranti {
         this.listaRistoranti = leggiDaFile(FilePath);
     }
 
+    public Ristorante getRistorante(String nome) {
+        for (Ristorante r : listaRistoranti) {
+            if (r.getNome().equals(nome)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
     private ArrayList<Ristorante> leggiDaFile(String FilePath) {
         ArrayList<Ristorante> lista = new ArrayList<>();
         String line;

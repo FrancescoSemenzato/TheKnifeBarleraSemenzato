@@ -1,11 +1,15 @@
 package src.Utenti;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import src.Recensione;
 import src.Ristoranti.Ristorante;
 
 public class Cliente extends Utente{
+    public static final String FilePathRecensioni="FilesCSV/ListaRecensioni.csv";
     private ArrayList <Recensione> ListaRecensioniUtente;
     private ArrayList <Ristorante> ListaPreferiti;
     
@@ -22,7 +26,28 @@ public class Cliente extends Utente{
         super(Nome, Cognome, Username, Password, Domicilio, "Cliente", Data);
 
         ListaRecensioniUtente = new ArrayList<Recensione>();
+        CaricaListaRecensione(ListaRecensioniUtente);
         ListaPreferiti = new ArrayList<Ristorante>();
+
+    }
+
+    public void CaricaListaRecensione(ArrayList<Recensione> rec){
+        String line;
+        try (BufferedReader br = new BufferedReader(new FileReader(FilePathRecensioni))) {
+            br.readLine();  // Questa riga legge la prima riga e la ignora
+            while ((line = br.readLine()) != null) {
+                String[] campi = line.split(";");
+                if(campi[4].equals(getUsername()) && campi[3].equals("")){
+                    rec.add(new Recensione(Integer.parseInt(campi[1]), campi[2], campi[4], campi[0]));
+                }
+                else{
+                    rec.add(new Recensione(Integer.parseInt(campi[1]), campi[2], campi[4], campi[0], campi[3]));
+                }
+                
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella lettura del file: " + e.getMessage());
+        }
     }
 
     public String AggiungiAiPreferiti(Ristorante ristorante){

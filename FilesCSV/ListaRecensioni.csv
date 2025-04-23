@@ -1,60 +1,21 @@
-Nome Ristorante;Voto;Recensione;Risposta Alla Recensione;Username
-Steirereck im Stadtpark;3;Qualità eccellente, ma prezzo un po' elevato.;;
-Amador;3;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-Jungsik New York;4;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Per Se;3;Ottima cucina, atmosfera elegante e personale cordiale.;;
-Le Bernardin;3;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Eleven Madison Park;4;Qualità eccellente, ma prezzo un po' elevato.;;
-Masa;5;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-The Inn at Little Washington;4;Qualità eccellente, ma prezzo un po' elevato.;;
-Smyth;4;Ottima cucina, atmosfera elegante e personale cordiale.;;
-Alinea;5;Ottima cucina, atmosfera elegante e personale cordiale.;;
-Sorn;3;Qualità eccellente, ma prezzo un po' elevato.;;
-Azurmendi;4;Ottima cucina, atmosfera elegante e personale cordiale.;;
-Aponiente;5;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-DiverXO;5;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Noor;4;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-Cenador de Am√≥s;4;Ottima cucina, atmosfera elegante e personale cordiale.;;
-Quique Dacosta;3;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-Atrio;5;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Casa Marcial;5;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-El Celler de Can Roca;3;Qualità eccellente, ma prezzo un po' elevato.;;
-Reua Thai;5;Qualità eccellente, ma prezzo un po' elevato.;;
-Restobar Vista;3;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-Alma Bistro;3;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-'t Spiehuis;5;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-Akela≈ïe;4;Ottima cucina, atmosfera elegante e personale cordiale.;;
-Mart√≠n Berasategui;5;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Lasarte;3;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-ABaC;3;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-Disfrutar;4;Qualità eccellente, ma prezzo un po' elevato.;;
-Arzak;3;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Cocina Hermanos Torres;3;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Ultraviolet by Paul Pairet;3;Qualità eccellente, ma prezzo un po' elevato.;;
-Taian Table;3;Qualità eccellente, ma prezzo un po' elevato.;;
-Casa Perbellini 12 Apostoli;4;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Le Calandre;5;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Enrico Bartolini al Mudec;4;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Uliassi;3;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Enoteca Pinchiorri;3;Ottima cucina, atmosfera elegante e personale cordiale.;;
-Atelier Moessmer Norbert Niederkofler;3;Ottima cucina, atmosfera elegante e personale cordiale.;;
-Villa Crespi;5;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Quattro Passi;3;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-La Pergola;4;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Reale;5;Qualità eccellente, ma prezzo un po' elevato.;;
-Da Vittorio;4;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Osteria Francescana;3;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Dal Pescatore;4;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Piazza Duomo;3;Ottima cucina, atmosfera elegante e personale cordiale.;;
-Schloss Schauenstein;3;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Restaurant de l'H√¥tel de Ville;5;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Sven Wassmer Memories;4;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Cheval Blanc by Peter Knogl;4;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-Kanda;3;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Azabu Kadowaki;3;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-Kohaku;3;Qualità eccellente, ma prezzo un po' elevato.;;
-S√âZANNE;5;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
-Harutaka;5;Qualità eccellente, ma prezzo un po' elevato.;;
-L'OSIER;4;Un viaggio culinario indimenticabile, assolutamente consigliato.;;
-Kagurazaka Ishikawa;3;Esperienza eccezionale, piatti raffinati e servizio impeccabile.;;
-RyuGin;3;Servizio perfetto e piatti sorprendenti per presentazione e gusto.;;
+Nome Ristorante,Voto,Recensione,Risposta Alla Recensione,Username
+Jo√´l Robuchon,5,"Esperienza indimenticabile, ogni piatto √® un'opera d'arte.",,giulia.costa2
+Quintessence,4,"Cucina sublime e presentazione impeccabile, ma servizio un po' lento.",,martina.colombo3
+noma,5,Rivoluzionario! Una reinterpretazione unica della cucina nordica.,,marco.russo4
+The French Laundry,3,Buona qualit√† ma non giustifica il prezzo esorbitante.,,martina.verdi6
+Mirazur,4,Vista mozzafiato e piatti creativi che raccontano il territorio.,,alessandro.bianchi7
+Fat Duck,5,Esperienza multisensoriale che supera ogni aspettativa.,,davide.russo8
+Odette,4,Atmosfera raffinata e abbinamenti sorprendenti.,,luca.colombo9
+Geranium,5,"Perfezione in ogni dettaglio, dal servizio alla presentazione.",,davide.russo10
+Le Calandre,3,Buono ma ci aspettavamo di pi√π da un ristorante stellato.,,chiara.rossi12
+L'Enclume,4,Ingredienti locali trasformati in piatti memorabili.,,giulia.ferrari14
+Hi≈°a Franko,5,Ana Ro≈° √® un genio! Esperienza che fonde arte e cucina.,,martina.russo15
+Benu,4,"Fusione asiatica innovativa, servizio eccellente.",,luca.bianchi16
+Z√©n,5,Teatro culinario dove ogni atto √® una sorpresa.,,martina.bianchi17
+Addison,3,Atmosfera elegante ma alcuni piatti deludenti.,,elisa.gallo20
+Atelier Crenn,4,"Poesia in cucina, ogni piatto racconta una storia.",,elisa.ferrari1
+SingleThread,5,Agricoltura e cucina si fondono perfettamente.,,marco.verdi5
+Core by Clare Smyth,4,"Donna straordinaria, cucina britannica elevata.",,luca.colombo13
+Restaurant Gordon Ramsay,3,"Classico ma un po' datato, servizio impeccabile.",,giulia.gallo18
+The Ledbury,4,Ottimo rapporto qualit√†-prezzo per un ristorante stellato.,,chiara.costa19
+Blue Hill at Stone Barns,5,Sostenibilit√† e gusto in perfetto equilibrio.,,marco.russo11

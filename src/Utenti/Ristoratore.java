@@ -14,6 +14,12 @@ public class Ristoratore extends Utente {
         ListaRistoranti = new ArrayList<Ristorante>();
     }
 
+    public Ristoratore(String Nome, String Cognome, String Username, String Password, String Domicilio, String Data){
+        super(Nome, Cognome, Username, Password, Domicilio, "Ristoratore", Data);
+
+        ListaRistoranti = new ArrayList<Ristorante>();
+    }
+
     public String getRistoranti(){
         int i=0;
         String ris = "Elenco dei ristoranti:\n";

@@ -14,5 +14,13 @@ public class DataDiNascita {
         this.Anno = Anno;
     }
 
+    public DataDiNascita(String data){
+        String[] campi = data.split("-");
+        
+        this.Giorno = Integer.parseInt(campi[0]);
+        this.Mese = Integer.parseInt(campi[1]);
+        this.Anno = Integer.parseInt(campi[2]);
+    }
+
     public String getDataDiNascita(){ return "" + Giorno + "-" + Mese + "-" + Anno; }
 }

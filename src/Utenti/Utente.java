@@ -16,6 +16,16 @@ public abstract class Utente {
         Data = new DataDiNascita(Giorno, Mese, Anno);
     }
 
+    public Utente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Ruolo, String Data){
+        this.Nome = Nome;
+        this.Cognome = Cognome;
+        this.Username = Username;
+        this.Password = Password;
+        this.Domicilio = Domicilio;
+        this.Ruolo = Ruolo;
+        this.Data = new DataDiNascita(Data);
+    }
+
     public String getNome(){ return Nome;}
     public String getCognome(){return Cognome;}
     public String getUsername(){ return Username;}

@@ -5,14 +5,21 @@ import java.util.ArrayList;
 import src.Recensione;
 import src.Ristoranti.Ristorante;
 
-public class ClienteRegistrato extends Utente{
+public class Cliente extends Utente{
     private ArrayList <Recensione> ListaRecensioniUtente;
     private ArrayList <Ristorante> ListaPreferiti;
     
-    public ClienteRegistrato(){}
+    public Cliente(){}
 
-    public ClienteRegistrato(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno){
-        super(Nome, Cognome, Username, Password, Domicilio, "Cliente Registrato", Giorno, Mese, Anno);
+    public Cliente(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno){
+        super(Nome, Cognome, Username, Password, Domicilio, "Cliente", Giorno, Mese, Anno);
+
+        ListaRecensioniUtente = new ArrayList<Recensione>();
+        ListaPreferiti = new ArrayList<Ristorante>();
+    }
+
+    public Cliente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Data){
+        super(Nome, Cognome, Username, Password, Domicilio, "Cliente", Data);
 
         ListaRecensioniUtente = new ArrayList<Recensione>();
         ListaPreferiti = new ArrayList<Ristorante>();

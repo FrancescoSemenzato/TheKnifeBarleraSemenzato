@@ -15,8 +15,8 @@ public class UtenteNonRegistrato extends Utente{
         ristorante.getRecensioni();
     }
 
-    public ClienteRegistrato Registrare(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno){
-        ClienteRegistrato cl = new ClienteRegistrato();
+    public Cliente Registrare(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno){
+        Cliente cl = new Cliente();
         return cl;
     }
 }

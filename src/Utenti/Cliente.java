@@ -10,6 +10,7 @@ import src.Ristoranti.Ristorante;
 
 public class Cliente extends Utente{
     public static final String FilePathRecensioni="FilesCSV/ListaRecensioni.csv";
+    public static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
     private ArrayList <Recensione> ListaRecensioniUtente;
     private ArrayList <Ristorante> ListaPreferiti;
     
@@ -44,6 +45,23 @@ public class Cliente extends Utente{
                     rec.add(new Recensione(Integer.parseInt(campi[1]), campi[2], campi[4], campi[0], campi[3]));
                 }
                 
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella lettura del file: " + e.getMessage());
+        }
+    }
+
+    public void CaricaListaPreferiti(ArrayList<Ristorante> ris){
+        String line;
+        try (BufferedReader br = new BufferedReader(new FileReader(FilePathUtenti))) {
+            br.readLine();  // Questa riga legge la prima riga e la ignora
+            while ((line = br.readLine()) != null) {
+                String[] campi = line.split(";");
+                if(campi[0].equals(getUsername())){
+                    String[] temp = campi[7].split("_");
+                    for(int i=0; i<temp.length; i++)
+                        ris.add(new Ristorante())
+                }
             }
         } catch (IOException e) {
             System.out.println("Errore nella lettura del file: " + e.getMessage());

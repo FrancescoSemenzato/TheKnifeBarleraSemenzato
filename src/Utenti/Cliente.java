@@ -54,19 +54,24 @@ public class Cliente extends Utente{
         }
     }
 
-    public void CaricaListaPreferiti(ArrayList<Ristorante> ris){
+    public void CaricaListaPreferiti(ArrayList<Ristorante> ris) {
         String line;
         GestoreRistoranti gest = new GestoreRistoranti();
-        Ristorante rs = new Ristorante();
         try (BufferedReader br = new BufferedReader(new FileReader(FilePathUtenti))) {
-            br.readLine();  // Questa riga legge la prima riga e la ignora
+            br.readLine();  // Salta l'header
             while ((line = br.readLine()) != null) {
                 String[] campi = line.split(";");
-                if(campi[0].equals(getUsername())){
-                    String[] temp = campi[7].split("_");
-                    for(int i=0; i<temp.length-1; i++)
-                        rs = gest.getRistorante(temp[i]);
-                        ris.add(rs);
+                if(campi[0].equals(getUsername()) && campi.length > 7) {
+                    String[] preferiti = campi[7].split("_");
+                    for(String nomeRistorante : preferiti) {
+                        if(!nomeRistorante.isEmpty()) {
+                            Ristorante r = gest.getRistorante(nomeRistorante.trim());
+                            if(r != null) {
+                                ris.add(r);
+                            }
+                        }
+                    }
+                    break;  // Esci dal while dopo aver trovato l'utente
                 }
             }
         } catch (IOException e) {

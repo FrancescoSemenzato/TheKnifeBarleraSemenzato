@@ -25,9 +25,8 @@ public class Main {
         //caricamento della lista Ristoranti
         GestoreRistoranti gestoreRistoranti = new GestoreRistoranti();
 
-       
-        System.out.println(ListaClienti.get(1).VisualizzaPreferiti());
-        ListaClienti.get(1).VisualizzaPreferiti();
+        System.out.println(ListaClienti.get(0).getUsername());
+        System.out.println(ListaClienti.get(0).VisualizzaPreferiti());
 
 
         /* 

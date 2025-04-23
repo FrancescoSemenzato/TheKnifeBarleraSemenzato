@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import src.Recensione;
+import src.Ristoranti.GestoreRistoranti;
 import src.Ristoranti.Ristorante;
 
 public class Cliente extends Utente{
@@ -29,6 +30,7 @@ public class Cliente extends Utente{
         ListaRecensioniUtente = new ArrayList<Recensione>();
         CaricaListaRecensione(ListaRecensioniUtente);
         ListaPreferiti = new ArrayList<Ristorante>();
+        CaricaListaPreferiti(ListaPreferiti);
 
     }
 
@@ -38,11 +40,12 @@ public class Cliente extends Utente{
             br.readLine();  // Questa riga legge la prima riga e la ignora
             while ((line = br.readLine()) != null) {
                 String[] campi = line.split(";");
-                if(campi[4].equals(getUsername()) && campi[3].equals("")){
-                    rec.add(new Recensione(Integer.parseInt(campi[1]), campi[2], campi[4], campi[0]));
-                }
-                else{
-                    rec.add(new Recensione(Integer.parseInt(campi[1]), campi[2], campi[4], campi[0], campi[3]));
+                if (campi.length >= 5) {
+                    if (campi[4].equals(getUsername()) && campi[3].equals("")) {
+                        rec.add(new Recensione(Integer.parseInt(campi[1]), campi[2], campi[4], campi[0]));
+                    } else {
+                        rec.add(new Recensione(Integer.parseInt(campi[1]), campi[2], campi[4], campi[0], campi[3]));
+                    }
                 }
                 
             }
@@ -53,14 +56,17 @@ public class Cliente extends Utente{
 
     public void CaricaListaPreferiti(ArrayList<Ristorante> ris){
         String line;
+        GestoreRistoranti gest = new GestoreRistoranti();
+        Ristorante rs = new Ristorante();
         try (BufferedReader br = new BufferedReader(new FileReader(FilePathUtenti))) {
             br.readLine();  // Questa riga legge la prima riga e la ignora
             while ((line = br.readLine()) != null) {
                 String[] campi = line.split(";");
                 if(campi[0].equals(getUsername())){
                     String[] temp = campi[7].split("_");
-                    for(int i=0; i<temp.length; i++)
-                        ris.add(new Ristorante())
+                    for(int i=0; i<temp.length-1; i++)
+                        rs = gest.getRistorante(temp[i]);
+                        ris.add(rs);
                 }
             }
         } catch (IOException e) {

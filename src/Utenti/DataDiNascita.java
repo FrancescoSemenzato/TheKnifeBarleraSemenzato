@@ -15,7 +15,11 @@ public class DataDiNascita {
     }
 
     public DataDiNascita(String data){
-        String[] campi = data.split("-");
+        String[] campi;
+        if(data.charAt(2) == '-')
+            campi = data.split("-");
+        else
+            campi = data.split("/");
         
         this.Giorno = Integer.parseInt(campi[0]);
         this.Mese = Integer.parseInt(campi[1]);

@@ -24,10 +24,11 @@ public class Main {
 
         //caricamento della lista Ristoranti
         GestoreRistoranti gestoreRistoranti = new GestoreRistoranti();
-        
-        for (Ristorante ristorante : gestoreRistoranti.filtraPerCitta("Vienna")) {
-            System.out.println(ristorante.visualizzaRistorante());
-        }
+
+       
+        System.out.println(ListaClienti.get(1).VisualizzaPreferiti());
+        ListaClienti.get(1).VisualizzaPreferiti();
+
 
         /* 
         Scanner in = new Scanner(System.in);

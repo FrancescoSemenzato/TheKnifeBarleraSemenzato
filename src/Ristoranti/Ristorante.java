@@ -14,6 +14,8 @@ public class Ristorante {
     private boolean Delivery, PrenotazioneOnline;
     private ArrayList<Recensione> ListaRecensioni;
     
+    public Ristorante(){}
+    
     public Ristorante(String Nome, String Nazione, String Citta, String Indirizzo, String TipoDiCucina, String Servizi, String URLWeb, String Prezzo, float Latitudine, float Logitudine, int FasciaDiPrezzo, String Stelle, boolean Delivery, boolean PrenotazioneOnline){
         this.Nome = Nome;
         this.Nazione = Nazione;

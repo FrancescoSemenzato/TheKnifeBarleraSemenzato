@@ -29,7 +29,7 @@ public class Ristorante {
         this.Stelle = Stelle;
         this.Delivery = Delivery;
         this.PrenotazioneOnline = PrenotazioneOnline;
-        this.ListaRecensioni = leggiDaFile("FilesCSV/ListaRecensioni");
+        this.ListaRecensioni = leggiDaFile("FilesCSV/ListaRecensioni.csv");
         this.MediaStelle = MediaStelle();
     }
 

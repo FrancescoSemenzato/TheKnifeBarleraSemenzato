@@ -10,7 +10,7 @@ public abstract class Utente {
         this.Nome = Nome;
         this.Cognome = Cognome;
         this.Username = Username;
-        this.Password = Password;
+        this.Password = CifraPassword(Password);
         this.Domicilio = Domicilio;
         this.Ruolo = Ruolo;
         Data = new DataDiNascita(Giorno, Mese, Anno);
@@ -20,7 +20,7 @@ public abstract class Utente {
         this.Nome = Nome;
         this.Cognome = Cognome;
         this.Username = Username;
-        this.Password = Password;
+        this.Password = CifraPassword(Password);
         this.Domicilio = Domicilio;
         this.Ruolo = Ruolo;
         this.Data = new DataDiNascita(Data);

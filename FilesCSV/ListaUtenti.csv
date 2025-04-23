@@ -1,5 +1,4 @@
 Username;Nome;Cognome;Password;DataDiNascita;Domicilio;Ruolo
-Admin;Admin;Admin;Admin;00-00-0000;No;Admin
 elisa.ferrari1;Elisa;Ferrari;pass0001;15-06-1988;Verona;Ristoratore
 giulia.costa2;Giulia;Costa;pass0002;11-03-1972;Roma;Cliente
 martina.colombo3;Martina;Colombo;pass0003;11-04-1998;Milano;Cliente

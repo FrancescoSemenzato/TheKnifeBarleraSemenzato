@@ -17,14 +17,17 @@ import java.util.Scanner;
 public class Main {
     public static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
     public static void main(String[] args) {
-        
+        //Caricamento delle liste per utenti
         ArrayList <Cliente> ListaClienti = new ArrayList<Cliente>();
         ArrayList <Ristoratore> ListaRistoratori = new ArrayList<Ristoratore>();
         CaricaListe(ListaClienti, ListaRistoratori);
 
-        System.out.println("Lista clienti:\n " + ListaClienti);
-        System.out.println("Lista Ristoratori\n" + ListaRistoratori);
-
+        //caricamento della lista Ristoranti
+        GestoreRistoranti gestoreRistoranti = new GestoreRistoranti();
+        
+        for (Ristorante ristorante : gestoreRistoranti.filtraPerCitta("Vienna")) {
+            System.out.println(ristorante.visualizzaRistorante());
+        }
 
         /* 
         Scanner in = new Scanner(System.in);

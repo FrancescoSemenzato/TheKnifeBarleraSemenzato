@@ -103,6 +103,6 @@ public abstract class Utente {
 
     @Override
     public String toString(){
-        return "Nome: " + Nome + "\nCognome: " + Cognome + "\nUsername: " + Username + "\nPassword" + Password + "\nDomicilio: "+ Domicilio + "\nData di Nascita: " + Data.getDataDiNascita();
+        return "Nome: " + Nome + "\nCognome: " + Cognome + "\nUsername: " + Username + "\nPassword: " + Password + "\nDomicilio: "+ Domicilio + "\nData di Nascita: " + Data.getDataDiNascita();
     }
 }

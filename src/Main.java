@@ -6,7 +6,9 @@ package src;
 import src.Ristoranti.GestoreRistoranti;
 import src.Ristoranti.Ristorante;
 import src.Utenti.Cliente;
+import src.Utenti.DataDiNascita;
 import src.Utenti.Ristoratore;
+import src.Utenti.UtenteNonRegistrato;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,29 +23,84 @@ public class Main {
         ArrayList <Cliente> ListaClienti = new ArrayList<Cliente>();
         ArrayList <Ristoratore> ListaRistoratori = new ArrayList<Ristoratore>();
         CaricaListe(ListaClienti, ListaRistoratori);
-
-        //caricamento della lista Ristoranti
+        //Caricamento della lista Ristoranti
         GestoreRistoranti gestoreRistoranti = new GestoreRistoranti();
-
-        System.out.println(ListaClienti.get(0).getUsername());
-        System.out.println(ListaClienti.get(0).VisualizzaPreferiti());
-
-
-        /* 
+        
         Scanner in = new Scanner(System.in);
-        String selezione;
+        String selezioneStringa;
+        int selezioneInt;
+        String nome, cognome, username, password, domicilio, datadinascita;
+        String buffer;
         
         System.out.println("BENVENUTO NEL PROGETTO THE KNIFE");
-        System.err.println("POSSIEDI GIA'UN ACCOUNT? [SI/NO]");
-        selezione = in.nextLine();
+        System.out.println("POSSIEDI GIA'UN ACCOUNT? [SI/NO]");
+        selezioneStringa = in.nextLine();
 
-        if(selezione.toLowerCase().charAt(0) == 'S'){
+        if(selezioneStringa.toLowerCase().charAt(0) == 's'){
             //Form ACCEDI
         }
         else{
             //Registrati o entra come Guest o Esci
+            do{
+                System.out.println("SCEGLI TRA UNA DI QUESTE OPZIONI: ");
+                System.out.println("1- REGISTRATI COME CLIENTE");
+                System.out.println("2- REGISTRATI COME RISTORATORE");
+                System.out.println("3- ENTRA COME GUEST");
+                System.out.println("4- ESCI");
+                System.out.print("SELEZIONE ->\t");
+                selezioneInt = in.nextInt();
+                buffer = in.nextLine();
+            }while(selezioneInt < 0 || selezioneInt > 5);
+            
+            switch (selezioneInt) {
+                case 1:{
+                    System.out.print("NOME ->\t");
+                    nome = in.nextLine();
+                    System.out.print("COGNOME ->\t");
+                    cognome = in.nextLine();
+                    System.out.print("USERNAME ->\t");
+                    username = in.nextLine();
+                    System.out.print("PASSWORD ->\t");
+                    password = in.nextLine();
+                    System.out.print("DOMICILIO ->\t");
+                    domicilio = in.nextLine();
+                    System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
+                    datadinascita = in.nextLine();
+                    Cliente cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita);
+                    cl.CaricaListaPreferiti(username);
+                    ListaClienti.add(cl);
+                    break;
+                }
+
+                case 2:{
+                    System.out.print("NOME ->\t");
+                    nome = in.nextLine();
+                    System.out.print("COGNOME ->\t");
+                    cognome = in.nextLine();
+                    System.out.print("USERNAME ->\t");
+                    username = in.nextLine();
+                    System.out.print("PASSWORD ->\t");
+                    password = in.nextLine();
+                    System.out.print("DOMICILIO ->\t");
+                    domicilio = in.nextLine();
+                    System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
+                    datadinascita = in.nextLine();
+                    Ristoratore ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita);
+                    ListaRistoratori.add(ris);
+                    break;
+                }
+
+                case 3:{
+                    UtenteNonRegistrato guest = new UtenteNonRegistrato();
+                    break;
+                }
+
+                case 4:{
+                    Esci(ListaClienti, ListaRistoratori, gestoreRistoranti.getListaRistoranti());
+                    break;
+                }
+            }
         }
-        */
     }
 
     public static void CaricaListe(ArrayList<Cliente> cl , ArrayList<Ristoratore> rs){
@@ -62,5 +119,9 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Errore nella lettura del file: " + e.getMessage());
         }
+    }
+
+    public static void Esci(ArrayList<Cliente> cl, ArrayList<Ristoratore> ris, ArrayList<Ristorante> risto){
+        
     }
 }

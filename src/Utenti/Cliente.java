@@ -30,8 +30,6 @@ public class Cliente extends Utente{
         ListaRecensioniUtente = new ArrayList<Recensione>();
         CaricaListaRecensione(ListaRecensioniUtente);
         ListaPreferiti = new ArrayList<Ristorante>();
-        CaricaListaPreferiti(ListaPreferiti);
-
     }
 
     public void CaricaListaRecensione(ArrayList<Recensione> rec){
@@ -54,20 +52,23 @@ public class Cliente extends Utente{
         }
     }
 
-    public void CaricaListaPreferiti(ArrayList<Ristorante> ris) {
+    /*
+     * Da usare solo quando il cliente farà l'accesso
+     */
+    public void CaricaListaPreferiti(String username) {
         String line;
         GestoreRistoranti gest = new GestoreRistoranti();
         try (BufferedReader br = new BufferedReader(new FileReader(FilePathUtenti))) {
             br.readLine();  // Salta l'header
             while ((line = br.readLine()) != null) {
                 String[] campi = line.split(";");
-                if(campi[0].equals(getUsername()) && campi.length > 7) {
+                if(campi[0].equals(username) && campi.length > 7) {
                     String[] preferiti = campi[7].split("_");
                     for(String nomeRistorante : preferiti) {
                         if(!nomeRistorante.isEmpty()) {
                             Ristorante r = gest.getRistorante(nomeRistorante.trim());
                             if(r != null) {
-                                ris.add(r);
+                                ListaPreferiti.add(r);
                             }
                         }
                     }

@@ -93,26 +93,26 @@ public class GestoreRistoranti {
     }
 
     public void scriviSuFileRecensioni(ArrayList<Recensione> listaRecensioni) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePathRecensioni))) {
-        // intestazione
-        bw.write("Nome Ristorante;Voto;Recensione;Risposta alla Recensione;Username");
-        bw.newLine();
+        try (BufferedWriter ba = new BufferedWriter(new FileWriter(filePathRecensioni))) {
+            // intestazione
+            ba.write("NomeRistorante;Voto;Recensione;RispostaAllaRecensione;Username");
+            ba.newLine();
 
-        for (Recensione r : listaRecensioni) {
-            // genera una riga con i campi della recensione separati da ;
-            String linea = String.join(";",
-                r.getNomeRistorante(),
-                String.valueOf(r.getVoto()),
-                r.getCommento(),
-                r.getRisposta(),
-                r.getUsername()
-            );
-            bw.write(linea);
-            bw.newLine();
+            for (Recensione r : listaRecensioni) {
+                // genera una riga con i campi della recensione separati da ;
+                String linea = String.join(";",
+                    r.getNomeRistorante(),
+                    String.valueOf(r.getVoto()),
+                    r.getCommento(),
+                    r.getRisposta(),
+                    r.getUsername()
+                );
+                ba.write(linea);
+                ba.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella scrittura del file delle recensioni: " + e.getMessage());
         }
-    } catch (IOException e) {
-        System.out.println("Errore nella scrittura del file delle recensioni: " + e.getMessage());
-    }
 }
 
     public ArrayList<Ristorante> getListaRistoranti() {

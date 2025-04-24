@@ -1,6 +1,6 @@
 package src.Utenti;
 
-public abstract class Utente {
+public abstract class Utente{
     private String Nome, Cognome, Username, Password, Domicilio, Ruolo;
     DataDiNascita Data;
 
@@ -20,7 +20,7 @@ public abstract class Utente {
         this.Nome = Nome;
         this.Cognome = Cognome;
         this.Username = Username;
-        this.Password = CifraPassword(Password);
+        this.Password = Password; //rimetti la cifratura
         this.Domicilio = Domicilio;
         this.Ruolo = Ruolo;
         this.Data = new DataDiNascita(Data);
@@ -29,7 +29,7 @@ public abstract class Utente {
     public String getNome(){ return Nome;}
     public String getCognome(){return Cognome;}
     public String getUsername(){ return Username;}
-    public String getPassword(){return CifraPassword(Password);}
+    public String getPassword(){return Password;}
     public String getDomicilio(){return Domicilio;}
     public String getRuolo(){return Ruolo;}
     public String getDataDiNascita(){return Data.getDataDiNascita();}

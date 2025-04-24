@@ -31,18 +31,50 @@ public class Main {
         Scanner in = new Scanner(System.in);
         String selezioneStringa;
         int selezioneInt;
-        String nome, cognome, username, password, domicilio, datadinascita;
+        String nome, cognome, username, password, domicilio, datadinascita, ruolo="";
         String buffer;
+        boolean datiCorretti = false;
+
+        Cliente cl;
+        Ristoratore ris;
         
         System.out.println("BENVENUTO NEL PROGETTO THE KNIFE");
         System.out.println("POSSIEDI GIA'UN ACCOUNT? [SI/NO]");
         selezioneStringa = in.nextLine();
 
-        if(selezioneStringa.toLowerCase().charAt(0) == 's'){
-            //Form ACCEDI
+        if(selezioneStringa.toLowerCase().charAt(0) == 's'){//Form ACCEDI
+            do{
+                System.out.println("INSERISCI USERNAME, PASSWORD E RUOLO PER ACCEDERE");
+                System.out.print("USERNAME ->\t");
+                username = in.nextLine();
+                System.out.print("PASSWORD ->\t");
+                password = in.nextLine();
+                System.out.print("RUOLO [Cliente/Ristoratore] ->\t ");
+                ruolo = in.nextLine();
+
+                if(ruolo.toLowerCase().charAt(0) == 'c'){
+                    for(Cliente c : ListaClienti)
+                        if(c.getUsername().equals(username) && c.getPassword().equals(password)){
+                            cl = c;
+                            datiCorretti = true;
+                            ruolo = "cliente";
+                            break;
+                        }
+                }
+                else if(ruolo.toLowerCase().charAt(0) == 'r'){
+                    for(Ristoratore r : ListaRistoratori)
+                        if(r.getUsername().equals(username) && r.getPassword().equals(password)){
+                            ris = r;
+                            datiCorretti = true;
+                            ruolo = "ristoratore";
+                            break;
+                        }
+                }
+            }while(!datiCorretti);
+            System.out.println("DATI INSERITI CORRETTAMENTE!");
         }
-        else{
-            //Registrati o entra come Guest o Esci
+
+        else{//Registrati o entra come Guest o Esci
             do{
                 System.out.println("SCEGLI TRA UNA DI QUESTE OPZIONI: ");
                 System.out.println("1- REGISTRATI COME CLIENTE");
@@ -56,7 +88,7 @@ public class Main {
             
             switch (selezioneInt) {
                 case 1:{
-                    System.out.print("NOME ->\t");
+                    System.out.println("NOME ->\t");
                     nome = in.nextLine();
                     System.out.print("COGNOME ->\t");
                     cognome = in.nextLine();
@@ -68,9 +100,10 @@ public class Main {
                     domicilio = in.nextLine();
                     System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
                     datadinascita = in.nextLine();
-                    Cliente cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita);
+                    cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita);
                     cl.CaricaListaPreferiti(username);
                     ListaClienti.add(cl);
+                    ruolo = "cliente";
                     break;
                 }
 
@@ -87,13 +120,15 @@ public class Main {
                     domicilio = in.nextLine();
                     System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
                     datadinascita = in.nextLine();
-                    Ristoratore ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita);
+                    ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita);
                     ListaRistoratori.add(ris);
+                    ruolo = "ristoratore";
                     break;
                 }
 
                 case 3:{
                     UtenteNonRegistrato guest = new UtenteNonRegistrato();
+                    ruolo = "guest";
                     break;
                 }
 
@@ -103,6 +138,33 @@ public class Main {
                 }
             }
         }
+    
+
+        /*A QUESTO PUNTO, TEORICAMENTE, LA VARIABILE ruolo, DOVREBBE AVERE UN VALORE TRA ù
+        "cliente" "ristoratore" o "guest
+        SE ANDIAMO A FINIRE NEL DEFAULT SIAMO CUCINATI 💀*/
+        switch (ruolo) {
+            case "cliente":{
+                //operazioni per utente
+                break;
+            }
+            
+            case "ristoratore":{
+                //operazioni per ristoratore
+                break;
+            }
+
+            case "guest":{
+                //operazioni per guest
+                break;
+            }
+
+            default:{
+                System.out.println("ERRORE");
+                break;
+            }
+        }
+        
     }
 
     public static void CaricaListe(ArrayList<Cliente> cl , ArrayList<Ristoratore> rs){

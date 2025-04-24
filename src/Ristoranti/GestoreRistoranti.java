@@ -1,13 +1,19 @@
 package src.Ristoranti;
 
 import java.util.ArrayList;
+
+import src.Recensione;
+
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class GestoreRistoranti {
     private ArrayList<Ristorante> listaRistoranti;
     private String FilePath="FilesCSV/ListaRistoranti.csv";
+    private String filePathRecensioni="FilesCSV/ListaRecensioni.csv";
 
     public GestoreRistoranti() {
         this.listaRistoranti = leggiDaFile(FilePath);
@@ -54,6 +60,60 @@ public class GestoreRistoranti {
         }
         return lista;
     }
+
+    public void scriviSuFile() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FilePath))) {
+            // intestazione
+            bw.write("Nome;Indirizzo;Citta;Nazione;Prezzo;FasciaDiPrezzo;TipoDiCucina;Latitudine;Longitudine;PrenotazioneOnline;Delivery;UrlWeb;Stelle;Servizi");
+            bw.newLine();
+            for (Ristorante r : listaRistoranti) {
+                scriviSuFileRecensioni(r.getRecensioni());
+                String linea = String.join(";",
+                    r.getNome(),
+                    r.getIndirizzo(),
+                    r.getCitta(),
+                    r.getNazione(),
+                    r.getPrezzo(),
+                    String.valueOf(r.getFasciaDiPrezzo()),
+                    r.getTipoDiCucina(),
+                    String.format("%.6f", r.getLatitudine()).replace(".", ","),
+                    String.format("%.6f", r.getLongitudine()).replace(".", ","),
+                    r.getPrenotazioneOnline() ? "SI" : "NO",
+                    r.getDelivery() ? "SI" : "NO",
+                    r.getURLWeb(),
+                    r.getStelle(),
+                    r.getServizi()
+                );
+                bw.write(linea);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella scrittura del file: " + e.getMessage());
+        }
+    }
+
+    public void scriviSuFileRecensioni(ArrayList<Recensione> listaRecensioni) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePathRecensioni))) {
+        // intestazione
+        bw.write("Nome Ristorante;Voto;Recensione;Risposta alla Recensione;Username");
+        bw.newLine();
+
+        for (Recensione r : listaRecensioni) {
+            // genera una riga con i campi della recensione separati da ;
+            String linea = String.join(";",
+                r.getNomeRistorante(),
+                String.valueOf(r.getVoto()),
+                r.getCommento(),
+                r.getRisposta(),
+                r.getUsername()
+            );
+            bw.write(linea);
+            bw.newLine();
+        }
+    } catch (IOException e) {
+        System.out.println("Errore nella scrittura del file delle recensioni: " + e.getMessage());
+    }
+}
 
     public ArrayList<Ristorante> getListaRistoranti() {
         return listaRistoranti;

@@ -11,7 +11,9 @@ import src.Utenti.Ristoratore;
 import src.Utenti.UtenteNonRegistrato;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -96,7 +98,7 @@ public class Main {
                 }
 
                 case 4:{
-                    Esci(ListaClienti, ListaRistoratori, gestoreRistoranti.getListaRistoranti());
+                    Esci(ListaClienti, ListaRistoratori, gestoreRistoranti);
                     break;
                 }
             }
@@ -121,7 +123,47 @@ public class Main {
         }
     }
 
-    public static void Esci(ArrayList<Cliente> cl, ArrayList<Ristoratore> ris, ArrayList<Ristorante> risto){
-        
+    public static void Esci(ArrayList<Cliente> cl, ArrayList<Ristoratore> ris, GestoreRistoranti risto){
+        risto.scriviSuFile();
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FilePathUtenti))) {
+            // intestazione
+            bw.write("Username;Nome;Cognome;Password;DataDiNascita;Domicilio;Ruolo;Preferiti;Ristoranti");
+            bw.newLine();
+
+            for (Cliente c : cl) {
+                String linea = String.join(";",
+                    c.getUsername(),
+                    c.getNome(),
+                    c.getCognome(),
+                    c.getPassword(),
+                    c.getDataDiNascita(),
+                    c.getDomicilio(),
+                    "Cliente",
+                    c.getPreferitiString(),
+                    ""
+                );
+                bw.write(linea);
+                bw.newLine();
+            }
+
+            for (Ristoratore r : ris) {
+                String linea = String.join(";",
+                    r.getUsername(),
+                    r.getNome(),
+                    r.getCognome(),
+                    r.getPassword(),
+                    r.getDataDiNascita(),
+                    r.getDomicilio(),
+                    "Ristoratore",
+                    "",
+                    r.getRistorantiString()
+                );
+                bw.write(linea);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella scrittura del file degli utenti: " + e.getMessage());
+        }
     }
 }

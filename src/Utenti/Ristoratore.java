@@ -20,7 +20,19 @@ public class Ristoratore extends Utente {
         ListaRistoranti = new ArrayList<Ristorante>();
     }
 
-    public String getRistoranti(){
+    public ArrayList<Ristorante> getRistoranti(){
+        return ListaRistoranti;
+    }
+
+    public String getRistorantiString(){
+        String ris = "";
+        for(Ristorante r : ListaRistoranti)
+            ris += r.getNome() + "\n";
+        
+        return ris;
+    }
+
+    public String VisualizzaRistoranti(){
         int i=0;
         String ris = "Elenco dei ristoranti:\n";
         for(Ristorante r : ListaRistoranti)

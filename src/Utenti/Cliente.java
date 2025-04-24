@@ -32,6 +32,16 @@ public class Cliente extends Utente{
         ListaPreferiti = new ArrayList<Ristorante>();
     }
 
+    public ArrayList<Recensione> getRecensioniUtente(){ return ListaRecensioniUtente; }
+    public ArrayList<Ristorante> getPreferiti(){ return ListaPreferiti; }
+    public String getPreferitiString(){
+        String preferiti = "";
+        for (Ristorante r : ListaPreferiti) {
+            preferiti += r.getNome() + "_";
+        }
+        return preferiti;
+     }
+
     public void CaricaListaRecensione(ArrayList<Recensione> rec){
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(FilePathRecensioni))) {
@@ -104,7 +114,7 @@ public class Cliente extends Utente{
         return rec;
     }
 
-    public void getRecensioni(){
+    public void VisualizzaRecensioni(){
         System.out.println("La lista delle tue recensioni:");
         for(int i=0; i<ListaRecensioniUtente.size(); i++)
             System.out.println(i + "- " + ListaRecensioniUtente.get(i));

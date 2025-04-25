@@ -50,7 +50,13 @@ public class Main {
 
             switch (selezioneInt) {
                 case 1:{//GESTORE RISTORANTE
-                    
+                    System.out.println("SCEGLI L'OPERAZIONE DA FARE:");
+                    System.out.println("0- TORNA IN DIETRO");
+                    System.out.println("1- CERCA UN RISTORANTE IN BASE A VARI FILTRI");
+                    System.out.println("2- CERCA RISTORANTE NELLA TUA ZONA");
+                    System.out.println("PER TORNARE IN DIETRO INSERIRE '#'");
+                    System.out.println("PER TORNARE IN DIETRO INSERIRE '#'");
+
                     break;
                 }
 

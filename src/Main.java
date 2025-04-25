@@ -33,138 +33,175 @@ public class Main {
         int selezioneInt;
         String nome, cognome, username, password, domicilio, datadinascita, ruolo="";
         String buffer;
-        boolean datiCorretti = false;
+        boolean datiCorretti = false, continua = true;
 
         Cliente cl;
         Ristoratore ris;
         
-        System.out.println("BENVENUTO NEL PROGETTO THE KNIFE");
-        System.out.println("POSSIEDI GIA'UN ACCOUNT? [SI/NO]");
-        selezioneStringa = in.nextLine();
+        while(continua){
+            System.out.println("BENVENUTO NEL PROGETTO THE KNIFE");
+            System.out.println("SCEGLI CHE OPERAZIONE FARE:");
+            System.out.println("1- CONSULTA LE INFO DI OGNI RISTORANTE");
+            System.out.println("2- REGISTRATI, ACCEDI O ENTRA COME GUEST");
+            System.out.println("3- ESCI");
+            System.out.print("SELEZIONE ->\t");
+            selezioneInt = in.nextInt();
+            buffer = in.nextLine();
 
-        if(selezioneStringa.toLowerCase().charAt(0) == 's'){//Form ACCEDI
-            do{
-                System.out.println("INSERISCI USERNAME, PASSWORD E RUOLO PER ACCEDERE");
-                System.out.print("USERNAME ->\t");
-                username = in.nextLine();
-                System.out.print("PASSWORD ->\t");
-                password = in.nextLine();
-                System.out.print("RUOLO [Cliente/Ristoratore] ->\t ");
-                ruolo = in.nextLine();
-
-                if(ruolo.toLowerCase().charAt(0) == 'c'){
-                    for(Cliente c : ListaClienti)
-                        if(c.getUsername().equals(username) && c.getPassword().equals(password)){
-                            cl = c;
-                            datiCorretti = true;
-                            ruolo = "cliente";
-                            break;
-                        }
-                }
-                else if(ruolo.toLowerCase().charAt(0) == 'r'){
-                    for(Ristoratore r : ListaRistoratori)
-                        if(r.getUsername().equals(username) && r.getPassword().equals(password)){
-                            ris = r;
-                            datiCorretti = true;
-                            ruolo = "ristoratore";
-                            break;
-                        }
-                }
-            }while(!datiCorretti);
-            System.out.println("DATI INSERITI CORRETTAMENTE!");
-        }
-
-        else{//Registrati o entra come Guest o Esci
-            do{
-                System.out.println("SCEGLI TRA UNA DI QUESTE OPZIONI: ");
-                System.out.println("1- REGISTRATI COME CLIENTE");
-                System.out.println("2- REGISTRATI COME RISTORATORE");
-                System.out.println("3- ENTRA COME GUEST");
-                System.out.println("4- ESCI");
-                System.out.print("SELEZIONE ->\t");
-                selezioneInt = in.nextInt();
-                buffer = in.nextLine();
-            }while(selezioneInt < 0 || selezioneInt > 5);
-            
             switch (selezioneInt) {
-                case 1:{
-                    System.out.println("NOME ->\t");
-                    nome = in.nextLine();
-                    System.out.print("COGNOME ->\t");
-                    cognome = in.nextLine();
-                    System.out.print("USERNAME ->\t");
-                    username = in.nextLine();
-                    System.out.print("PASSWORD ->\t");
-                    password = in.nextLine();
-                    System.out.print("DOMICILIO ->\t");
-                    domicilio = in.nextLine();
-                    System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
-                    datadinascita = in.nextLine();
-                    cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita);
-                    cl.CaricaListaPreferiti(username);
-                    ListaClienti.add(cl);
-                    ruolo = "cliente";
+                case 1:{//GESTORE RISTORANTE
+                    
                     break;
                 }
 
-                case 2:{
-                    System.out.print("NOME ->\t");
-                    nome = in.nextLine();
-                    System.out.print("COGNOME ->\t");
-                    cognome = in.nextLine();
-                    System.out.print("USERNAME ->\t");
-                    username = in.nextLine();
-                    System.out.print("PASSWORD ->\t");
-                    password = in.nextLine();
-                    System.out.print("DOMICILIO ->\t");
-                    domicilio = in.nextLine();
-                    System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
-                    datadinascita = in.nextLine();
-                    ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita);
-                    ListaRistoratori.add(ris);
-                    ruolo = "ristoratore";
-                    break;
-                }
-
-                case 3:{
-                    UtenteNonRegistrato guest = new UtenteNonRegistrato();
-                    ruolo = "guest";
-                    break;
-                }
-
-                case 4:{
-                    Esci(ListaClienti, ListaRistoratori, gestoreRistoranti);
-                    break;
-                }
-            }
-        }
-    
-
-        /*A QUESTO PUNTO, TEORICAMENTE, LA VARIABILE ruolo, DOVREBBE AVERE UN VALORE TRA ù
-        "cliente" "ristoratore" o "guest
-        SE ANDIAMO A FINIRE NEL DEFAULT SIAMO CUCINATI 💀*/
-        switch (ruolo) {
-            case "cliente":{
-                //operazioni per utente
-                break;
-            }
+                case 2:{//CLIENTI O RISTORATORI
+                    System.out.println("PER TORNARE IN DIETRO INSERIRE '#'");
+                    System.out.println("POSSIEDI GIA' UN ACCOUNT? [SI/NO]");
+                    selezioneStringa = in.nextLine();
+                    if(selezioneStringa.toLowerCase().charAt(0) == 's'){//Form ACCEDI
+                        do{
+                            System.out.println("INSERISCI USERNAME, PASSWORD E RUOLO PER ACCEDERE");
+                            System.out.print("USERNAME ->\t");
+                            username = in.nextLine();
+                            System.out.print("PASSWORD ->\t");
+                            password = in.nextLine();
+                            System.out.print("RUOLO [Cliente/Ristoratore] ->\t ");
+                            ruolo = in.nextLine();
             
-            case "ristoratore":{
-                //operazioni per ristoratore
-                break;
-            }
+                            if(ruolo.toLowerCase().charAt(0) == 'c'){
+                                for(Cliente c : ListaClienti)
+                                    if(c.getUsername().equals(username) && c.getPassword().equals(password)){
+                                        cl = c;
+                                        datiCorretti = true;
+                                        ruolo = "cliente";
+                                        break;
+                                    }
+                            }
+                            else if(ruolo.toLowerCase().charAt(0) == 'r'){
+                                for(Ristoratore r : ListaRistoratori)
+                                    if(r.getUsername().equals(username) && r.getPassword().equals(password)){
+                                        ris = r;
+                                        datiCorretti = true;
+                                        ruolo = "ristoratore";
+                                        break;
+                                    }
+                            }
+                        }while(!datiCorretti);
+                        System.out.println("DATI INSERITI CORRETTAMENTE!");
+                    }
+            
+                    else if(selezioneStringa.toLowerCase().charAt(0) == '#'){
+                        break;
+                    }
 
-            case "guest":{
-                //operazioni per guest
-                break;
-            }
+                    else{//Registrati o entra come Guest o Esci
+                        do{
+                            System.out.println("SCEGLI TRA UNA DI QUESTE OPZIONI: ");
+                            System.out.println("1- REGISTRATI COME CLIENTE");
+                            System.out.println("2- REGISTRATI COME RISTORATORE");
+                            System.out.println("3- ENTRA COME GUEST");
+                            System.out.println("4- TORNA AL MENU'");
+                            System.out.print("SELEZIONE ->\t");
+                            selezioneInt = in.nextInt();
+                            buffer = in.nextLine();
+                        }while(selezioneInt < 0 || selezioneInt > 5);
+                        
+                        switch (selezioneInt) {
+                            case 1:{
+                                System.out.println("NOME ->\t");
+                                nome = in.nextLine();
+                                System.out.print("COGNOME ->\t");
+                                cognome = in.nextLine();
+                                System.out.print("USERNAME ->\t");
+                                username = in.nextLine();
+                                System.out.print("PASSWORD ->\t");
+                                password = in.nextLine();
+                                System.out.print("DOMICILIO ->\t");
+                                domicilio = in.nextLine();
+                                System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
+                                datadinascita = in.nextLine();
+                                cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita);
+                                cl.CaricaListaPreferiti(username);
+                                ListaClienti.add(cl);
+                                ruolo = "cliente";
+                                break;
+                            }
+            
+                            case 2:{
+                                System.out.print("NOME ->\t");
+                                nome = in.nextLine();
+                                System.out.print("COGNOME ->\t");
+                                cognome = in.nextLine();
+                                System.out.print("USERNAME ->\t");
+                                username = in.nextLine();
+                                System.out.print("PASSWORD ->\t");
+                                password = in.nextLine();
+                                System.out.print("DOMICILIO ->\t");
+                                domicilio = in.nextLine();
+                                System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
+                                datadinascita = in.nextLine();
+                                ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita);
+                                ListaRistoratori.add(ris);
+                                ruolo = "ristoratore";
+                                break;
+                            }
+            
+                            case 3:{
+                                UtenteNonRegistrato guest = new UtenteNonRegistrato();
+                                ruolo = "guest";
+                                break;
+                            }
+            
+                            case 4:{
+                                ruolo = "esci";
+                                break;
+                            }
+                        }
+                    }
+                
+                    /*A QUESTO PUNTO, TEORICAMENTE, LA VARIABILE ruolo, DOVREBBE AVERE UN VALORE TRA ù
+                    "cliente" "ristoratore" o "guest
+                    SE ANDIAMO A FINIRE NEL DEFAULT SIAMO CUCINATI 💀*/
+                    switch (ruolo) {
+                        case "cliente":{
+                            //operazioni per utente
+                            break;
+                        }
+                        
+                        case "ristoratore":{
+                            //operazioni per ristoratore
+                            break;
+                        }
+            
+                        case "guest":{
+                            //operazioni per guest
+                            break;
+                        }
 
-            default:{
-                System.out.println("ERRORE");
-                break;
+                        case "esci":{
+                            break;
+                        }
+            
+                        default:{
+                            System.out.println("ERRORE");
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+                
+                
+                case 3:{//ESCI
+                    continua = false;
+                    break;
+                }   
             }
-        }
         
+        System.out.println("\n\n\n\n");
+        }
+        //la fuinzione esci la richiamiamo solo alla fine del while, perchè se esce dal while è perchè il programma si deve chiudere
+        //Esci(ListaClienti, ListaRistoratori, gestoreRistoranti);
     }
 
     public static void CaricaListe(ArrayList<Cliente> cl , ArrayList<Ristoratore> rs){

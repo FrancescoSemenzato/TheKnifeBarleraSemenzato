@@ -26,5 +26,7 @@ public class DataDiNascita {
         this.Anno = Integer.parseInt(campi[2]);
     }
 
-    public String getDataDiNascita(){ return "" + Giorno + "-" + Mese + "-" + Anno; }
+    public String getDataDiNascita() {
+        return String.format("%02d-%02d-%04d", Giorno, Mese, Anno);
+    }
 }

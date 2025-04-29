@@ -34,13 +34,21 @@ public class Cliente extends Utente{
 
     public ArrayList<Recensione> getRecensioniUtente(){ return ListaRecensioniUtente; }
     public ArrayList<Ristorante> getPreferiti(){ return ListaPreferiti; }
-    public String getPreferitiString(){
-        String preferiti = "";
-        for (Ristorante r : ListaPreferiti) {
-            preferiti += r.getNome() + "_";
+    public String getPreferitiString() {
+        if (ListaPreferiti.isEmpty()) {
+            return "//";
         }
-        return preferiti;
-     }
+        StringBuilder preferiti = new StringBuilder();
+        for (Ristorante r : ListaPreferiti) {
+            if (r != null) {
+                preferiti.append(r.getNome()).append("_");
+            }
+        }
+        if (preferiti.length() > 0 && preferiti.charAt(preferiti.length() - 1) == '_') {
+            preferiti.deleteCharAt(preferiti.length() - 1);
+        }
+        return preferiti.toString();
+    }
 
     public void CaricaListaRecensione(ArrayList<Recensione> rec){
         String line;
@@ -65,24 +73,27 @@ public class Cliente extends Utente{
     /*
      * Da usare solo quando il cliente farà l'accesso
      */
-    public void CaricaListaPreferiti(String username) {
+    public void CaricaListaPreferiti(String username, GestoreRistoranti gest) {
         String line;
-        GestoreRistoranti gest = new GestoreRistoranti();
+        ListaPreferiti.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(FilePathUtenti))) {
             br.readLine();  // Salta l'header
             while ((line = br.readLine()) != null) {
                 String[] campi = line.split(";");
-                if(campi[0].equals(username) && campi.length > 7) {
-                    String[] preferiti = campi[7].split("_");
-                    for(String nomeRistorante : preferiti) {
-                        if(!nomeRistorante.isEmpty()) {
-                            Ristorante r = gest.getRistorante(nomeRistorante.trim());
-                            if(r != null) {
-                                ListaPreferiti.add(r);
+                if (campi[0].equals(username) && campi.length > 7) {
+                    String preferitiStr = campi[7].trim();
+                    if (!preferitiStr.equals("//") && !preferitiStr.isEmpty()) {
+                        String[] preferiti = preferitiStr.split("_");
+                        for (String nomeRistorante : preferiti) {
+                            nomeRistorante = nomeRistorante.trim();
+                            if (!nomeRistorante.isEmpty()) {
+                                Ristorante r = gest.getRistorante(nomeRistorante);
+                                if (r != null)
+                                    ListaPreferiti.add(r);
                             }
                         }
                     }
-                    break;  // Esci dal while dopo aver trovato l'utente
+                    break;
                 }
             }
         } catch (IOException e) {

@@ -127,7 +127,7 @@ public class Main {
                                 System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
                                 datadinascita = in.nextLine();
                                 cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita);
-                                cl.CaricaListaPreferiti(username);
+                                cl.CaricaListaPreferiti(username, gestoreRistoranti);
                                 ListaClienti.add(cl);
                                 ruolo = "cliente";
                                 break;
@@ -231,6 +231,13 @@ public class Main {
     public static void Esci(ArrayList<Cliente> cl, ArrayList<Ristoratore> ris, GestoreRistoranti risto){
         risto.scriviSuFile();
 
+        for(Cliente c : cl){
+            c.CaricaListaPreferiti(c.getUsername(), risto);
+        }
+        for(Ristoratore r : ris){
+            r.CaricaListaRistoranti(r.getUsername(), risto);
+        }
+
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FilePathUtenti))) {
             // intestazione
             bw.write("Username;Nome;Cognome;Password;DataDiNascita;Domicilio;Ruolo;Preferiti;Ristoranti");
@@ -246,7 +253,7 @@ public class Main {
                     c.getDomicilio(),
                     "Cliente",
                     c.getPreferitiString(),
-                    ""
+                    "//"
                 );
                 bw.write(linea);
                 bw.newLine();
@@ -261,7 +268,7 @@ public class Main {
                     r.getDataDiNascita(),
                     r.getDomicilio(),
                     "Ristoratore",
-                    "",
+                    "//",
                     r.getRistorantiString()
                 );
                 bw.write(linea);

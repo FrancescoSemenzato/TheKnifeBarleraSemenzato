@@ -24,7 +24,7 @@ public class GestoreRistoranti {
 
     public Ristorante getRistorante(String nome) {
         for (Ristorante r : listaRistoranti) {
-            if (r.getNome().equals(nome)) {
+            if (r.getNome().trim().equals(nome.trim())) {
                 return r;
             }
         }

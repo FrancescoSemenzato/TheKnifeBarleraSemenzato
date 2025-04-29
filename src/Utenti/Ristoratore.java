@@ -1,11 +1,16 @@
 package src.Utenti;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import src.Recensione;
+import src.Ristoranti.GestoreRistoranti;
 import src.Ristoranti.Ristorante;
 
 public class Ristoratore extends Utente {
+    private static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
     private ArrayList <Ristorante> ListaRistoranti;
 
     public Ristoratore(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno){
@@ -24,12 +29,42 @@ public class Ristoratore extends Utente {
         return ListaRistoranti;
     }
 
+    public void CaricaListaRistoranti(String username, GestoreRistoranti gest) {
+        String line;
+        ListaRistoranti.clear(); // Pulisci la lista prima di ricaricarla
+        try (BufferedReader br = new BufferedReader(new FileReader(FilePathUtenti))) {
+            br.readLine();  // Salta l'header
+            while ((line = br.readLine()) != null) {
+                String[] campi = line.split(";");
+                if (campi[0].equals(username) && campi.length > 8) {
+                    String[] risto = campi[8].split("_");
+                    for (String nomeRistorante : risto) {
+                        if (!nomeRistorante.equals("//")) {
+                            Ristorante r = gest.getRistorante(nomeRistorante);
+                            if (r != null) {
+                                ListaRistoranti.add(r);
+                            }
+                        }
+                    }
+                    break;  // Esci dal while dopo aver trovato l'utente
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella lettura del file: " + e.getMessage());
+        }
+    }
+
     public String getRistorantiString(){
-        String ris = "";
-        for(Ristorante r : ListaRistoranti)
-            ris += r.getNome() + "\n";
-        
-        return ris;
+        String ristoranti = "";
+        for (Ristorante r : ListaRistoranti) {
+            if (r != null) {
+                ristoranti += r.getNome() + "_";
+            }
+        }
+        if (ristoranti.endsWith("_")) {
+            ristoranti = ristoranti.substring(0, ristoranti.length() - 1);
+        }
+        return ristoranti;
     }
 
     public String VisualizzaRistoranti(){

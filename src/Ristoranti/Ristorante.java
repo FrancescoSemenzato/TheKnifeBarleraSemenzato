@@ -31,7 +31,7 @@ public class Ristorante {
         this.Stelle = Stelle;
         this.Delivery = Delivery;
         this.PrenotazioneOnline = PrenotazioneOnline;
-        this.ListaRecensioni = leggiDaFile("FilesCSV/ListaRecensioni.csv");
+        this.ListaRecensioni = new ArrayList<>();
         this.MediaStelle = MediaStelle();
     }
 
@@ -53,6 +53,11 @@ public class Ristorante {
     public Recensione getRecensione(int index){return ListaRecensioni.get(index);}
     public float getMediaStelle(){return MediaStelle;}
     public int getNumeroRecensioni(){return ContaRecensioni;}
+
+    public void caricaRecensioni(String Path) {
+        this.ListaRecensioni = leggiDaFile(Path);
+        this.MediaStelle = MediaStelle();
+    }
 
     public String visualizzaRistorante() {
         return "Ristorante:" + Nome + ", " + Indirizzo + "\n" +

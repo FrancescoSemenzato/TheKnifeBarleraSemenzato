@@ -17,6 +17,9 @@ public class GestoreRistoranti {
 
     public GestoreRistoranti() {
         this.listaRistoranti = leggiDaFile(FilePath);
+        for (Ristorante r : listaRistoranti) {
+            r.caricaRecensioni(filePathRecensioni);
+        }
     }
 
     public Ristorante getRistorante(String nome) {

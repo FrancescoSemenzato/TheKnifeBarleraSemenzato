@@ -1,21 +1,98 @@
-Nome Ristorante,Voto,Recensione,Risposta Alla Recensione,Username
-Joël Robuchon,5,"Esperienza indimenticabile, ogni piatto è un'opera d'arte.",,giulia.costa2
-Quintessence,4,"Cucina sublime e presentazione impeccabile, ma servizio un po' lento.",,martina.colombo3
-noma,5,Rivoluzionario! Una reinterpretazione unica della cucina nordica.,,marco.russo4
-The French Laundry,3,Buona qualità ma non giustifica il prezzo esorbitante.,,martina.verdi6
-Mirazur,4,Vista mozzafiato e piatti creativi che raccontano il territorio.,,alessandro.bianchi7
-Fat Duck,5,Esperienza multisensoriale che supera ogni aspettativa.,,davide.russo8
-Odette,4,Atmosfera raffinata e abbinamenti sorprendenti.,,luca.colombo9
-Geranium,5,"Perfezione in ogni dettaglio, dal servizio alla presentazione.",,davide.russo10
-Le Calandre,3,Buono ma ci aspettavamo di più da un ristorante stellato.,,chiara.rossi12
-L'Enclume,4,Ingredienti locali trasformati in piatti memorabili.,,giulia.ferrari14
-Hiša Franko,5,Ana Roš è un genio! Esperienza che fonde arte e cucina.,,martina.russo15
-Benu,4,"Fusione asiatica innovativa, servizio eccellente.",,luca.bianchi16
-Zén,5,Teatro culinario dove ogni atto è una sorpresa.,,martina.bianchi17
-Addison,3,Atmosfera elegante ma alcuni piatti deludenti.,,elisa.gallo20
-Atelier Crenn,4,"Poesia in cucina, ogni piatto racconta una storia.",,elisa.ferrari1
-SingleThread,5,Agricoltura e cucina si fondono perfettamente.,,marco.verdi5
-Core by Clare Smyth,4,"Donna straordinaria, cucina britannica elevata.",,luca.colombo13
-Restaurant Gordon Ramsay,3,"Classico ma un po' datato, servizio impeccabile.",,giulia.gallo18
-The Ledbury,4,Ottimo rapporto qualità-prezzo per un ristorante stellato.,,chiara.costa19
-Blue Hill at Stone Barns,5,Sostenibilità e gusto in perfetto equilibrio.,,marco.russo11
+NomeRistorante;Voto;Recensione;RispostaAllaRecensione;Username
+Steirereck im Stadtpark;5;"Esperienza indimenticabile, ogni piatto è un'opera d'arte.";;giulia.costa2
+Amador;4;"Cucina sublime e presentazione impeccabile, ma servizio un po' lento.";;martina.colombo3
+Jungsik New York;5;Rivoluzionario! Una reinterpretazione unica della cucina nordica.;;marco.russo4
+Per Se;3;Buona qualità ma non giustifica il prezzo esorbitante.;;martina.verdi6
+Le Bernardin;4;Vista mozzafiato e piatti creativi che raccontano il territorio.;;alessandro.bianchi7
+Eleven Madison Park;5;Esperienza multisensoriale che supera ogni aspettativa.;;davide.russo8
+Masa;4;Atmosfera raffinata e abbinamenti sorprendenti.;;luca.colombo9
+The Inn at Little Washington;5;"Perfezione in ogni dettaglio, dal servizio alla presentazione.";;davide.russo10
+Smyth;3;Buono ma ci aspettavamo di più da un ristorante stellato.;;chiara.rossi12
+Alinea;4;Ingredienti locali trasformati in piatti memorabili.;;giulia.ferrari14
+Sorn;5;Ana Roš è un genio! Esperienza che fonde arte e cucina.;;martina.russo15
+Azurmendi;4;"Fusione asiatica innovativa, servizio eccellente.";;luca.bianchi16
+Aponiente;5;Teatro culinario dove ogni atto è una sorpresa.;;martina.bianchi17
+DiverXO;3;Atmosfera elegante ma alcuni piatti deludenti.;;elisa.gallo20
+Noor;4;"Poesia in cucina, ogni piatto racconta una storia.";;elisa.ferrari1
+Cenador de Amós;5;Agricoltura e cucina si fondono perfettamente.;;marco.verdi5
+Quique Dacosta;4;"Donna straordinaria, cucina britannica elevata.";;luca.colombo13
+Atrio;3;"Classico ma un po' datato, servizio impeccabile.";;giulia.gallo18
+Casa Marcial;4;Ottimo rapporto qualità-prezzo per un ristorante stellato.;;chiara.costa19
+El Celler de Can Roca;5;Sostenibilità e gusto in perfetto equilibrio.;;marco.russo11
+Reua Thai;5;"Esperienza indimenticabile, ogni piatto è un'opera d'arte.";;giulia.costa2
+Restobar Vista;4;"Cucina sublime e presentazione impeccabile, ma servizio un po' lento.";;martina.colombo3
+Akelaŕe;4;Vista mozzafiato e piatti creativi che raccontano il territorio.;;alessandro.bianchi7
+Martín Berasategui;5;Esperienza multisensoriale che supera ogni aspettativa.;;davide.russo8
+Lasarte;4;Atmosfera raffinata e abbinamenti sorprendenti.;;luca.colombo9
+ABaC;5;"Perfezione in ogni dettaglio, dal servizio alla presentazione.";;davide.russo10
+Disfrutar;3;Buono ma ci aspettavamo di più da un ristorante stellato.;;chiara.rossi12
+Arzak;4;Ingredienti locali trasformati in piatti memorabili.;;giulia.ferrari14
+Cocina Hermanos Torres;5;Ana Roš è un genio! Esperienza che fonde arte e cucina.;;martina.russo15
+Ultraviolet by Paul Pairet;4;"Fusione asiatica innovativa, servizio eccellente.";;luca.bianchi16
+Taian Table;5;Teatro culinario dove ogni atto è una sorpresa.;;martina.bianchi17
+Casa Perbellini 12 Apostoli;3;Atmosfera elegante ma alcuni piatti deludenti.;;elisa.gallo20
+Le Calandre;4;"Poesia in cucina, ogni piatto racconta una storia.";;elisa.ferrari1
+Enrico Bartolini al Mudec;5;Agricoltura e cucina si fondono perfettamente.;;marco.verdi5
+Uliassi;4;"Donna straordinaria, cucina britannica elevata.";;luca.colombo13
+Enoteca Pinchiorri;3;"Classico ma un po' datato, servizio impeccabile.";;giulia.gallo18
+Atelier Moessmer Norbert Niederkofler;4;Ottimo rapporto qualità-prezzo per un ristorante stellato.;;chiara.costa19
+Villa Crespi;5;Sostenibilità e gusto in perfetto equilibrio.;;marco.russo11
+Quattro Passi;5;"Esperienza indimenticabile, ogni piatto è un'opera d'arte.";;giulia.costa2
+La Pergola;4;"Cucina sublime e presentazione impeccabile, ma servizio un po' lento.";;martina.colombo3
+Reale;5;Rivoluzionario! Una reinterpretazione unica della cucina nordica.;;marco.russo4
+Da Vittorio;3;Buona qualità ma non giustifica il prezzo esorbitante.;;martina.verdi6
+Osteria Francescana;4;Vista mozzafiato e piatti creativi che raccontano il territorio.;;alessandro.bianchi7
+Dal Pescatore;5;Esperienza multisensoriale che supera ogni aspettativa.;;davide.russo8
+Piazza Duomo;4;Atmosfera raffinata e abbinamenti sorprendenti.;;luca.colombo9
+Schloss Schauenstein;5;"Perfezione in ogni dettaglio, dal servizio alla presentazione.";;davide.russo10
+Restaurant de l'Hôtel de Ville;3;Buono ma ci aspettavamo di più da un ristorante stellato.;;chiara.rossi12
+Sven Wassmer Memories;4;Ingredienti locali trasformati in piatti memorabili.;;giulia.ferrari14
+Cheval Blanc by Peter Knogl;5;Ana Roš è un genio! Esperienza che fonde arte e cucina.;;martina.russo15
+Kanda;4;"Fusione asiatica innovativa, servizio eccellente.";;luca.bianchi16
+Azabu Kadowaki;5;Teatro culinario dove ogni atto è una sorpresa.;;martina.bianchi17
+Kohaku;3;Atmosfera elegante ma alcuni piatti deludenti.;;elisa.gallo20
+SÉZANNE;4;"Poesia in cucina, ogni piatto racconta una storia.";;elisa.ferrari1
+Harutaka;5;Agricoltura e cucina si fondono perfettamente.;;marco.verdi5
+L'OSIER;4;"Donna straordinaria, cucina britannica elevata.";;luca.colombo13
+Kagurazaka Ishikawa;3;"Classico ma un po' datato, servizio impeccabile.";;giulia.gallo18
+RyuGin;4;Ottimo rapporto qualità-prezzo per un ristorante stellato.;;chiara.costa19
+L'Effervescence;5;Sostenibilità e gusto in perfetto equilibrio.;;marco.russo11
+Joël Robuchon;5;"Esperienza indimenticabile, ogni piatto è un'opera d'arte.";;giulia.costa2
+Quintessence;4;"Cucina sublime e presentazione impeccabile, ma servizio un po' lento.";;martina.colombo3
+Sazenka;5;Rivoluzionario! Una reinterpretazione unica della cucina nordica.;;marco.russo4
+Xin Rong Ji (Xinyuan South Road);3;Buona qualità ma non giustifica il prezzo esorbitante.;;martina.verdi6
+Chao Shang Chao (Chaoyang);4;Vista mozzafiato e piatti creativi che raccontano il territorio.;;alessandro.bianchi7
+De Librije;5;Esperienza multisensoriale che supera ogni aspettativa.;;davide.russo8
+Taïrroir;4;Atmosfera raffinata e abbinamenti sorprendenti.;;luca.colombo9
+JL Studio;5;"Perfezione in ogni dettaglio, dal servizio alla presentazione.";;davide.russo10
+Le Palais;3;Buono ma ci aspettavamo di più da un ristorante stellato.;;chiara.rossi12
+Addison;4;Ingredienti locali trasformati in piatti memorabili.;;giulia.ferrari14
+Atelier Crenn;5;Ana Roš è un genio! Esperienza che fonde arte e cucina.;;martina.russo15
+The French Laundry;4;"Fusione asiatica innovativa, servizio eccellente.";;luca.bianchi16
+Quince;5;Teatro culinario dove ogni atto è una sorpresa.;;martina.bianchi17
+SingleThread;3;Atmosfera elegante ma alcuni piatti deludenti.;;elisa.gallo20
+Benu;4;"Poesia in cucina, ogni piatto racconta una storia.";;elisa.ferrari1
+Zén;5;Agricoltura e cucina si fondono perfettamente.;;marco.verdi5
+Odette;4;"Donna straordinaria, cucina britannica elevata.";;luca.colombo13
+Les Amis;3;"Classico ma un po' datato, servizio impeccabile.";;giulia.gallo18
+Hiša Franko;4;Ottimo rapporto qualità-prezzo per un ristorante stellato.;;chiara.costa19
+Frantzén;5;Sostenibilità e gusto in perfetto equilibrio.;;marco.russo11
+noma;5;"Esperienza indimenticabile, ogni piatto è un'opera d'arte.";;giulia.costa2
+Jordnær;4;"Cucina sublime e presentazione impeccabile, ma servizio un po' lento.";;martina.colombo3
+Geranium;5;Rivoluzionario! Una reinterpretazione unica della cucina nordica.;;marco.russo4
+RE-NAA;3;Buona qualità ma non giustifica il prezzo esorbitante.;;martina.verdi6
+Maaemo;4;Vista mozzafiato e piatti creativi che raccontano il territorio.;;alessandro.bianchi7
+Taian;5;Esperienza multisensoriale che supera ogni aspettativa.;;davide.russo8
+Hyotei;4;Atmosfera raffinata e abbinamenti sorprendenti.;;luca.colombo9
+HAJIME;5;"Perfezione in ogni dettaglio, dal servizio alla presentazione.";;davide.russo10
+Kikunoi Honten;3;Buono ma ci aspettavamo di più da un ristorante stellato.;;chiara.rossi12
+Isshisoden Nakamura;4;Ingredienti locali trasformati in piatti memorabili.;;giulia.ferrari14
+Mizai;5;Ana Roš è un genio! Esperienza che fonde arte e cucina.;;martina.russo15
+Gion Sasaki;4;"Fusione asiatica innovativa, servizio eccellente.";;luca.bianchi16
+Kashiwaya Osaka Senriyama;5;Teatro culinario dove ogni atto è una sorpresa.;;martina.bianchi17
+ES:SENZ;3;Atmosfera elegante ma alcuni piatti deludenti.;;elisa.gallo20
+Waldhotel Sonnora;4;"Poesia in cucina, ogni piatto racconta una storia.";;elisa.ferrari1
+The Table Kevin Fehling;5;Agricoltura e cucina si fondono perfettamente.;;marco.verdi5
+Aqua;4;"Donna straordinaria, cucina britannica elevata.";;luca.colombo13
+JAN;3;"Classico ma un po' datato, servizio impeccabile.";;giulia.gallo18
+Restaurant Bareiss;4;Ottimo rapporto qualità-prezzo per un ristorante stellato.;;chiara.costa19

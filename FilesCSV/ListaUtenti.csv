@@ -1,21 +1,22 @@
 Username;Nome;Cognome;Password;DataDiNascita;Domicilio;Ruolo;Preferiti;Ristoranti
-elisa.ferrari1;Elisa;Ferrari;pass0001;15/06/1988;Verona;Ristoratore;//;Steirereck im Stadtpark_Le Calandre
-giulia.costa2;Giulia;Costa;pass0002;11/03/1972;Roma;Cliente;noma_Fat Duck_Odette;//
-martina.colombo3;Martina;Colombo;pass0003;11/04/1998;Milano;Cliente;The French Laundry_Blue Hill at Stone Barns;//
-marco.russo4;Marco;Russo;pass0004;21/02/1998;Torino;Ristoratore;//;Mirazur_Atelier Crenn
-marco.verdi5;Marco;Verdi;pass0005;05/03/1991;Firenze;Ristoratore;//;SingleThread_Hiša Franko
-martina.verdi6;Martina;Verdi;pass0006;14/07/1976;Venezia;Cliente;Joël Robuchon_Quintessence;//
-alessandro.bianchi7;Alessandro;Bianchi;pass0007;05/12/1996;Palermo;Cliente;L'Enclume_Addison;//
-davide.russo8;Davide;Russo;pass0008;28/11/1972;Napoli;Ristoratore;//;Benu_Zén
-luca.colombo9;Luca;Colombo;pass0009;18/09/1970;Palermo;Cliente;Core by Clare Smyth_Restaurant Gordon Ramsay;//
-davide.russo10;Davide;Russo;pass0010;13/08/1987;Bologna;Cliente;The Ledbury_Geranium;//
-marco.russo11;Marco;Russo;pass0011;02/01/2002;Roma;Ristoratore;//;Le Bernardin_Eleven Madison Park
-chiara.rossi12;Chiara;Rossi;pass0012;23/08/1992;Milano;Cliente;Alinea_Per Se;//
-luca.colombo13;Luca;Colombo;pass0013;08/01/2001;Verona;Ristoratore;//;DiverXO_Arzak
-giulia.ferrari14;Giulia;Ferrari;pass0014;06/08/1994;Venezia;Cliente;SÉZANNE_El Celler de Can Roca;//
-martina.russo15;Martina;Russo;pass0015;06/09/1987;Bologna;Cliente;Reale_Dal Pescatore;//
-luca.bianchi16;Luca;Bianchi;pass0016;27/12/2002;Torino;Cliente;Piazza Duomo_La Pergola;//
-martina.bianchi17;Martina;Bianchi;pass0017;23/07/1970;Torino;Cliente;Osteria Francescana_Da Vittorio;//
-giulia.gallo18;Giulia;Gallo;pass0018;15/04/1977;Palermo;Ristoratore;//;Azurmendi_Aponiente
-chiara.costa19;Chiara;Costa;pass0019;13/01/1997;Roma;Ristoratore;//;Disfrutar_ABaC
-elisa.gallo20;Elisa;Gallo;pass0020;08/09/1982;Milano;Cliente;Ultraviolet by Paul Pairet_Quique Dacosta;//
+giulia.costa2;Giulia;Costa;wdzz7779;11-03-1972;Roma;Cliente;noma_Fat Duck_Odette;//
+martina.colombo3;Martina;Colombo;wdzz7776;11-04-1998;Milano;Cliente;The French Laundry_Blue Hill at Stone Barns;//
+martina.verdi6;Martina;Verdi;wdzz7773;14-07-1976;Venezia;Cliente;Joël Robuchon_Quintessence;//
+alessandro.bianchi7;Alessandro;Bianchi;wdzz7770;05-12-1996;Palermo;Cliente;L'Enclume_Addison;//
+luca.colombo9;Luca;Colombo;wdzz7772;18-09-1970;Palermo;Cliente;Restaurant Gordon Ramsay;//
+davide.russo10;Davide;Russo;wdzz7747;13-08-1987;Bologna;Cliente;The Ledbury_Geranium;//
+chiara.rossi12;Chiara;Rossi;wdzz7749;23-08-1992;Milano;Cliente;Alinea_Per Se;//
+giulia.ferrari14;Giulia;Ferrari;wdzz7741;06-08-1994;Venezia;Cliente;SÉZANNE_El Celler de Can Roca;//
+martina.russo15;Martina;Russo;wdzz7748;06-09-1987;Bologna;Cliente;Reale_Dal Pescatore;//
+luca.bianchi16;Luca;Bianchi;wdzz7743;27-12-2002;Torino;Cliente;Piazza Duomo_La Pergola;//
+martina.bianchi17;Martina;Bianchi;wdzz7740;23-07-1970;Torino;Cliente;Osteria Francescana_Da Vittorio;//
+elisa.gallo20;Elisa;Gallo;wdzz7797;08-09-1982;Milano;Cliente;Ultraviolet by Paul Pairet_Quique Dacosta;//
+MarcoBarle;Marco;Barlera;Qxytdunduky;25-01-2005;Vedano Olona;Cliente;//;//
+elisa.ferrari1;Elisa;Ferrari;wdzz7774;15-06-1988;Verona;Ristoratore;//;Steirereck im Stadtpark_Le Calandre
+marco.russo4;Marco;Russo;wdzz7771;21-02-1998;Torino;Ristoratore;//;Mirazur_Atelier Crenn
+marco.verdi5;Marco;Verdi;wdzz7778;05-03-1991;Firenze;Ristoratore;//;SingleThread_Hiša Franko
+davide.russo8;Davide;Russo;wdzz7775;28-11-1972;Napoli;Ristoratore;//;Benu_Zén
+marco.russo11;Marco;Russo;wdzz7744;02-01-2002;Roma;Ristoratore;//;Le Bernardin_Eleven Madison Park
+luca.colombo13;Luca;Colombo;wdzz7746;08-01-2001;Verona;Ristoratore;//;DiverXO_Arzak
+giulia.gallo18;Giulia;Gallo;wdzz7745;15-04-1977;Palermo;Ristoratore;//;Azurmendi_Aponiente
+chiara.costa19;Chiara;Costa;wdzz7742;13-01-1997;Roma;Ristoratore;//;Disfrutar_ABaC

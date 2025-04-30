@@ -20,7 +20,7 @@ public abstract class Utente{
         this.Nome = Nome;
         this.Cognome = Cognome;
         this.Username = Username;
-        this.Password = Password; //rimetti la cifratura
+        this.Password = CifraPassword(Password); //rimetti la cifratura
         this.Domicilio = Domicilio;
         this.Ruolo = Ruolo;
         this.Data = new DataDiNascita(Data);

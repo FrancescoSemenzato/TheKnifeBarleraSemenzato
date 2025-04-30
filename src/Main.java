@@ -3,13 +3,6 @@
 
 package src;
 
-import src.Ristoranti.GestoreRistoranti;
-import src.Ristoranti.Ristorante;
-import src.Utenti.Cliente;
-import src.Utenti.DataDiNascita;
-import src.Utenti.Ristoratore;
-import src.Utenti.UtenteNonRegistrato;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -17,6 +10,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import src.Ristoranti.GestoreRistoranti;
+import src.Ristoranti.Ristorante;
+import src.Utenti.Cliente;
+import src.Utenti.Ristoratore;
+import src.Utenti.UtenteNonRegistrato;
 
 public class Main {
     public static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
@@ -39,31 +37,29 @@ public class Main {
         Ristoratore ris;
         
         while(continua){
+            pulisciTerminale();
             System.out.println("BENVENUTO NEL PROGETTO THE KNIFE");
             System.out.println("SCEGLI CHE OPERAZIONE FARE:");
-            System.out.println("1- CONSULTA LE INFO DI OGNI RISTORANTE");
-            System.out.println("2- REGISTRATI, ACCEDI O ENTRA COME GUEST");
-            System.out.println("3- ESCI");
-            System.out.print("SELEZIONE ->\t");
-            selezioneInt = in.nextInt();
-            buffer = in.nextLine();
+            System.out.println("1- REGISTRATI, ACCEDI O ENTRA COME GUEST");
+            System.out.println("2- ESCI");
+            do {
+                System.out.print("SELEZIONE ->\t");
+                try {
+                    selezioneInt = Integer.parseInt(in.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Inserisci un numero valido.");
+                }
+            } while (true);
 
             switch (selezioneInt) {
-                case 1:{//GESTORE RISTORANTE
-                    System.out.println("SCEGLI L'OPERAZIONE DA FARE:");
-                    System.out.println("0- TORNA IN DIETRO");
-                    System.out.println("1- CERCA UN RISTORANTE IN BASE A VARI FILTRI");
-                    System.out.println("2- CERCA RISTORANTE NELLA TUA ZONA");
-                    System.out.println("PER TORNARE IN DIETRO INSERIRE '#'");
-                    System.out.println("PER TORNARE IN DIETRO INSERIRE '#'");
 
-                    break;
-                }
-
-                case 2:{//CLIENTI O RISTORATORI
-                    System.out.println("PER TORNARE IN DIETRO INSERIRE '#'");
+                case 1:{//CLIENTI O RISTORATORI
+                    pulisciTerminale();
+                    System.out.println("PER TORNARE INDIETRO INSERIRE '#'");
                     System.out.println("POSSIEDI GIA' UN ACCOUNT? [SI/NO]");
                     selezioneStringa = in.nextLine();
+                    pulisciTerminale();
                     if(selezioneStringa.toLowerCase().charAt(0) == 's'){//Form ACCEDI
                         do{
                             System.out.println("INSERISCI USERNAME, PASSWORD E RUOLO PER ACCEDERE");
@@ -102,19 +98,25 @@ public class Main {
 
                     else{//Registrati o entra come Guest o Esci
                         do{
+                            pulisciTerminale();
                             System.out.println("SCEGLI TRA UNA DI QUESTE OPZIONI: ");
                             System.out.println("1- REGISTRATI COME CLIENTE");
                             System.out.println("2- REGISTRATI COME RISTORATORE");
                             System.out.println("3- ENTRA COME GUEST");
                             System.out.println("4- TORNA AL MENU'");
-                            System.out.print("SELEZIONE ->\t");
-                            selezioneInt = in.nextInt();
-                            buffer = in.nextLine();
-                        }while(selezioneInt < 0 || selezioneInt > 5);
+                            do {
+                                System.out.print("SELEZIONE ->\t");
+                                try {
+                                    selezioneInt = Integer.parseInt(in.nextLine());
+                                } catch (NumberFormatException e) {
+                                    selezioneInt = -1;
+                                }
+                            } while(selezioneInt < 1 || selezioneInt > 4);
+                        }while(false); // esegui solo una volta, il do-while interno gestisce la validazione
                         
                         switch (selezioneInt) {
                             case 1:{
-                                System.out.println("NOME ->\t");
+                                System.out.print("NOME ->\t");
                                 nome = in.nextLine();
                                 System.out.print("COGNOME ->\t");
                                 cognome = in.nextLine();
@@ -168,9 +170,90 @@ public class Main {
                     /*A QUESTO PUNTO, TEORICAMENTE, LA VARIABILE ruolo, DOVREBBE AVERE UN VALORE TRA ù
                     "cliente" "ristoratore" o "guest
                     SE ANDIAMO A FINIRE NEL DEFAULT SIAMO CUCINATI 💀*/
+                    pulisciTerminale();
                     switch (ruolo) {
+                        /*OPERAZIONI PER CLIENTE */
                         case "cliente":{
-                            //operazioni per utente
+                            pulisciTerminale();
+                            boolean continuaCliente = true;
+                            System.out.println("BENVENUTO IN CLIENTE MODE");
+                            while(continuaCliente){
+                                do{
+                                    System.out.println("1- VISUALIZZA RISTORANTI VICINO A TE");
+                                    System.out.println("2- VISUALIZZA FILTRI DI RICERCA");
+                                    System.out.println("3- VISUALIZZA LISTA PREFERITI");
+                                    System.out.println("4- AGGIUNGI RISTORANTE A LISTA PREFERITI");
+                                    System.out.println("5- SCRIVI UNA RECENSIONE");
+                                    System.out.println("6- TORNA AL MENU' PRINCIPALE");
+                                    do {
+                                        System.out.print("SELEZIONE ->\t");
+                                        try {
+                                            selezioneInt = Integer.parseInt(in.nextLine());
+                                        } catch (NumberFormatException e) {
+                                            selezioneInt = -1;
+                                        }
+                                    } while(selezioneInt < 1 || selezioneInt > 6);
+                                }while(false); 
+                                pulisciTerminale();
+                                switch (selezioneInt) {
+                                    case 1:{
+                                        //Visualizza i ristoranti vicino a te, DA IMPLEMENTARE CON LIBRERIA ESTERNA
+                                        break;
+                                    }
+                                    case 2:{
+                                        //Visualizza i filtri di ricerca, con un altro SWITCH CASE
+                                        boolean continuaFiltro = true;
+                                        while(continuaFiltro){
+                                            do{
+                                                System.out.println("1- VISUALIZZA RISTORANTI IN BASE ALLA CITTA'");
+                                                System.out.println("2- VISUALIZZA RISTORANTI IN BASE AL NOME");
+                                                System.out.println("3- VISUALIZZA RISTORANTI IN BASE AL TIPO DI CUCINA");
+                                                System.out.println("4- VISUALIZZA RISTORANTI IN BASE ALLA FASCIA DI PREZZO");
+                                                System.out.println("5- VISUALIZZA RISTORANTI IN BASE ALLA DISPONIBILITA' DEL SERVIZIO DELIVERY");
+                                                System.out.println("6- VISUALIZZA RISTORANTI IN BASE ALLA DISPONIBILITA' DI PRENOTAZIONE ONLINE");
+                                                System.out.println("7- VISUALIZZA RISTORANTI IN BASE ALLA MEDIA DELLE STELLE");
+                                                System.out.println("8- TORNA AL MENU' PRINCIPALE");
+                                                do {
+                                                    System.out.print("SELEZIONE ->\t");
+                                                    try {
+                                                        selezioneInt = Integer.parseInt(in.nextLine());
+                                                    } catch (NumberFormatException e) {
+                                                        selezioneInt = -1;
+                                                    }
+                                                } while(selezioneInt < 1 || selezioneInt > 4);
+                                            }while(false); 
+                                            pulisciTerminale();
+                                            switch (selezioneInt) {
+                                                case 1:{
+                                                    //Visualizza i ristoranti in base alla città
+                                                    break;
+                                                }
+                                                case 2:{
+                                                    
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    case 3:{
+                                        //Visualizza la lista dei preferiti
+                                        break;
+                                    }
+                                    case 4:{
+                                        //Aggiungi un ristorante alla lista dei preferiti
+                                        break;
+                                    }
+                                    case 5:{
+                                        //Scrivi una recensione
+                                        break;
+                                    }
+                                    case 6:{
+                                        //Torna al menu' principale
+                                        continuaCliente = false;
+                                        break;
+                                    }
+                                }   
+                            }
                             break;
                         }
                         
@@ -178,10 +261,87 @@ public class Main {
                             //operazioni per ristoratore
                             break;
                         }
-            
+                        
+
+                        //Cerca in base al nome e in base alla città
                         case "guest":{
-                            //operazioni per guest
-                            break;
+                            pulisciTerminale();
+                            boolean continuaGuest = true;
+                            System.out.println("BENVENUTO IN GUEST MODE");
+                            while(continuaGuest){
+                                do{
+                                    System.out.println("1- VISUALIZZA RISTORANTI IN BASE ALLA CITTA'");
+                                    System.out.println("2- CERCA RISTORANTE INSERENDO IL NOME");
+                                    System.out.println("3- TORNA AL MENU' PRINCIPALE");
+                                    do {
+                                        System.out.print("SELEZIONE ->\t");
+                                        try {
+                                            selezioneInt = Integer.parseInt(in.nextLine());
+                                        } catch (NumberFormatException e) {
+                                            selezioneInt = -1;
+                                        }
+                                    } while(selezioneInt < 1 || selezioneInt > 3);
+                                }while(false); // esegui solo una volta, il do-while interno gestisce la validazione
+                                pulisciTerminale();
+                                switch (selezioneInt) {
+                                    case 1:{
+                                        String citta;
+                                        do{
+                                            System.out.print("INSERISCI LA CITTA' ->\t");
+                                            citta = in.nextLine();
+                                        }while(citta.length() < 3 || citta.length() > 20);
+                                        for (Ristorante r : gestoreRistoranti.filtraPerCitta(citta)) {
+                                            System.out.println(r.visualizzaRistorante());
+                                        }
+                                        System.out.println("\n\n");
+                                        System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                
+                                    case 2:{
+                                        System.out.print("INSERISCI IL NOME PER CERCARE IL RISTORANTE ->\t");
+                                        String nomeRistorante = in.nextLine();
+
+                                        ArrayList<Ristorante> risultati = new ArrayList<>(gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante));
+
+                                        if (risultati.isEmpty()) {
+                                            System.out.println("Nessun ristorante trovato con quel nome.");
+                                        } else {
+                                            System.out.println("Ristoranti trovati:");
+                                            for (int i = 0; i < risultati.size(); i++) {
+                                                System.out.printf("%d - %s\n", i + 1, risultati.get(i).getNome());
+                                            }
+
+                                            int scelta = -1;
+                                            do {
+                                                System.out.print("Seleziona il numero del ristorante da visualizzare ->\t");
+                                                try {
+                                                    scelta = Integer.parseInt(in.nextLine());
+                                                } catch (NumberFormatException e) {
+                                                    scelta = -1;
+                                                }
+                                            } while (scelta < 1 || scelta > risultati.size());
+
+                                            pulisciTerminale();
+                                            System.out.println("DETTAGLI DEL RISTORANTE SELEZIONATO:\n");
+                                            System.out.println(risultati.get(scelta - 1).visualizzaRistorante());
+                                        }
+
+                                        System.out.println("\nPREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+
+                                    case 3:{
+                                        continuaGuest = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            
                         }
 
                         case "esci":{
@@ -198,7 +358,8 @@ public class Main {
                 }
                 
                 
-                case 3:{//ESCI
+                case 2:{//ESCI
+                    pulisciTerminale();
                     continua = false;
                     break;
                 }   
@@ -207,7 +368,7 @@ public class Main {
         System.out.println("\n\n\n\n");
         }
         //la fuinzione esci la richiamiamo solo alla fine del while, perchè se esce dal while è perchè il programma si deve chiudere
-        //Esci(ListaClienti, ListaRistoratori, gestoreRistoranti);
+        Esci(ListaClienti, ListaRistoratori, gestoreRistoranti);
     }
 
     public static void CaricaListe(ArrayList<Cliente> cl , ArrayList<Ristoratore> rs){
@@ -277,5 +438,10 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Errore nella scrittura del file degli utenti: " + e.getMessage());
         }
+    }
+
+    public static void pulisciTerminale() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

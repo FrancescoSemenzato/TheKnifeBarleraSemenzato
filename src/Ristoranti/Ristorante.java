@@ -59,7 +59,7 @@ public class Ristorante {
     }
 
     public String visualizzaRistorante() {
-        return "Ristorante:" + Nome + ", " + Indirizzo + "\n" +
+        return "Ristorante: " + Nome + ", " + Indirizzo + "\n" +
                 "Tipo di cucina: " + TipoDiCucina + "\n" +
                 "Servizi: " + Servizi + "\n" +
                 "SitoWeb: " + URLWeb + "\n" +

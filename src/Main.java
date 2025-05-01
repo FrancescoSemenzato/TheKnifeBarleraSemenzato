@@ -71,22 +71,25 @@ public class Main {
                             ruolo = in.nextLine();
             
                             if(ruolo.toLowerCase().charAt(0) == 'c'){
-                                for(Cliente c : ListaClienti)
-                                    if(c.getUsername().equals(username) && c.getPassword().equals(password)){
+                                for(Cliente c : ListaClienti) {
+                                    if(c.getUsername().equals(username) && c.getPasswordDecifrata(password, username).equals(password)){
                                         cl = c;
                                         datiCorretti = true;
                                         ruolo = "cliente";
                                         break;
                                     }
+                                }
+                                    
                             }
                             else if(ruolo.toLowerCase().charAt(0) == 'r'){
-                                for(Ristoratore r : ListaRistoratori)
-                                    if(r.getUsername().equals(username) && r.getPassword().equals(password)){
+                                for(Ristoratore r : ListaRistoratori) {
+                                    if(r.getUsername().equals(username) && r.getPasswordDecifrata(password, username).equals(password)){
                                         ris = r;
                                         datiCorretti = true;
                                         ruolo = "ristoratore";
                                         break;
                                     }
+                                }
                             }
                         }while(!datiCorretti);
                         System.out.println("DATI INSERITI CORRETTAMENTE!");
@@ -128,7 +131,7 @@ public class Main {
                                 domicilio = in.nextLine();
                                 System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
                                 datadinascita = in.nextLine();
-                                cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita);
+                                cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita, true);
                                 cl.CaricaListaPreferiti(username, gestoreRistoranti);
                                 ListaClienti.add(cl);
                                 ruolo = "cliente";
@@ -148,7 +151,7 @@ public class Main {
                                 domicilio = in.nextLine();
                                 System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
                                 datadinascita = in.nextLine();
-                                ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita);
+                                ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita, true);
                                 ListaRistoratori.add(ris);
                                 ruolo = "ristoratore";
                                 break;
@@ -378,10 +381,10 @@ public class Main {
             while ((line = br.readLine()) != null) {
                 String[] campi = line.split(";");
                 if (campi[6].equals("Cliente")) {
-                    cl.add(new Cliente(campi[1], campi[2], campi[0], campi[3], campi[5], campi[4]));
+                    cl.add(new Cliente(campi[1], campi[2], campi[0], campi[3], campi[5], campi[4], false));
                 }
                 else{
-                    rs.add(new Ristoratore(campi[1], campi[2], campi[0], campi[3], campi[5], campi[4]));
+                    rs.add(new Ristoratore(campi[1], campi[2], campi[0], campi[3], campi[5], campi[4], false));
                 }
             }
         } catch (IOException e) {

@@ -9,13 +9,13 @@ import src.Recensione;
 public class Ristorante {
     private String Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo, Stelle;
     private int FasciaDiPrezzo, ContaRecensioni = 0;
-    private float Latitudine, Longitudine, MediaStelle;
+    private Double Latitudine, Longitudine, MediaStelle;
     private boolean Delivery, PrenotazioneOnline;
     private ArrayList<Recensione> ListaRecensioni;
     
     public Ristorante(){}
     
-    public Ristorante(String Nome, String Nazione, String Citta, String Indirizzo, String TipoDiCucina, String Servizi, String URLWeb, String Prezzo, float Latitudine, float Logitudine, int FasciaDiPrezzo, String Stelle, boolean Delivery, boolean PrenotazioneOnline){
+    public Ristorante(String Nome, String Nazione, String Citta, String Indirizzo, String TipoDiCucina, String Servizi, String URLWeb, String Prezzo, Double Latitudine, Double Logitudine, int FasciaDiPrezzo, String Stelle, boolean Delivery, boolean PrenotazioneOnline){
         this.Nome = Nome;
         this.Nazione = Nazione;
         this.Citta = Citta;
@@ -41,8 +41,8 @@ public class Ristorante {
     public String getTipoDiCucina() { return TipoDiCucina; }
     public String getServizi() { return Servizi; }
     public String getURLWeb() { return URLWeb; }
-    public float getLatitudine() { return Latitudine; }
-    public float getLongitudine() { return Longitudine; }
+    public Double getLatitudine() { return Latitudine; }
+    public Double getLongitudine() { return Longitudine; }
     public int getFasciaDiPrezzo() { return FasciaDiPrezzo; }
     public String getStelle() { return Stelle; }
     public boolean getDelivery() { return Delivery; }
@@ -50,7 +50,7 @@ public class Ristorante {
     public String getPrezzo() { return Prezzo; }
     public ArrayList<Recensione> getRecensioni(){ return ListaRecensioni;}
     public Recensione getRecensione(int index){return ListaRecensioni.get(index);}
-    public float getMediaStelle(){return MediaStelle;}
+    public Double getMediaStelle(){return MediaStelle;}
     public int getNumeroRecensioni(){return ContaRecensioni;}
 
     public void caricaRecensioni(String Path) {
@@ -101,8 +101,8 @@ public class Ristorante {
         ContaRecensioni++;
     }
 
-    public float MediaStelle(){
-        float somma = 0;
+    public Double MediaStelle(){
+        Double somma = 0.0;
         for(Recensione r : ListaRecensioni)
             somma += r.getVoto();
         return somma / ListaRecensioni.size();
@@ -176,8 +176,8 @@ public class Ristorante {
                 Prezzo.equals(that.Prezzo) &&
                 Stelle.equals(that.Stelle) &&
                 FasciaDiPrezzo == that.FasciaDiPrezzo &&
-                Float.compare(Latitudine, that.Latitudine) == 0 &&
-                Float.compare(Longitudine, that.Longitudine) == 0 &&
+                Double.compare(Latitudine, that.Latitudine) == 0 &&
+                Double.compare(Longitudine, that.Longitudine) == 0 &&
                 Delivery == that.Delivery &&
                 PrenotazioneOnline == that.PrenotazioneOnline;
     }

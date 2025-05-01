@@ -13,14 +13,14 @@ public class Ristoratore extends Utente {
     private static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
     private ArrayList <Ristorante> ListaRistoranti;
 
-    public Ristoratore(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno){
-        super(Nome, Cognome, Username, Password, Domicilio, "Ristoratore", Giorno, Mese, Anno);
+    public Ristoratore(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno, boolean nuovo){
+        super(Nome, Cognome, Username, Password, Domicilio, "Ristoratore", Giorno, Mese, Anno, nuovo);
 
         ListaRistoranti = new ArrayList<Ristorante>();
     }
 
-    public Ristoratore(String Nome, String Cognome, String Username, String Password, String Domicilio, String Data){
-        super(Nome, Cognome, Username, Password, Domicilio, "Ristoratore", Data);
+    public Ristoratore(String Nome, String Cognome, String Username, String Password, String Domicilio, String Data, boolean nuovo){
+        super(Nome, Cognome, Username, Password, Domicilio, "Ristoratore", Data, nuovo);
 
         ListaRistoranti = new ArrayList<Ristorante>();
     }
@@ -76,7 +76,7 @@ public class Ristoratore extends Utente {
         return ris;
     }
 
-    public Ristorante AggiungiRistorante(String Nome, String Nazione, String Citta, String Indirizzo, String TipoDiCucina, String Servizi, String URLWeb, String Prezzo, float Latitudine, float Logitudine, int FasciaDiPrezzo, String Stelle, boolean Delivery, boolean PrenotazioneOnline){
+    public Ristorante AggiungiRistorante(String Nome, String Nazione, String Citta, String Indirizzo, String TipoDiCucina, String Servizi, String URLWeb, String Prezzo, Double Latitudine, Double Logitudine, int FasciaDiPrezzo, String Stelle, boolean Delivery, boolean PrenotazioneOnline){
         Ristorante r = new Ristorante(Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo, Latitudine, Logitudine, FasciaDiPrezzo, Stelle, Delivery, PrenotazioneOnline);
         ListaRistoranti.add(r);
         return r;

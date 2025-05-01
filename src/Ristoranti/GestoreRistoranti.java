@@ -1,5 +1,12 @@
 package src.Ristoranti;
 
+import com.byteowls.jopencage.JOpenCageGeocoder;
+import com.byteowls.jopencage.model.JOpenCageForwardRequest;
+import com.byteowls.jopencage.model.JOpenCageRequest;
+import com.byteowls.jopencage.model.JOpenCageResponse;
+import com.byteowls.jopencage.model.JOpenCageResult;
+
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -40,12 +47,12 @@ public class GestoreRistoranti {
                     String nome = campi[0];
                     String indirizzo = campi[1];
                     String citta = campi[2];
-                    String nazione = campi[3];
+                    String nazione = campi[3].equals("") ? campi[2] : campi[3];
                     String prezzo = campi[4];
                     int fasciaDiPrezzo = Integer.parseInt(campi[5]);
                     String tipoDiCucina = campi[6];
-                    float latitudine = Float.parseFloat(campi[7].replace(".", "").replace(",", "."));
-                    float longitudine = Float.parseFloat(campi[8].replace(".", "").replace(",", "."));
+                    Double latitudine = Double.parseDouble(campi[8]);
+                    Double longitudine = Double.parseDouble(campi[7]);
                     boolean prenotazioneOnline = campi[9].equalsIgnoreCase("SI");
                     boolean delivery = campi[10].equalsIgnoreCase("SI");
                     String urlWeb = campi[11];
@@ -99,8 +106,8 @@ public class GestoreRistoranti {
                     r.getPrezzo(),
                     String.valueOf(r.getFasciaDiPrezzo()),
                     r.getTipoDiCucina(),
-                    String.format("%.6f", r.getLatitudine()).replace(".", ","),
-                    String.format("%.6f", r.getLongitudine()).replace(".", ","),
+                    r.getLatitudine().toString(),
+                    r.getLongitudine().toString(),
                     r.getPrenotazioneOnline() ? "SI" : "NO",
                     r.getDelivery() ? "SI" : "NO",
                     r.getURLWeb(),
@@ -254,4 +261,54 @@ public class GestoreRistoranti {
     public ArrayList<Ristorante> unisciListe(ArrayList<Ristorante> lista1, ArrayList<Ristorante> lista2, ArrayList<Ristorante> lista3,  ArrayList<Ristorante> lista4) {
         return unisciListe(unisciListe(lista1, lista2), unisciListe(lista3, lista4));
     }
+
+
+    public ArrayList<Ristorante> filtraPerVicinoA(String indirizzoUtente, double distanzaMassimaKm) {
+        ArrayList<Ristorante> filtrati = new ArrayList<>();
+        
+        try {
+            String citta = indirizzoUtente.split(",")[0].trim();
+            ArrayList<Ristorante> ristorantiCitta = filtraPerCitta(citta);
+
+            if(!ristorantiCitta.isEmpty()) {
+                JOpenCageGeocoder geocoder = new JOpenCageGeocoder("650d3794aa3a411d9184bd19486bdb3e");
+                JOpenCageForwardRequest request = new JOpenCageForwardRequest(indirizzoUtente + ", Italia");
+                request.setLimit(1);
+                JOpenCageResponse response = geocoder.forward(request);
+    
+                if (!response.getResults().isEmpty()) {
+                    JOpenCageResult result = response.getResults().get(0);
+                    double latUtente = result.getGeometry().getLat();
+                    double lonUtente = result.getGeometry().getLng();
+    
+                    for (Ristorante r : ristorantiCitta) {
+                        double distanza = calcolaDistanza(latUtente, lonUtente, r.getLatitudine(), r.getLongitudine());
+                        if (distanza <= distanzaMassimaKm) {
+                            filtrati.add(r);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Errore: " + e.getMessage());
+        }
+        
+        return filtrati;
+    }
+
+    private double calcolaDistanza(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371; // Raggio della Terra in km
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // distanza in km
+    }
+
+
+
 }
+
+    

@@ -17,15 +17,15 @@ public class Cliente extends Utente{
     
     public Cliente(){}
 
-    public Cliente(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno){
-        super(Nome, Cognome, Username, Password, Domicilio, "Cliente", Giorno, Mese, Anno);
+    public Cliente(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno, boolean nuovo){
+        super(Nome, Cognome, Username, Password, Domicilio, "Cliente", Giorno, Mese, Anno, nuovo);
 
         ListaRecensioniUtente = new ArrayList<Recensione>();
         ListaPreferiti = new ArrayList<Ristorante>();
     }
 
-    public Cliente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Data){
-        super(Nome, Cognome, Username, Password, Domicilio, "Cliente", Data);
+    public Cliente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Data, boolean nuovo){
+        super(Nome, Cognome, Username, Password, Domicilio, "Cliente", Data, nuovo);
 
         ListaRecensioniUtente = new ArrayList<Recensione>();
         CaricaListaRecensione(ListaRecensioniUtente);

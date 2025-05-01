@@ -3,24 +3,33 @@ package src.Utenti;
 public abstract class Utente{
     private String Nome, Cognome, Username, Password, Domicilio, Ruolo;
     DataDiNascita Data;
+    Boolean nuovo;
 
     public Utente(){}
     
-    public Utente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Ruolo, int Giorno, int Mese, int Anno){
+    public Utente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Ruolo, int Giorno, int Mese, int Anno, boolean nuovo) {
         this.Nome = Nome;
         this.Cognome = Cognome;
         this.Username = Username;
-        this.Password = CifraPassword(Password);
+        if (nuovo) {
+            this.Password = CifraPassword(Password); // da cifrare
+        } else {
+            this.Password = Password; // già cifrata
+        }
         this.Domicilio = Domicilio;
         this.Ruolo = Ruolo;
         Data = new DataDiNascita(Giorno, Mese, Anno);
     }
 
-    public Utente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Ruolo, String Data){
+    public Utente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Ruolo, String Data, boolean nuovo) {
         this.Nome = Nome;
         this.Cognome = Cognome;
         this.Username = Username;
-        this.Password = CifraPassword(Password); //rimetti la cifratura
+        if (nuovo) {
+            this.Password = CifraPassword(Password); // da cifrare
+        } else {
+            this.Password = Password; // già cifrata
+        }
         this.Domicilio = Domicilio;
         this.Ruolo = Ruolo;
         this.Data = new DataDiNascita(Data);
@@ -95,7 +104,7 @@ public abstract class Utente{
     }
 
     public String getPasswordDecifrata(String ConfermaPassword, String Username){
-        if(ConfermaPassword.equals(Password))
+        if(ConfermaPassword.equals(DecifraPassword(Password)))
             return DecifraPassword(getPassword());
         else
             return "Sbgliato";

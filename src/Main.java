@@ -18,6 +18,7 @@ import src.Utenti.UtenteNonRegistrato;
 
 public class Main {
     public static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
+    public static final Scanner in = new Scanner(System.in);
     public static void main(String[] args) {
         //Caricamento delle liste per utenti
         ArrayList <Cliente> ListaClienti = new ArrayList<Cliente>();
@@ -26,7 +27,7 @@ public class Main {
         //Caricamento della lista Ristoranti
         GestoreRistoranti gestoreRistoranti = new GestoreRistoranti();
         
-        Scanner in = new Scanner(System.in);
+        
         String selezioneStringa;
         int selezioneInt;
         String nome, cognome, username, password, domicilio, datadinascita, ruolo="";
@@ -102,7 +103,7 @@ public class Main {
                     else{//Registrati o entra come Guest o Esci
                         do{
                             pulisciTerminale();
-                            System.out.println("SCEGLI TRA UNA DI QUESTE OPZIONI: ");
+                            System.out.println("SCEGLI TRA UNA DI QUESTE OPZIONI: \n");
                             System.out.println("1- REGISTRATI COME CLIENTE");
                             System.out.println("2- REGISTRATI COME RISTORATORE");
                             System.out.println("3- ENTRA COME GUEST");
@@ -179,7 +180,7 @@ public class Main {
                         case "cliente":{
                             pulisciTerminale();
                             boolean continuaCliente = true;
-                            System.out.println("BENVENUTO IN MODALITA' CLIENTE");
+                            System.out.println("BENVENUTO IN MODALITA' CLIENTE\n");
                             while(continuaCliente){
                                 do{
                                     System.out.println("1- VISUALIZZA RISTORANTI VICINO A TE");
@@ -213,18 +214,7 @@ public class Main {
                                             System.out.printf("%d - %s\n", i + 1, vicini.get(i).getNome());
                                         }
 
-                                        int scelta = -1;
-                                        do {
-                                            System.out.print("Seleziona il numero del ristorante da visualizzare ->\t");
-                                            try {
-                                                scelta = Integer.parseInt(in.nextLine());
-                                            } catch (NumberFormatException e) {
-                                                scelta = -1;
-                                            }
-                                        } while (scelta < 1 || scelta > vicini.size());
-
-                                        System.out.println("HAI SELEZIONATO: ");
-                                        System.out.println(vicini.get(scelta - 1).visualizzaRistorante());
+                                        SelezioneRistorante(vicini);
 
                                         System.out.println("\n\n");
                                         System.out.println("PREMERE UN TASTO PER CONTINUARE");
@@ -276,22 +266,7 @@ public class Main {
                                                     String nomeRistorante = in.nextLine();
                                                     ArrayList<Ristorante> filtrati = gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante);
 
-                                                    System.out.println("Ristoranti trovati:"); 
-                                                    for (int i = 0; i < filtrati.size(); i++) {
-                                                        System.out.printf("%d - %s\n", i + 1, filtrati.get(i).getNome());
-                                                    }
-                                                    int scelta = -1;
-                                                    do {
-                                                        System.out.print("Seleziona il numero del ristorante da visualizzare ->\t");
-                                                        try {
-                                                            scelta = Integer.parseInt(in.nextLine());
-                                                        } catch (NumberFormatException e) {
-                                                            scelta = -1;
-                                                        }
-                                                    } while (scelta < 1 || scelta > filtrati.size());
-
-                                                    System.out.println("HAI SELEZIONATO: ");
-                                                    System.out.println(filtrati.get(scelta - 1).visualizzaRistorante());
+                                                    SelezioneRistorante(filtrati);
 
                                                     System.out.println("\n\n");
                                                     System.out.println("PREMERE UN TASTO PER CONTINUARE");
@@ -301,14 +276,14 @@ public class Main {
                                                     }
                                                 case 3:{
                                                     //Visualizza i ristoranti in base al tipo di cucina
-                                                    System.out.println("INSERISCI IL TIPO DI CUCINA CHE DESIDERI CERCARE ->");
+                                                    System.out.print("INSERISCI IL TIPO DI CUCINA CHE DESIDERI CERCARE ->");
                                                     String tipoCucina = in.nextLine();
-                                                    System.out.println("INSERISCI LA CITTA' DI RICERCA ->");
+                                                    System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
                                                     String citta = in.nextLine();
                                                     for(Ristorante r : gestoreRistoranti.filtraPerTipoDiCucina(tipoCucina, citta)){
                                                         System.out.println(r.visualizzaRistorante());
                                                     }
-                                                    
+
                                                     System.out.println("\n\n");
                                                     System.out.println("PREMERE UN TASTO PER CONTINUARE");
                                                     in.nextLine();
@@ -414,24 +389,7 @@ public class Main {
                                         if (risultati.isEmpty()) {
                                             System.out.println("Nessun ristorante trovato con quel nome.");
                                         } else {
-                                            System.out.println("Ristoranti trovati:");
-                                            for (int i = 0; i < risultati.size(); i++) {
-                                                System.out.printf("%d - %s\n", i + 1, risultati.get(i).getNome());
-                                            }
-
-                                            int scelta = -1;
-                                            do {
-                                                System.out.print("Seleziona il numero del ristorante da visualizzare ->\t");
-                                                try {
-                                                    scelta = Integer.parseInt(in.nextLine());
-                                                } catch (NumberFormatException e) {
-                                                    scelta = -1;
-                                                }
-                                            } while (scelta < 1 || scelta > risultati.size());
-
-                                            pulisciTerminale();
-                                            System.out.println("DETTAGLI DEL RISTORANTE SELEZIONATO:\n");
-                                            System.out.println(risultati.get(scelta - 1).visualizzaRistorante());
+                                            SelezioneRistorante(risultati);
                                         }
 
                                         System.out.println("\nPREMERE UN TASTO PER CONTINUARE");
@@ -549,4 +507,25 @@ public class Main {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
+
+    public static void SelezioneRistorante(ArrayList <Ristorante> risultati){
+        pulisciTerminale();
+        System.out.println("Ristoranti trovati:"); 
+        for (int i = 0; i < risultati.size(); i++) {
+            System.out.printf("%d - %s\n", i + 1, risultati.get(i).getNome());
+        }
+        int scelta = -1;
+        do {
+            System.out.print("Seleziona il numero del ristorante da visualizzare ->\t");
+            try {
+                    scelta = Integer.parseInt(in.nextLine());
+                    } catch (NumberFormatException e) {
+                    scelta = -1;
+                    }
+        } while (scelta < 1 || scelta > risultati.size());
+
+        System.out.println("HAI SELEZIONATO: ");
+        System.out.println(risultati.get(scelta - 1).visualizzaRistorante());
+    }
+
 }

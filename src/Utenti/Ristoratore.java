@@ -13,6 +13,8 @@ public class Ristoratore extends Utente {
     private static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
     private ArrayList <Ristorante> ListaRistoranti;
 
+    public Ristoratore(){}
+
     public Ristoratore(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno, boolean nuovo){
         super(Nome, Cognome, Username, Password, Domicilio, "Ristoratore", Giorno, Mese, Anno, nuovo);
 

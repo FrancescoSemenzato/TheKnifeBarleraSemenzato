@@ -33,8 +33,8 @@ public class Main {
         String buffer;
         boolean datiCorretti = false, continua = true;
 
-        Cliente cl;
-        Ristoratore ris;
+        Cliente cl = new Cliente();
+        Ristoratore ris = new Ristoratore();
         
         while(continua){
             pulisciTerminale();
@@ -127,7 +127,7 @@ public class Main {
                                 username = in.nextLine();
                                 System.out.print("PASSWORD ->\t");
                                 password = in.nextLine();
-                                System.out.print("DOMICILIO ->\t");
+                                System.out.print("DOMICILIO [Città, Nazione] ->\t");
                                 domicilio = in.nextLine();
                                 System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
                                 datadinascita = in.nextLine();
@@ -147,7 +147,7 @@ public class Main {
                                 username = in.nextLine();
                                 System.out.print("PASSWORD ->\t");
                                 password = in.nextLine();
-                                System.out.print("DOMICILIO ->\t");
+                                System.out.print("DOMICILIO [Città, Nazione] ->\t");
                                 domicilio = in.nextLine();
                                 System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
                                 datadinascita = in.nextLine();
@@ -179,7 +179,7 @@ public class Main {
                         case "cliente":{
                             pulisciTerminale();
                             boolean continuaCliente = true;
-                            System.out.println("BENVENUTO IN CLIENTE MODE");
+                            System.out.println("BENVENUTO IN MODALITA' CLIENTE");
                             while(continuaCliente){
                                 do{
                                     System.out.println("1- VISUALIZZA RISTORANTI VICINO A TE");
@@ -200,7 +200,36 @@ public class Main {
                                 pulisciTerminale();
                                 switch (selezioneInt) {
                                     case 1:{
-                                        //Visualizza i ristoranti vicino a te, DA IMPLEMENTARE CON LIBRERIA ESTERNA
+                                        ArrayList<Ristorante> vicini = gestoreRistoranti.filtraPerVicinoA(cl.getDomicilio(), 50);
+
+                                        pulisciTerminale();
+                                        System.out.println("STAI PER VEDERE I RISTORANTI VICINO A TE");
+                                        System.out.println("IL TUO DOMICILIO E': " + cl.getDomicilio());
+
+                                        System.out.println("Trovati " + vicini.size() + " ristoranti vicini.\n");
+
+                                        System.out.println("Ristoranti trovati:"); 
+                                        for (int i = 0; i < vicini.size(); i++) {
+                                            System.out.printf("%d - %s\n", i + 1, vicini.get(i).getNome());
+                                        }
+
+                                        int scelta = -1;
+                                        do {
+                                            System.out.print("Seleziona il numero del ristorante da visualizzare ->\t");
+                                            try {
+                                                scelta = Integer.parseInt(in.nextLine());
+                                            } catch (NumberFormatException e) {
+                                                scelta = -1;
+                                            }
+                                        } while (scelta < 1 || scelta > vicini.size());
+
+                                        System.out.println("HAI SELEZIONATO: ");
+                                        System.out.println(vicini.get(scelta - 1).visualizzaRistorante());
+
+                                        System.out.println("\n\n");
+                                        System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
                                         break;
                                     }
                                     case 2:{
@@ -228,11 +257,84 @@ public class Main {
                                             pulisciTerminale();
                                             switch (selezioneInt) {
                                                 case 1:{
-                                                    //Visualizza i ristoranti in base alla città
-                                                    break;
+                                                    //Visualizza i ristoranti in base alla citta'
+                                                        System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
+                                                        String citta = in.nextLine();
+                                                        for(Ristorante r : gestoreRistoranti.filtraPerCitta(citta)){
+                                                            System.out.println(r.visualizzaRistorante());
+                                                        }
+
+                                                        System.out.println("\n\n");
+                                                        System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                        in.nextLine();
+                                                        pulisciTerminale();
+                                                        break;
                                                 }
                                                 case 2:{
+                                                    //Visualizza i ristoranti in base al nome e città
+                                                    System.out.print("INSERISCI IL NOME DEL RISTORANTE CHE DESIDERI CERCARE ->");
+                                                    String nomeRistorante = in.nextLine();
+                                                    ArrayList<Ristorante> filtrati = gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante);
+
+                                                    System.out.println("Ristoranti trovati:"); 
+                                                    for (int i = 0; i < filtrati.size(); i++) {
+                                                        System.out.printf("%d - %s\n", i + 1, filtrati.get(i).getNome());
+                                                    }
+                                                    int scelta = -1;
+                                                    do {
+                                                        System.out.print("Seleziona il numero del ristorante da visualizzare ->\t");
+                                                        try {
+                                                            scelta = Integer.parseInt(in.nextLine());
+                                                        } catch (NumberFormatException e) {
+                                                            scelta = -1;
+                                                        }
+                                                    } while (scelta < 1 || scelta > filtrati.size());
+
+                                                    System.out.println("HAI SELEZIONATO: ");
+                                                    System.out.println(filtrati.get(scelta - 1).visualizzaRistorante());
+
+                                                    System.out.println("\n\n");
+                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    in.nextLine();
+                                                    pulisciTerminale();
+                                                    break;
+                                                    }
+                                                case 3:{
+                                                    //Visualizza i ristoranti in base al tipo di cucina
+                                                    System.out.println("INSERISCI IL TIPO DI CUCINA CHE DESIDERI CERCARE ->");
+                                                    String tipoCucina = in.nextLine();
+                                                    System.out.println("INSERISCI LA CITTA' DI RICERCA ->");
+                                                    String citta = in.nextLine();
+                                                    for(Ristorante r : gestoreRistoranti.filtraPerTipoDiCucina(tipoCucina, citta)){
+                                                        System.out.println(r.visualizzaRistorante());
+                                                    }
                                                     
+                                                    System.out.println("\n\n");
+                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    in.nextLine();
+                                                    pulisciTerminale();
+                                                    break;
+                                                }
+                                                case 4:{
+                                                    //Visualizza i ristoranti in base alla fascia di prezzo
+                                                    break;
+                                                }
+                                                case 5:{
+                                                    //Visualizza i ristoranti in base alla disponibilita' del servizio di delivery
+                                                    break;
+                                                }
+                                                case 6:{
+                                                    //Visualizza i ristoranti in base alla disponibilita' di prenotazione online
+                                                    break;
+                                                }
+                                                case 7:{
+                                                    //Visualizza i ristoranti in base alla media delle stelle
+                                                    break;
+                                                }
+                                                case 8:{
+                                                    //Torna al menu' cliente
+                                                    continuaFiltro = false;
+                                                    break;
                                                 }
                                             }
                                             break;

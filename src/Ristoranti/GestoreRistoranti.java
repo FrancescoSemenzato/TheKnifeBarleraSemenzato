@@ -13,6 +13,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import src.Recensione;
 
 public class GestoreRistoranti {
@@ -264,13 +267,9 @@ public class GestoreRistoranti {
 
     //Per quando hai due criteri di ricerche
     public ArrayList<Ristorante> unisciListe(ArrayList<Ristorante> lista1, ArrayList<Ristorante> lista2) {
-        ArrayList<Ristorante> unita = new ArrayList<>(lista1);
-        for (Ristorante r : lista2) {
-            if (!unita.contains(r)) {
-                unita.add(r);
-            }
-        }
-        return unita;
+        Set<Ristorante> set = new LinkedHashSet<>(lista1);
+        set.addAll(lista2);
+        return new ArrayList<>(set);
     }
     //Per quando hai tre criteri di ricerca
     public ArrayList<Ristorante> unisciListe(ArrayList<Ristorante> lista1, ArrayList<Ristorante> lista2, ArrayList<Ristorante> lista3) {

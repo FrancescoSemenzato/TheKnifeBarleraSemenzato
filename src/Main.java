@@ -203,25 +203,32 @@ public class Main {
                                 pulisciTerminale();
                                 switch (selezioneInt) {
                                     case 1:{
-                                        ArrayList<Ristorante> vicini = gestoreRistoranti.filtraPerVicinoA(cl.getDomicilio(), 50);
+                                        int distanza = 1;
+                                        ArrayList<Ristorante> vicini = gestoreRistoranti.filtraPerVicinoA(cl.getDomicilio(), distanza);
 
                                         pulisciTerminale();
-                                        System.out.println("STAI PER VEDERE I RISTORANTI VICINO A TE");
-                                        System.out.println("IL TUO DOMICILIO E': " + cl.getDomicilio());
-
-                                        System.out.println("Trovati " + vicini.size() + " ristoranti vicini.\n");
-
-                                        System.out.println("Ristoranti trovati:"); 
-                                        for (int i = 0; i < vicini.size(); i++) {
-                                            System.out.printf("%d - %s\n", i + 1, vicini.get(i).getNome());
+                                        if(vicini.isEmpty()){
+                                            System.out.println("Non hai ristoranti vicini nell'arco di " + distanza + "km");
                                         }
 
-                                        SelezioneRistorante(vicini);
-
+                                        else{
+                                            System.out.println("STAI PER VEDERE I RISTORANTI VICINO A TE");
+                                            System.out.println("IL TUO DOMICILIO E': " + cl.getDomicilio());
+    
+                                            System.out.println("Trovati " + vicini.size() + " ristoranti vicini.\n");
+    
+                                            System.out.println("Ristoranti trovati:"); 
+                                            for (int i = 0; i < vicini.size(); i++) {
+                                                System.out.printf("%d - %s\n", i + 1, vicini.get(i).getNome());
+                                            }
+    
+                                            SelezioneRistorante(vicini);
+                                        }
                                         System.out.println("\n\n");
                                         System.out.println("PREMERE UN TASTO PER CONTINUARE");
                                         in.nextLine();
                                         pulisciTerminale();
+
                                         break;
                                     }
                                     case 2:{

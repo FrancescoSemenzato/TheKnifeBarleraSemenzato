@@ -36,7 +36,7 @@ public class Main {
 
         Cliente cl = new Cliente();
         Ristoratore ris = new Ristoratore();
-        
+
         while(continua){
             pulisciTerminale();
             System.out.println("BENVENUTO NEL PROGETTO THE KNIFE\n");
@@ -198,7 +198,7 @@ public class Main {
                                         } catch (NumberFormatException e) {
                                             selezioneInt = -1;
                                         }
-                                    } while(selezioneInt < 1 || selezioneInt > 6);
+                                    } while(selezioneInt < 1 || selezioneInt > 8);
                                 }while(false); 
                                 pulisciTerminale();
                                 switch (selezioneInt) {
@@ -252,7 +252,7 @@ public class Main {
                                                     } catch (NumberFormatException e) {
                                                         selezioneInt = -1;
                                                     }
-                                                } while(selezioneInt < 1 || selezioneInt > 4);
+                                                } while(selezioneInt < 1 || selezioneInt > 9);
                                             }while(false); 
                                             pulisciTerminale();
                                             switch (selezioneInt) {
@@ -580,15 +580,7 @@ public class Main {
                                         System.out.println("STAI PER VISUALIZZARE LE TUE RECENSIONI:");
                                         cl.VisualizzaRecensioni();
                                         System.out.print("INSERISCI IL NUMERO DELLA RECENSIONE DA MODIFICARE -> ");
-                                        int numRecensione = -1;
-                                        do {
-                                            try {
-                                                numRecensione = Integer.parseInt(in.nextLine());
-                                            } catch (NumberFormatException e) {
-                                                System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 1 E " + cl.getListaRecensioni().size() + ".");
-                                            }
-                                        } while (numRecensione < 1 || numRecensione > cl.getListaRecensioni().size());
-                                        Recensione rec = cl.getRecensione(numRecensione - 1, );
+                                        Recensione rec = GetSelezioneRecensione(cl.getListaRecensioni());                       
 
                                         System.out.print("INSERISCI IL TESTO DELLA RECENSIONE -> ");
                                         String testoRecensione = in.nextLine();
@@ -603,7 +595,8 @@ public class Main {
                                             }
                                         } while (voto < 0 || voto > 5);
 
-                                        cl.ModificaRecensione(numRecensione - 1, testoRecensione, voto, );
+                                        cl.ModificaRecensione(cl.getListaRecensioni().indexOf(rec) , testoRecensione, voto, gestoreRistoranti.getRistorante(rec.getNomeRistorante()));
+
                                         System.out.println("LA RECENSIONE È STATA MODIFICATA CORRETTAMENTE.");
 
                                         System.out.println("\nPREMERE INVIO PER CONTINUARE");
@@ -616,18 +609,25 @@ public class Main {
                                         System.out.println("STAI PER VISUALIZZARE LE TUE RECENSIONI:");
                                         cl.VisualizzaRecensioni();
                                         System.out.print("INSERISCI IL NUMERO DELLA RECENSIONE DA ELIMINARE -> ");
-                                        int numRecensione = -1;
-                                        do {
-                                            try {
-                                                numRecensione = Integer.parseInt(in.nextLine());
-                                            } catch (NumberFormatException e) {
-                                                System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 1 E " + cl.getListaRecensioni().size() + ".");
-                                            }
-                                        } while (numRecensione < 1 || numRecensione > cl.getListaRecensioni().size());
+                                        Recensione rec = GetSelezioneRecensione(cl.getListaRecensioni());                       
 
-                                        cl.RemoveRecensione(numRecensione - 1,);
+                                        System.out.print("INSERISCI IL TESTO DELLA RECENSIONE -> ");
+                                        String testoRecensione = in.nextLine();
+
+                                        int voto = -1;
+                                        do {
+                                            System.out.print("INSERISCI IL VOTO [0-5] -> ");
+                                            try {
+                                                voto = Integer.parseInt(in.nextLine());
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 0 E 5.");
+                                            }
+                                        } while (voto < 0 || voto > 5);
+
+                                        cl.RemoveRecensione(cl.getListaRecensioni().indexOf(rec), gestoreRistoranti.getRistorante(rec.getNomeRistorante()));
+
                                         System.out.println("LA RECENSIONE È STATA ELIMINATA CORRETTAMENTE.");
-                                        
+
                                         System.out.println("\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine();
                                         pulisciTerminale();
@@ -851,6 +851,31 @@ public class Main {
         int scelta = -1;
         do {
             System.out.print("Seleziona il numero del ristorante da visualizzare (0 per annullare) ->\t");
+            try {
+                scelta = Integer.parseInt(in.nextLine());
+            } catch (NumberFormatException e) {
+                scelta = -1;
+            }
+        } while (scelta < 0 || scelta > risultati.size());
+    
+        if (scelta == 0) {
+            return null;
+        }
+    
+        return risultati.get(scelta - 1);
+    }
+
+    public static Recensione GetSelezioneRecensione(ArrayList<Recensione> risultati) {
+        pulisciTerminale();
+        System.out.println("Recensioni trovate:");
+        for (int i = 0; i < risultati.size(); i++) {
+            System.out.printf("%d - %s\n", i + 1, risultati.get(i).getNomeRistorante());
+        }
+        System.out.println("0 - Nessuno");
+    
+        int scelta = -1;
+        do {
+            System.out.print("Seleziona il numero della recensione da visualizzare (0 per annullare) ->\t");
             try {
                 scelta = Integer.parseInt(in.nextLine());
             } catch (NumberFormatException e) {

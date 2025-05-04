@@ -53,17 +53,16 @@ public class Cliente extends Utente{
     public void CaricaListaRecensione(ArrayList<Recensione> rec){
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(FilePathRecensioni))) {
-            br.readLine();  // Questa riga legge la prima riga e la ignora
+            br.readLine();  // Ignora intestazione
             while ((line = br.readLine()) != null) {
                 String[] campi = line.split(";");
-                if (campi.length >= 5) {
-                    if (campi[4].equals(getUsername()) && campi[3].equals("")) {
+                if (campi.length >= 5 && campi[4].equals(getUsername())) {
+                    if (campi[3].equals("")) {
                         rec.add(new Recensione(Integer.parseInt(campi[1]), campi[2], campi[4], campi[0]));
                     } else {
                         rec.add(new Recensione(Integer.parseInt(campi[1]), campi[2], campi[4], campi[0], campi[3]));
                     }
                 }
-                
             }
         } catch (IOException e) {
             System.out.println("Errore nella lettura del file: " + e.getMessage());
@@ -137,8 +136,8 @@ public class Cliente extends Utente{
     }
 
     public void ModificaRecensione(int index, String newCommento, int newVoto, Ristorante ristorante){
-        ristorante.ModificaRecensione(getUsername(), newCommento, newVoto);
-        ListaRecensioniUtente.get(index).setCommento(newCommento);
-        ListaRecensioniUtente.get(index).setVoto(newVoto);
+        ristorante.RimuoviRecensione(this.getUsername(), ListaRecensioniUtente.get(index).getCommento());
+        RemoveRecensione(index, ristorante);
+        ListaRecensioniUtente.add(AggiungiRecensione(newVoto, newCommento, ristorante));   
     }
 }

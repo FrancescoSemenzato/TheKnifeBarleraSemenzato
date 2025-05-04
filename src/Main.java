@@ -611,19 +611,6 @@ public class Main {
                                         System.out.print("INSERISCI IL NUMERO DELLA RECENSIONE DA ELIMINARE -> ");
                                         Recensione rec = GetSelezioneRecensione(cl.getListaRecensioni());                       
 
-                                        System.out.print("INSERISCI IL TESTO DELLA RECENSIONE -> ");
-                                        String testoRecensione = in.nextLine();
-
-                                        int voto = -1;
-                                        do {
-                                            System.out.print("INSERISCI IL VOTO [0-5] -> ");
-                                            try {
-                                                voto = Integer.parseInt(in.nextLine());
-                                            } catch (NumberFormatException e) {
-                                                System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 0 E 5.");
-                                            }
-                                        } while (voto < 0 || voto > 5);
-
                                         cl.RemoveRecensione(cl.getListaRecensioni().indexOf(rec), gestoreRistoranti.getRistorante(rec.getNomeRistorante()));
 
                                         System.out.println("LA RECENSIONE È STATA ELIMINATA CORRETTAMENTE.");

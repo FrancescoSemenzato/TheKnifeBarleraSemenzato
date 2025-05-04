@@ -31,7 +31,6 @@ public class Main {
         String selezioneStringa;
         int selezioneInt;
         String nome, cognome, username, password, domicilio, datadinascita, ruolo="";
-        String buffer;
         boolean datiCorretti = false, continua = true;
 
         Cliente cl = new Cliente();
@@ -244,7 +243,7 @@ public class Main {
                                                 System.out.println("6- VISUALIZZA RISTORANTI IN BASE ALLA DISPONIBILITA' DI PRENOTAZIONE ONLINE");
                                                 System.out.println("7- VISUALIZZA RISTORANTI IN BASE ALLA MEDIA DELLE STELLE");
                                                 System.out.println("8- UNISCI PIU' FILTRI DI RICERCA");
-                                                System.out.println("9- TORNA AL MENU' PRINCIPALE");
+                                                System.out.println("9- TORNA AL MENU' CLIENTE");
                                                 do {
                                                     System.out.print("SELEZIONE ->\t");
                                                     try {
@@ -392,7 +391,8 @@ public class Main {
                                                 case 8: {
                                                     ArrayList<Ristorante> risultati = new ArrayList<>();
                                                     boolean continuaUnione = true;
-                                                
+                                                    String cittaGlobal = null;
+
                                                     while (continuaUnione) {
                                                         System.out.println("AGGIUNGI UN FILTRO:");
                                                         System.out.println("1- CITTA'");
@@ -403,7 +403,7 @@ public class Main {
                                                         System.out.println("6- PRENOTAZIONE ONLINE");
                                                         System.out.println("7- MEDIA STELLE");
                                                         System.out.println("8- VISUALIZZA RISULTATI E TERMINA");
-                                                
+
                                                         int filtro = -1;
                                                         do {
                                                             System.out.print("SCELTA -> ");
@@ -413,12 +413,12 @@ public class Main {
                                                                 filtro = -1;
                                                             }
                                                         } while (filtro < 1 || filtro > 8);
-                                                
+
                                                         switch (filtro) {
                                                             case 1: {
                                                                 System.out.print("INSERISCI LA CITTA' -> ");
-                                                                String citta = in.nextLine();
-                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerCitta(citta));
+                                                                cittaGlobal = in.nextLine();
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerCitta(cittaGlobal));
                                                                 break;
                                                             }
                                                             case 2: {
@@ -430,9 +430,11 @@ public class Main {
                                                             case 3: {
                                                                 System.out.print("INSERISCI IL TIPO DI CUCINA -> ");
                                                                 String tipo = in.nextLine();
-                                                                System.out.print("INSERISCI LA CITTA' -> ");
-                                                                String citta = in.nextLine();
-                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerTipoDiCucina(tipo, citta));
+                                                                if (cittaGlobal == null) {
+                                                                    System.out.print("INSERISCI LA CITTA' -> ");
+                                                                    cittaGlobal = in.nextLine();
+                                                                }
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerTipoDiCucina(tipo, cittaGlobal));
                                                                 break;
                                                             }
                                                             case 4: {
@@ -442,16 +444,18 @@ public class Main {
                                                                     int prezzo1 = Integer.parseInt(in.nextLine());
                                                                     System.out.print("SECONDO VALORE O OPERATORE [<, >, =] -> ");
                                                                     String input = in.nextLine();
-                                                                    System.out.print("INSERISCI LA CITTA' -> ");
-                                                                    String citta = in.nextLine();
-                                                
+                                                                    if (cittaGlobal == null) {
+                                                                        System.out.print("INSERISCI LA CITTA' -> ");
+                                                                        cittaGlobal = in.nextLine();
+                                                                    }
+
                                                                     if (input.equals("<") || input.equals(">") || input.equals("=")) {
-                                                                        risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerFasciaDiPrezzo(prezzo1, input.charAt(0), citta));
+                                                                        risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerFasciaDiPrezzo(prezzo1, input.charAt(0), cittaGlobal));
                                                                     } else {
                                                                         int prezzo2 = Integer.parseInt(input);
                                                                         int min = Math.min(prezzo1, prezzo2);
                                                                         int max = Math.max(prezzo1, prezzo2);
-                                                                        risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerFasciaDiPrezzo(min, max, citta));
+                                                                        risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerFasciaDiPrezzo(min, max, cittaGlobal));
                                                                     }
                                                                 } catch (Exception e) {
                                                                     System.out.println("ERRORE: Valori di prezzo non validi.");
@@ -459,26 +463,32 @@ public class Main {
                                                                 break;
                                                             }
                                                             case 5: {
-                                                                System.out.print("INSERISCI LA CITTA' -> ");
-                                                                String citta = in.nextLine();
-                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerDelivery(citta));
+                                                                if (cittaGlobal == null) {
+                                                                    System.out.print("INSERISCI LA CITTA' -> ");
+                                                                    cittaGlobal = in.nextLine();
+                                                                }
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerDelivery(cittaGlobal));
                                                                 break;
                                                             }
                                                             case 6: {
-                                                                System.out.print("INSERISCI LA CITTA' -> ");
-                                                                String citta = in.nextLine();
-                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerPrenotazioneOnline(citta));
+                                                                if (cittaGlobal == null) {
+                                                                    System.out.print("INSERISCI LA CITTA' -> ");
+                                                                    cittaGlobal = in.nextLine();
+                                                                }
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerPrenotazioneOnline(cittaGlobal));
                                                                 break;
                                                             }
                                                             case 7: {
-                                                                System.out.print("INSERISCI LA CITTA' -> ");
-                                                                String citta = in.nextLine();
+                                                                if (cittaGlobal == null) {
+                                                                    System.out.print("INSERISCI LA CITTA' -> ");
+                                                                    cittaGlobal = in.nextLine();
+                                                                }
                                                                 float stelle;
                                                                 do {
                                                                     System.out.print("INSERISCI MEDIA STELLE [0-5] -> ");
                                                                     stelle = Float.parseFloat(in.nextLine());
                                                                 } while (stelle < 0 || stelle > 5);
-                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerMediaStelle(stelle, citta));
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerMediaStelle(stelle, cittaGlobal));
                                                                 break;
                                                             }
                                                             case 8: {

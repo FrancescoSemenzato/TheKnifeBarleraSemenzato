@@ -77,12 +77,13 @@ public class Ristorante {
     }
 
     public void RimuoviRecensione(String username, String commento){
-        for(Recensione r : ListaRecensioni)
-            if(r.getUsername().equals(username) && r.getCommento().equals(commento)){
-                ListaRecensioni.remove(r);
+        for(int i = ListaRecensioni.size() - 1; i >= 0; i--) {
+            Recensione r = ListaRecensioni.get(i);
+            if(r.getUsername().equals(username) && r.getCommento().equals(commento)) {
+                ListaRecensioni.remove(i);
                 ContaRecensioni--;
             }
-        
+        }
     }
 
     public void ModificaRecensione(String username, String commento, int voto){

@@ -32,7 +32,7 @@ public class Cliente extends Utente{
         ListaPreferiti = new ArrayList<Ristorante>();
     }
 
-    public ArrayList<Recensione> getRecensioniUtente(){ return ListaRecensioniUtente; }
+    public ArrayList<Recensione> getListaRecensioni(){ return ListaRecensioniUtente; }
     public ArrayList<Ristorante> getPreferiti(){ return ListaPreferiti; }
     public String getPreferitiString() {
         if (ListaPreferiti.isEmpty()) {

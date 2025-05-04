@@ -2,7 +2,7 @@ package src.Ristoranti;
 
 import com.byteowls.jopencage.JOpenCageGeocoder;
 import com.byteowls.jopencage.model.JOpenCageForwardRequest;
-import com.byteowls.jopencage.model.JOpenCageRequest;
+//import com.byteowls.jopencage.model.JOpenCageRequest;
 import com.byteowls.jopencage.model.JOpenCageResponse;
 import com.byteowls.jopencage.model.JOpenCageResult;
 

@@ -203,7 +203,7 @@ public class Main {
                                 pulisciTerminale();
                                 switch (selezioneInt) {
                                     case 1:{
-                                        int distanza = 1;
+                                        int distanza = 50;
                                         ArrayList<Ristorante> vicini = gestoreRistoranti.filtraPerVicinoA(cl.getDomicilio(), distanza);
 
                                         pulisciTerminale();
@@ -554,7 +554,7 @@ public class Main {
                                             System.out.println("NESSUN RISTORANTE VERRÀ SELEZIONATO.");
                                         } else {
                                             System.out.print("INSERISCI IL TESTO DELLA RECENSIONE -> ");
-                                            String testoRecensione = in.nextLine().trim();
+                                            String testoRecensione = in.nextLine();
 
                                             int voto = -1;
                                             do {
@@ -577,9 +577,61 @@ public class Main {
                                     }
                                     case 6:{
                                         //Modifica recensione
+                                        System.out.println("STAI PER VISUALIZZARE LE TUE RECENSIONI:");
+                                        cl.VisualizzaRecensioni();
+                                        System.out.print("INSERISCI IL NUMERO DELLA RECENSIONE DA MODIFICARE -> ");
+                                        int numRecensione = -1;
+                                        do {
+                                            try {
+                                                numRecensione = Integer.parseInt(in.nextLine());
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 1 E " + cl.getListaRecensioni().size() + ".");
+                                            }
+                                        } while (numRecensione < 1 || numRecensione > cl.getListaRecensioni().size());
+                                        Recensione rec = cl.getRecensione(numRecensione - 1, );
+
+                                        System.out.print("INSERISCI IL TESTO DELLA RECENSIONE -> ");
+                                        String testoRecensione = in.nextLine();
+
+                                        int voto = -1;
+                                        do {
+                                            System.out.print("INSERISCI IL VOTO [0-5] -> ");
+                                            try {
+                                                voto = Integer.parseInt(in.nextLine());
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 0 E 5.");
+                                            }
+                                        } while (voto < 0 || voto > 5);
+
+                                        cl.ModificaRecensione(numRecensione - 1, testoRecensione, voto, );
+                                        System.out.println("LA RECENSIONE È STATA MODIFICATA CORRETTAMENTE.");
+
+                                        System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
                                     }
                                     case 7:{
-                                        //Rimouvu recensione
+                                        //Rimouvi recensione
+                                        System.out.println("STAI PER VISUALIZZARE LE TUE RECENSIONI:");
+                                        cl.VisualizzaRecensioni();
+                                        System.out.print("INSERISCI IL NUMERO DELLA RECENSIONE DA ELIMINARE -> ");
+                                        int numRecensione = -1;
+                                        do {
+                                            try {
+                                                numRecensione = Integer.parseInt(in.nextLine());
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 1 E " + cl.getListaRecensioni().size() + ".");
+                                            }
+                                        } while (numRecensione < 1 || numRecensione > cl.getListaRecensioni().size());
+
+                                        cl.RemoveRecensione(numRecensione - 1,);
+                                        System.out.println("LA RECENSIONE È STATA ELIMINATA CORRETTAMENTE.");
+                                        
+                                        System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
                                     }
                                     case 8:{
                                         //Torna al menu' principale
@@ -762,24 +814,30 @@ public class Main {
         System.out.flush();
     }
 
-    public static void SelezioneRistorante(ArrayList <Ristorante> risultati){
+    public static void SelezioneRistorante(ArrayList<Ristorante> risultati) {
         pulisciTerminale();
-        System.out.println("Ristoranti trovati:"); 
+        System.out.println("Ristoranti trovati:");
         for (int i = 0; i < risultati.size(); i++) {
             System.out.printf("%d - %s\n", i + 1, risultati.get(i).getNome());
         }
+        System.out.println("0 - Nessun ristorante");
+    
         int scelta = -1;
         do {
-            System.out.print("Seleziona il numero del ristorante da visualizzare ->\t");
+            System.out.print("Seleziona il numero del ristorante da visualizzare (0 per annullare) ->\t");
             try {
-                    scelta = Integer.parseInt(in.nextLine());
-                    } catch (NumberFormatException e) {
-                    scelta = -1;
-                    }
-        } while (scelta < 1 || scelta > risultati.size());
-
-        System.out.println("HAI SELEZIONATO: ");
-        System.out.println(risultati.get(scelta - 1).visualizzaRistorante());
+                scelta = Integer.parseInt(in.nextLine());
+            } catch (NumberFormatException e) {
+                scelta = -1;
+            }
+        } while (scelta < 0 || scelta > risultati.size());
+    
+        if (scelta == 0) {
+            System.out.println("Nessun ristorante selezionato.");
+        } else {
+            System.out.println("HAI SELEZIONATO: ");
+            System.out.println(risultati.get(scelta - 1).visualizzaRistorante());
+        }
     }
 
     public static Ristorante GetSelezioneRistorante(ArrayList<Ristorante> risultati) {

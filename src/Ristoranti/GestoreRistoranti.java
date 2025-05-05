@@ -142,11 +142,26 @@ public class GestoreRistoranti {
     //Una lista perchè restituisce i ristoranti con il nome simile a quello cercato
     public ArrayList<Ristorante> filtraPerNomeRistorante(String nome) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
+        if (nome == null || nome.trim().length() < 2) return filtrati;
+    
+        //Prova prima a cercare il nome che inizia con lo stesso nome
+        String nomeLower = nome.toLowerCase().trim();
         for (Ristorante r : listaRistoranti) {
-            if (r.getNome().toLowerCase().contains(nome.toLowerCase())) {
+            String nomeRistorante = r.getNome().toLowerCase();
+            if (nomeRistorante.startsWith(nomeLower)) {
                 filtrati.add(r);
             }
         }
+
+        //Se non ci sono risultati, cerca anche in condizioni parziali
+        if (filtrati.isEmpty()) {
+            for (Ristorante r : listaRistoranti) {
+                if (r.getNome().toLowerCase().contains(nomeLower)) {
+                    filtrati.add(r);
+                }
+            }
+        }
+    
         return filtrati;
     }
 

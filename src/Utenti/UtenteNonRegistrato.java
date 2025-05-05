@@ -1,5 +1,8 @@
 package src.Utenti;
 
+import src.Recensione;
+import java.util.ArrayList;
+
 import src.Ristoranti.Ristorante;
 
 public class UtenteNonRegistrato extends Utente{
@@ -8,11 +11,11 @@ public class UtenteNonRegistrato extends Utente{
     }
 
     public String getDettagli(Ristorante ristorante){
-        return ristorante.toString();
+        return ristorante.visualizzaRistorante();
     }
 
-    public void getRecensioni(Ristorante ristorante){
-        ristorante.getRecensioni();
+    public ArrayList<Recensione> getRecensioni(Ristorante ristorante){
+        return ristorante.getRecensioni();
     }
 
     public Cliente Registrare(String Nome, String Cognome, String Username, String Password, String Domicilio, int Giorno, int Mese, int Anno){

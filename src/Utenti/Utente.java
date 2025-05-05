@@ -1,6 +1,5 @@
 package src.Utenti;
 
-import java.util.List;
 
 public abstract class Utente{
     private String Nome, Cognome, Username, Password, Domicilio, Ruolo;
@@ -45,6 +44,15 @@ public abstract class Utente{
     public String getRuolo(){return Ruolo;}
     public String getDataDiNascita(){return Data.getDataDiNascita();}
     public DataDiNascita geDataDiNascita(){return Data;}
+
+    public void setNome(String Nome){this.Nome = Nome;}
+    public void setCognome(String Cognome){this.Cognome = Cognome;}
+    public void setUsername(String Username){this.Username = Username;}
+    public void setPassword(String Password){this.Password = Password;}
+    public void setDomicilio(String Domicilio){this.Domicilio = Domicilio;}
+    public void setRuolo(String Ruolo){this.Ruolo = Ruolo;}
+    public void setDataDiNascita(String Data){this.Data = new DataDiNascita(Data);}
+    public void setDataDiNascita(int Giorno, int Mese, int Anno){this.Data = new DataDiNascita(Giorno, Mese, Anno);} 
 
     private String CifraPassword(String psw) {
         String pswCifrata = "";

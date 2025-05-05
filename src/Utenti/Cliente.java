@@ -31,7 +31,7 @@ public class Cliente extends Utente{
         CaricaListaRecensione(ListaRecensioniUtente);
         ListaPreferiti = new ArrayList<Ristorante>();
     }
-
+    
     public ArrayList<Recensione> getListaRecensioni(){ return ListaRecensioniUtente; }
     public ArrayList<Ristorante> getPreferiti(){ return ListaPreferiti; }
     public String getPreferitiString() {

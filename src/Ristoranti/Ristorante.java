@@ -53,6 +53,21 @@ public class Ristorante {
     public Double getMediaStelle(){return MediaStelle;}
     public int getNumeroRecensioni(){return ContaRecensioni;}
 
+    public void setNome(String Nome) { this.Nome = Nome; }
+    public void setNazione(String Nazione) { this.Nazione = Nazione; }
+    public void setCitta(String Citta) { this.Citta = Citta; }
+    public void setIndirizzo(String Indirizzo) { this.Indirizzo = Indirizzo; }
+    public void setTipoDiCucina(String TipoDiCucina) { this.TipoDiCucina = TipoDiCucina; }
+    public void setServizi(String Servizi) { this.Servizi = Servizi; }
+    public void setURLWeb(String URLWeb) { this.URLWeb = URLWeb; }
+    public void setLatitudine(Double Latitudine) { this.Latitudine = Latitudine; }
+    public void setLongitudine(Double Longitudine) { this.Longitudine = Longitudine; }
+    public void setFasciaDiPrezzo(int FasciaDiPrezzo) { this.FasciaDiPrezzo = FasciaDiPrezzo; }
+    public void setStelle(String Stelle) { this.Stelle = Stelle; }
+    public void setDelivery(boolean Delivery) { this.Delivery = Delivery; }
+    public void setPrenotazioneOnline(boolean PrenotazioneOnline) { this.PrenotazioneOnline = PrenotazioneOnline; }
+    public void setPrezzo(String Prezzo) { this.Prezzo = Prezzo; }
+
     public void caricaRecensioni(String Path) {
         this.ListaRecensioni = leggiDaFile(Path);
         this.MediaStelle = MediaStelle();

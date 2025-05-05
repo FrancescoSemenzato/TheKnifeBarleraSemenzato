@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import src.Ristoranti.GestoreRistoranti;
 import src.Ristoranti.Ristorante;
@@ -16,11 +17,18 @@ import src.Utenti.Cliente;
 import src.Utenti.Ristoratore;
 import src.Utenti.UtenteNonRegistrato;
 
+import com.byteowls.jopencage.JOpenCageGeocoder;
+import com.byteowls.jopencage.model.JOpenCageForwardRequest;
+import com.byteowls.jopencage.model.JOpenCageResponse;
+import com.byteowls.jopencage.model.JOpenCageResult;
+
 public class Main {
     public static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
     public static final Scanner in = new Scanner(System.in);
     
     public static void main(String[] args) {
+        //Permette di nascondere i messaggi di log
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "off");
         // Caricamento delle liste per utenti
         ArrayList<Cliente> ListaClienti = new ArrayList<Cliente>();
         ArrayList<Ristoratore> ListaRistoratori = new ArrayList<Ristoratore>();
@@ -117,13 +125,18 @@ public class Main {
                         }while(false);
                         
                         switch (selezioneInt) {
-                            case 1:{
+                            case 1: {
                                 System.out.print("\nNOME ->\t\t");
                                 nome = in.nextLine();
                                 System.out.print("COGNOME ->\t");
                                 cognome = in.nextLine();
-                                System.out.print("USERNAME ->\t");
-                                username = in.nextLine();
+                                do {
+                                    System.out.print("USERNAME ->\t");
+                                    username = in.nextLine();
+                                    if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
+                                        System.out.println("Username già esistente. Inseriscine un altro.");
+                                    }
+                                } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
                                 System.out.print("PASSWORD ->\t");
                                 password = in.nextLine();
                                 System.out.print("DOMICILIO [Città, Nazione] ->\t");
@@ -141,8 +154,13 @@ public class Main {
                                 nome = in.nextLine();
                                 System.out.print("COGNOME ->\t");
                                 cognome = in.nextLine();
-                                System.out.print("USERNAME ->\t");
-                                username = in.nextLine();
+                                do {
+                                    System.out.print("USERNAME ->\t");
+                                    username = in.nextLine();
+                                    if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
+                                        System.out.println("Username già esistente. Inseriscine un altro.");
+                                    }
+                                } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
                                 System.out.print("PASSWORD ->\t");
                                 password = in.nextLine();
                                 System.out.print("DOMICILIO [Città, Nazione] ->\t");
@@ -269,15 +287,358 @@ public class Main {
                                                     pulisciTerminale();
                                                     break;
                                                 }
-                                                // ... altri casi del filtro ...
+                                                case 3:{
+                                                    //Visualizza i ristoranti in base al tipo di cucina
+                                                    System.out.print("INSERISCI IL TIPO DI CUCINA CHE DESIDERI CERCARE ->");
+                                                    String tipoCucina = in.nextLine();
+                                                    System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
+                                                    String citta = in.nextLine();
+                                                    for(Ristorante r : gestoreRistoranti.filtraPerCitta(citta)){
+                                                        System.out.println(r.visualizzaRistorante());
+                                                    }
+
+                                                    System.out.println("\n\n");
+                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    in.nextLine();
+                                                    pulisciTerminale();
+                                                    break;
+                                                }
+                                                case 4:{
+                                                    // Visualizza i ristoranti in base alla fascia di prezzo
+                                                    boolean continuaPrezzo = true;
+                                                    System.out.println("PUOI CERCARE INSERENDO UN RANGE DI PREZZO OPPURE UN VALORE E UN SEGNO DI COMPARAZIONE [<, >, =] ->");
+
+                                                    while(continuaPrezzo){
+                                                        try {
+                                                            System.out.print("INSERISCI UNA FASCIA DI PREZZO CHE DESIDERI CERCARE -> ");
+                                                            String inputPrezzo1 = in.nextLine().trim();
+                                                            int prezzo1 = Integer.parseInt(inputPrezzo1);
+    
+                                                            System.out.print("INSERISCI UNA SECONDA FASCIA DI PREZZO O UN SEGNO DI COMPARAZIONE -> ");
+                                                            String inputPrezzo2 = in.nextLine().trim();
+    
+                                                            System.out.print("INSERISCI LA CITTA' DI RICERCA -> ");
+                                                            String citta = in.nextLine().trim().toLowerCase();
+    
+                                                            ArrayList<Ristorante> filtrati;
+    
+                                                            if (inputPrezzo2.equals("<") || inputPrezzo2.equals(">") || inputPrezzo2.equals("=")) {
+                                                                filtrati = gestoreRistoranti.filtraPerFasciaDiPrezzo(prezzo1, inputPrezzo2.charAt(0), citta);
+                                                                continuaPrezzo = false;
+                                                            } else {
+                                                                int prezzo2 = Integer.parseInt(inputPrezzo2);
+                                                                int min = Math.min(prezzo1, prezzo2);
+                                                                int max = Math.max(prezzo1, prezzo2);
+                                                                filtrati = gestoreRistoranti.filtraPerFasciaDiPrezzo(min, max, citta);
+                                                                continuaPrezzo = false;
+                                                            }
+    
+                                                            if (filtrati.isEmpty()) {
+                                                                System.out.println("NESSUN RISTORANTE TROVATO CON I CRITERI INDICATI.");
+                                                            } else {
+                                                                for (Ristorante r : filtrati) {
+                                                                    System.out.println(r.visualizzaRistorante());
+                                                                }
+                                                            }
+                                                        } catch (NumberFormatException e) {
+                                                            System.out.println("ERRORE: Inserire solo numeri validi per la fascia di prezzo.");
+                                                        } catch (Exception e) {
+                                                            System.out.println("Si è verificato un errore: " + e.getMessage());
+                                                        }
+                                                    }
+                                                    System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                                    in.nextLine();
+                                                    pulisciTerminale();
+                                                    break;
+                                                }
+                                                case 5:{
+                                                    //Visualizza i ristoranti in base alla disponibilita' del servizio di delivery
+                                                    System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
+                                                    String citta = in.nextLine();
+                                                    SelezioneRistorante(gestoreRistoranti.filtraPerDelivery(citta));
+
+                                                    System.out.println("\n\n");
+                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    in.nextLine();
+                                                    pulisciTerminale();
+                                                    break;
+                                                }
+                                                case 6:{
+                                                    //Visualizza i ristoranti in base alla disponibilita' di prenotazione online
+                                                    System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
+                                                    String citta = in.nextLine();
+                                                    SelezioneRistorante(gestoreRistoranti.filtraPerPrenotazioneOnline(citta));
+
+                                                    System.out.println("\n\n");
+                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    in.nextLine();
+                                                    pulisciTerminale();
+                                                    break;
+                                                }
+                                                case 7:{
+                                                    //Visualizza i ristoranti in base alla media delle stelle
+                                                    System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
+                                                    String citta = in.nextLine();
+                                                    float stelle;
+                                                    do {
+                                                        System.out.print("INSERISCI LA MEDIA DI STELLE [0-5]->");
+                                                        stelle = Float.parseFloat(in.nextLine());
+                                                    }while(stelle<0 || stelle>5);
+                                                    SelezioneRistorante(gestoreRistoranti.filtraPerMediaStelle(stelle,citta));
+    
+                                                    System.out.println("\n\n");
+                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    in.nextLine();
+                                                    pulisciTerminale();
+                                                    break;
+                                                }
+                                                case 8: {
+                                                    ArrayList<Ristorante> risultati = new ArrayList<>();
+                                                    boolean continuaUnione = true;
+                                                    String cittaGlobal = null;
+
+                                                    while (continuaUnione) {
+                                                        System.out.println("AGGIUNGI UN FILTRO:");
+                                                        System.out.println("1- CITTA'");
+                                                        System.out.println("2- NOME");
+                                                        System.out.println("3- TIPO DI CUCINA");
+                                                        System.out.println("4- FASCIA DI PREZZO");
+                                                        System.out.println("5- DELIVERY");
+                                                        System.out.println("6- PRENOTAZIONE ONLINE");
+                                                        System.out.println("7- MEDIA STELLE");
+                                                        System.out.println("8- VISUALIZZA RISULTATI E TERMINA");
+
+                                                        int filtro = -1;
+                                                        do {
+                                                            System.out.print("SCELTA -> ");
+                                                            try {
+                                                                filtro = Integer.parseInt(in.nextLine());
+                                                            } catch (NumberFormatException e) {
+                                                                filtro = -1;
+                                                            }
+                                                        } while (filtro < 1 || filtro > 8);
+
+                                                        switch (filtro) {
+                                                            case 1: {
+                                                                System.out.print("INSERISCI LA CITTA' -> ");
+                                                                cittaGlobal = in.nextLine();
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerCitta(cittaGlobal));
+                                                                break;
+                                                            }
+                                                            case 2: {
+                                                                System.out.print("INSERISCI IL NOME DEL RISTORANTE -> ");
+                                                                String nomeRistorante = in.nextLine();
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante));
+                                                                break;
+                                                            }
+                                                            case 3: {
+                                                                System.out.print("INSERISCI IL TIPO DI CUCINA -> ");
+                                                                String tipo = in.nextLine();
+                                                                if (cittaGlobal == null) {
+                                                                    System.out.print("INSERISCI LA CITTA' -> ");
+                                                                    cittaGlobal = in.nextLine();
+                                                                }
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerTipoDiCucina(tipo, cittaGlobal));
+                                                                break;
+                                                            }
+                                                            case 4: {
+                                                                System.out.println("INSERISCI FASCIA DI PREZZO");
+                                                                try {
+                                                                    System.out.print("PRIMO VALORE -> ");
+                                                                    int prezzo1 = Integer.parseInt(in.nextLine());
+                                                                    System.out.print("SECONDO VALORE O OPERATORE [<, >, =] -> ");
+                                                                    String input = in.nextLine();
+                                                                    if (cittaGlobal == null) {
+                                                                        System.out.print("INSERISCI LA CITTA' -> ");
+                                                                        cittaGlobal = in.nextLine();
+                                                                    }
+
+                                                                    if (input.equals("<") || input.equals(">") || input.equals("=")) {
+                                                                        risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerFasciaDiPrezzo(prezzo1, input.charAt(0), cittaGlobal));
+                                                                    } else {
+                                                                        int prezzo2 = Integer.parseInt(input);
+                                                                        int min = Math.min(prezzo1, prezzo2);
+                                                                        int max = Math.max(prezzo1, prezzo2);
+                                                                        risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerFasciaDiPrezzo(min, max, cittaGlobal));
+                                                                    }
+                                                                } catch (Exception e) {
+                                                                    System.out.println("ERRORE: Valori di prezzo non validi.");
+                                                                }
+                                                                break;
+                                                            }
+                                                            case 5: {
+                                                                if (cittaGlobal == null) {
+                                                                    System.out.print("INSERISCI LA CITTA' -> ");
+                                                                    cittaGlobal = in.nextLine();
+                                                                }
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerDelivery(cittaGlobal));
+                                                                break;
+                                                            }
+                                                            case 6: {
+                                                                if (cittaGlobal == null) {
+                                                                    System.out.print("INSERISCI LA CITTA' -> ");
+                                                                    cittaGlobal = in.nextLine();
+                                                                }
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerPrenotazioneOnline(cittaGlobal));
+                                                                break;
+                                                            }
+                                                            case 7: {
+                                                                if (cittaGlobal == null) {
+                                                                    System.out.print("INSERISCI LA CITTA' -> ");
+                                                                    cittaGlobal = in.nextLine();
+                                                                }
+                                                                float stelle;
+                                                                do {
+                                                                    System.out.print("INSERISCI MEDIA STELLE [0-5] -> ");
+                                                                    stelle = Float.parseFloat(in.nextLine());
+                                                                } while (stelle < 0 || stelle > 5);
+                                                                risultati = gestoreRistoranti.unisciListe(risultati, gestoreRistoranti.filtraPerMediaStelle(stelle, cittaGlobal));
+                                                                break;
+                                                            }
+                                                            case 8: {
+                                                                continuaUnione = false;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if(risultati.isEmpty()) 
+                                                                System.out.println("NESSUN RISTORANTE TROVATO CON I FILTRI INSERITI.");
+                                                            else 
+                                                                SelezioneRistorante(risultati);
+                                                
+                                                        
+                                                            System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
+                                                            in.nextLine();
+                                                            break;
+                                                    }
                                             }
+                                                case 9:{
+                                                    //Torna al menu' cliente
+                                                    continuaFiltro = false;
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
-                                    // ... altri casi del menu cliente ...
-                                }   
-                            }
+                                    }   
+                                    case 3:{
+                                        //Visualizza la lista dei preferiti
+                                        System.out.println("ECCO LA LISTA DEI TUOI RISTORANTI PREFERITI:");
+                                        if (cl.getPreferiti().isEmpty()) {
+                                            System.out.println("NESSUN RISTORANTE NELLA LISTA DEI TUOI PREFERITI.");
+                                        } else {
+                                            System.out.println("ECCO LA LISTA DEI TUOI RISTORANTI PREFERITI:");
+                                            SelezioneRistorante(cl.getPreferiti());
+                                        }
+                                        System.out.println("\n\n");
+                                        System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                                    case 4:{
+                                        //Aggiungi un ristorante alla lista dei preferiti
+                                        System.out.print("INSERISCI IL NOME DEL RISTORANTE -> ");
+                                        String nomeRistorante = in.nextLine();
+                                        Ristorante r = GetSelezioneRistorante(gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante));
+                                        if(r == null) {
+                                            System.out.println("NESSUN RISTORANTE VERRA' AGGIUNTO AI PREFERITI.");
+                                        } else {
+                                            cl.AggiungiAiPreferiti(r);
+                                            System.out.println("IL RISTORANTE " + r.getNome() + " E' STATO AGGIUNTO AI TUOI PREFERITI.");
+                                        }
+
+                                        System.out.println("\n\n");
+                                        System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                                    case 5:{
+                                        // Scrivi una recensione
+                                        System.out.print("INSERISCI IL NOME DEL RISTORANTE PER CUI VUOI SCRIVERE UNA RECENSIONE -> ");
+                                        String nomeRistorante = in.nextLine().trim();
+
+                                        ArrayList<Ristorante> risultati = gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante);
+                                        Ristorante r = GetSelezioneRistorante(risultati);
+
+                                        if (r == null) {
+                                            System.out.println("NESSUN RISTORANTE VERRÀ SELEZIONATO.");
+                                        } else {
+                                            System.out.print("INSERISCI IL TESTO DELLA RECENSIONE -> ");
+                                            String testoRecensione = in.nextLine();
+
+                                            int voto = -1;
+                                            do {
+                                                System.out.print("INSERISCI IL VOTO [0-5] -> ");
+                                                try {
+                                                    voto = Integer.parseInt(in.nextLine());
+                                                } catch (NumberFormatException e) {
+                                                    System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 0 E 5.");
+                                                }
+                                            } while (voto < 0 || voto > 5);
+
+                                            cl.AggiungiRecensione(voto, testoRecensione, r);
+                                            System.out.println("LA RECENSIONE È STATA AGGIUNTA CORRETTAMENTE.");
+                                        }
+
+                                        System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                                    case 6:{
+                                        //Modifica recensione
+                                        System.out.println("STAI PER VISUALIZZARE LE TUE RECENSIONI:");
+                                        cl.VisualizzaRecensioni();
+                                        System.out.print("INSERISCI IL NUMERO DELLA RECENSIONE DA MODIFICARE -> ");
+                                        Recensione rec = GetSelezioneRecensione(cl.getListaRecensioni());                       
+
+                                        System.out.print("INSERISCI IL TESTO DELLA RECENSIONE -> ");
+                                        String testoRecensione = in.nextLine();
+
+                                        int voto = -1;
+                                        do {
+                                            System.out.print("INSERISCI IL VOTO [0-5] -> ");
+                                            try {
+                                                voto = Integer.parseInt(in.nextLine());
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 0 E 5.");
+                                            }
+                                        } while (voto < 0 || voto > 5);
+
+                                        cl.ModificaRecensione(cl.getListaRecensioni().indexOf(rec) , testoRecensione, voto, gestoreRistoranti.getRistorante(rec.getNomeRistorante()));
+
+                                        System.out.println("LA RECENSIONE È STATA MODIFICATA CORRETTAMENTE.");
+
+                                        System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                                    case 7:{
+                                        //Rimouvi recensione
+                                        System.out.println("STAI PER VISUALIZZARE LE TUE RECENSIONI:");
+                                        cl.VisualizzaRecensioni();
+                                        System.out.print("INSERISCI IL NUMERO DELLA RECENSIONE DA ELIMINARE -> ");
+                                        Recensione rec = GetSelezioneRecensione(cl.getListaRecensioni());                       
+
+                                        cl.RemoveRecensione(cl.getListaRecensioni().indexOf(rec), gestoreRistoranti.getRistorante(rec.getNomeRistorante()));
+
+                                        System.out.println("LA RECENSIONE È STATA ELIMINATA CORRETTAMENTE.");
+
+                                        System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                                    case 8:{
+                                        //Torna al menu' principale
+                                        continuaCliente = false;
+                                        break;
+                                    }
+                                }
                             break;
+                            }
                         }
                         
                         case "ristoratore":{
@@ -380,28 +741,24 @@ public class Main {
                                             }
                                         }
                                     
-                                        // Input latitudine
-                                        while (true) {
-                                            System.out.print("Latitudine (-90 a 90): ");
-                                            try {
-                                                Latitudine = Double.parseDouble(in.nextLine().trim());
-                                                if (Latitudine >= -90 && Latitudine <= 90) break;
-                                                else System.out.println("Latitudine non valida.");
-                                            } catch (NumberFormatException e) {
-                                                System.out.println("Inserisci un numero valido.");
-                                            }
-                                        }
-                                    
-                                        // Input longitudine
-                                        while (true) {
-                                            System.out.print("Longitudine (-180 a 180): ");
-                                            try {
-                                                Longitudine = Double.parseDouble(in.nextLine().trim());
-                                                if (Longitudine >= -180 && Longitudine <= 180) break;
-                                                else System.out.println("Longitudine non valida.");
-                                            } catch (NumberFormatException e) {
-                                                System.out.println("Inserisci un numero valido.");
-                                            }
+                                        // Ottieni latitudine e longitudine dall'indirizzo usando OpenCage
+                                        String fullAddress = Indirizzo + ", " + Citta + ", " + Nazione;
+                                        JOpenCageGeocoder geocoder = new JOpenCageGeocoder("650d3794aa3a411d9184bd19486bdb3e"); 
+                                        JOpenCageForwardRequest request = new JOpenCageForwardRequest(fullAddress);
+                                        request.setLanguage("it"); 
+
+                                        JOpenCageResponse response = geocoder.forward(request);
+                                        if (!response.getResults().isEmpty()) {
+                                            JOpenCageResult location = response.getResults().get(0);
+                                            Latitudine = location.getGeometry().getLat();
+                                            Longitudine = location.getGeometry().getLng();
+                                            System.out.println("Coordinate trovate: Latitudine = " + Latitudine + ", Longitudine = " + Longitudine);
+                                        } else {
+                                            System.out.println("Coordinate non trovate. Inserisci manualmente:");
+                                            System.out.print("Latitudine: ");
+                                            Latitudine = Double.parseDouble(in.nextLine().trim());
+                                            System.out.print("Longitudine: ");
+                                            Longitudine = Double.parseDouble(in.nextLine().trim());
                                         }
                                     
                                         // Input stelle
@@ -460,9 +817,10 @@ public class Main {
                                         FasciaDiPrezzo = Integer.parseInt(in.nextLine().trim());
                                     
                                         // Chiamata al metodo per aggiungere il ristorante
-                                        ris.AggiungiRistorante(Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo, Latitudine, Longitudine, FasciaDiPrezzo, result, Delivery, PrenotazioneOnline);
+                                        gestoreRistoranti.AggiungiRistorante(ris.AggiungiRistorante(Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo, Latitudine, Longitudine, FasciaDiPrezzo, result, Delivery, PrenotazioneOnline));
                                         System.out.println("RISTORANTE AGGIUNTO CORRETTAMENTE");
-                                    
+
+
                                         System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
                                         in.nextLine();
                                         pulisciTerminale();
@@ -627,52 +985,61 @@ public class Main {
         }
     }
 
-    public static void Esci(ArrayList<Cliente> cl, ArrayList<Ristoratore> ris, GestoreRistoranti risto){
-        risto.scriviSuFile();
+    public static void SalvaPreferitiClienti(ArrayList<Cliente> cl, BufferedWriter bw) throws IOException {
+        for (Cliente c : cl) {
+            String linea = String.join(";",
+                c.getUsername(),
+                c.getNome(),
+                c.getCognome(),
+                c.getPassword(),
+                c.getDataDiNascita(),
+                c.getDomicilio(),
+                "Cliente",
+                c.getPreferitiString(),
+                "//"
+            );
+            bw.write(linea);
+            bw.newLine();
+        }
+    }
 
-        for(Cliente c : cl){
+    public static void SalvaRistorantiRistoratori(ArrayList<Ristoratore> ris, BufferedWriter bw) throws IOException {
+        for (Ristoratore r : ris) {
+            String linea = String.join(";",
+                r.getUsername(),
+                r.getNome(),
+                r.getCognome(),
+                r.getPassword(),
+                r.getDataDiNascita(),
+                r.getDomicilio(),
+                "Ristoratore",
+                "//",
+                r.getRistorantiString()
+            );
+            bw.write(linea);
+            bw.newLine();
+        }
+    }
+    
+    public static void Esci(ArrayList<Cliente> cl, ArrayList<Ristoratore> ris, GestoreRistoranti risto) {
+        risto.scriviSuFile();  // Salva i ristoranti su file (non utente)
+    
+        for (Cliente c : cl) {
             c.CaricaListaPreferiti(c.getUsername(), risto);
         }
-        for(Ristoratore r : ris){
+        for (Ristoratore r : ris) {
             r.CaricaListaRistoranti(r.getUsername(), risto);
         }
-
+    
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FilePathUtenti))) {
             // intestazione
             bw.write("Username;Nome;Cognome;Password;DataDiNascita;Domicilio;Ruolo;Preferiti;Ristoranti");
             bw.newLine();
-
-            for (Cliente c : cl) {
-                String linea = String.join(";",
-                    c.getUsername(),
-                    c.getNome(),
-                    c.getCognome(),
-                    c.getPassword(),
-                    c.getDataDiNascita(),
-                    c.getDomicilio(),
-                    "Cliente",
-                    c.getPreferitiString(),
-                    "//"
-                );
-                bw.write(linea);
-                bw.newLine();
-            }
-
-            for (Ristoratore r : ris) {
-                String linea = String.join(";",
-                    r.getUsername(),
-                    r.getNome(),
-                    r.getCognome(),
-                    r.getPassword(),
-                    r.getDataDiNascita(),
-                    r.getDomicilio(),
-                    "Ristoratore",
-                    "//",
-                    r.getRistorantiString()
-                );
-                bw.write(linea);
-                bw.newLine();
-            }
+    
+            // Scrivi separatamente preferiti e ristoranti
+            SalvaPreferitiClienti(cl, bw);
+            SalvaRistorantiRistoratori(ris, bw);
+    
         } catch (IOException e) {
             System.out.println("Errore nella scrittura del file degli utenti: " + e.getMessage());
         }
@@ -681,6 +1048,20 @@ public class Main {
     public static void pulisciTerminale() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    public static boolean usernameEsiste(String username, List<Cliente> clienti, List<Ristoratore> ristoratori) {
+        for (Cliente c : clienti) {
+            if (c.getUsername().equalsIgnoreCase(username)) {
+                return true;
+            }
+        }
+        for (Ristoratore r : ristoratori) {
+            if (r.getUsername().equalsIgnoreCase(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void SelezioneRistorante(ArrayList<Ristorante> risultati) {

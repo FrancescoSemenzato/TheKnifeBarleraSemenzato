@@ -1,5 +1,7 @@
 package src.Utenti;
 
+import java.util.List;
+
 public abstract class Utente{
     private String Nome, Cognome, Username, Password, Domicilio, Ruolo;
     DataDiNascita Data;

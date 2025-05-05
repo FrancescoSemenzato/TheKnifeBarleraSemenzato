@@ -57,17 +57,23 @@ public class Ristoratore extends Utente {
         }
     }
 
-    public String getRistorantiString(){
-        String ristoranti = "";
+    public String getRistorantiString() {
+        if (ListaRistoranti == null || ListaRistoranti.isEmpty()) {
+            return "//";
+        }
+        
+        StringBuilder ristoranti = new StringBuilder();
         for (Ristorante r : ListaRistoranti) {
-            if (r != null) {
-                ristoranti += r.getNome() + "_";
+            if (r != null && r.getNome() != null) {
+                ristoranti.append(r.getNome()).append("_");
             }
         }
-        if (ristoranti.endsWith("_")) {
-            ristoranti = ristoranti.substring(0, ristoranti.length() - 1);
+        
+        if (ristoranti.length() > 0 && ristoranti.charAt(ristoranti.length() - 1) == '_') {
+            ristoranti.deleteCharAt(ristoranti.length() - 1);
         }
-        return ristoranti;
+        
+        return ristoranti.toString();
     }
 
     public String VisualizzaRistorante(Ristorante r){

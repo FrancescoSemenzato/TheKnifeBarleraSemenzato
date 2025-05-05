@@ -593,22 +593,28 @@ public class Main {
                                         System.out.print("INSERISCI IL NUMERO DELLA RECENSIONE DA MODIFICARE -> ");
                                         Recensione rec = GetSelezioneRecensione(cl.getListaRecensioni());                       
 
-                                        System.out.print("INSERISCI IL TESTO DELLA RECENSIONE -> ");
-                                        String testoRecensione = in.nextLine();
+                                        if (rec == null) {
+                                            System.out.println("NESSUNA RECENSIONE VERRA' MODIFICATA.");
+                                        }
+                                        else{
+                                            System.out.print("INSERISCI IL TESTO DELLA RECENSIONE -> ");
+                                            String testoRecensione = in.nextLine();
 
-                                        int voto = -1;
-                                        do {
-                                            System.out.print("INSERISCI IL VOTO [0-5] -> ");
-                                            try {
-                                                voto = Integer.parseInt(in.nextLine());
-                                            } catch (NumberFormatException e) {
-                                                System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 0 E 5.");
-                                            }
-                                        } while (voto < 0 || voto > 5);
+                                            int voto = -1;
+                                            do {
+                                                System.out.print("INSERISCI IL VOTO [0-5] -> ");
+                                                try {
+                                                    voto = Integer.parseInt(in.nextLine());
+                                                } catch (NumberFormatException e) {
+                                                    System.out.println("VALORE NON VALIDO. INSERIRE UN NUMERO TRA 0 E 5.");
+                                                }
+                                            } while (voto < 0 || voto > 5);
 
-                                        cl.ModificaRecensione(cl.getListaRecensioni().indexOf(rec) , testoRecensione, voto, gestoreRistoranti.getRistorante(rec.getNomeRistorante()));
+                                            cl.ModificaRecensione(cl.getListaRecensioni().indexOf(rec) , testoRecensione, voto, gestoreRistoranti.getRistorante(rec.getNomeRistorante()));
 
-                                        System.out.println("LA RECENSIONE È STATA MODIFICATA CORRETTAMENTE.");
+                                            System.out.println("LA RECENSIONE È STATA MODIFICATA CORRETTAMENTE.");
+                                        }
+                                        
 
                                         System.out.println("\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine();
@@ -637,7 +643,6 @@ public class Main {
                                         break;
                                     }
                                 }
-                            break;
                             }
                         }
                         
@@ -1025,10 +1030,12 @@ public class Main {
         risto.scriviSuFile();  // Salva i ristoranti su file (non utente)
     
         for (Cliente c : cl) {
-            c.CaricaListaPreferiti(c.getUsername(), risto);
+            if(c.getPreferiti().size() == 0)
+                c.CaricaListaPreferiti(c.getUsername(), risto);
         }
         for (Ristoratore r : ris) {
-            r.CaricaListaRistoranti(r.getUsername(), risto);
+            if(r.getListaRistoranti().size() == 0)
+                r.CaricaListaRistoranti(r.getUsername(), risto);
         }
     
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FilePathUtenti))) {

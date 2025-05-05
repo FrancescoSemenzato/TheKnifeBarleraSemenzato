@@ -34,7 +34,6 @@ public class Ristoratore extends Utente {
 
     public void CaricaListaRistoranti(String username, GestoreRistoranti gest) {
         String line;
-        ListaRistoranti.clear(); // Pulisci la lista prima di ricaricarla
         try (BufferedReader br = new BufferedReader(new FileReader(FilePathUtenti))) {
             br.readLine();  // Salta l'header
             while ((line = br.readLine()) != null) {

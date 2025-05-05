@@ -74,7 +74,6 @@ public class Cliente extends Utente{
      */
     public void CaricaListaPreferiti(String username, GestoreRistoranti gest) {
         String line;
-        ListaPreferiti.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(FilePathUtenti))) {
             br.readLine();  // Salta l'header
             while ((line = br.readLine()) != null) {

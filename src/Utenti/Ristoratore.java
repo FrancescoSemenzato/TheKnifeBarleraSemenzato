@@ -27,9 +27,10 @@ public class Ristoratore extends Utente {
         ListaRistoranti = new ArrayList<Ristorante>();
     }
 
-    public ArrayList<Ristorante> getRistoranti(){
+    public ArrayList<Ristorante> getListaRistoranti(){
         return ListaRistoranti;
     }
+
 
     public void CaricaListaRistoranti(String username, GestoreRistoranti gest) {
         String line;
@@ -69,13 +70,9 @@ public class Ristoratore extends Utente {
         return ristoranti;
     }
 
-    public String VisualizzaRistoranti(){
-        int i=0;
-        String ris = "Elenco dei ristoranti:\n";
-        for(Ristorante r : ListaRistoranti)
-            ris += ++i + "- "+ r.getNome() + "\n";
-        
-        return ris;
+    public String VisualizzaRistorante(Ristorante r){
+        String ris="";
+        return (ris + r.getNome() + ", ha una media di stelle di: " + r.getMediaStelle() + ", ha " + r.getNumeroRecensioni() + " recensioni");
     }
 
     public Ristorante AggiungiRistorante(String Nome, String Nazione, String Citta, String Indirizzo, String TipoDiCucina, String Servizi, String URLWeb, String Prezzo, Double Latitudine, Double Logitudine, int FasciaDiPrezzo, String Stelle, boolean Delivery, boolean PrenotazioneOnline){
@@ -136,7 +133,7 @@ public class Ristoratore extends Utente {
     }
 
     public String NumeroRecensioniRicevute(){
-        String ris = "NUMERO RECENSUIONI DI TUTTI I TUOI RISTORANTI: \n";
+        String ris = "NUMERO RECENSIONI DI TUTTI I TUOI RISTORANTI: \n";
         for(Ristorante r : ListaRistoranti)
             ris += r.getNome() + ": " + r.getNumeroRecensioni() + " RECENSIONI\n";
         

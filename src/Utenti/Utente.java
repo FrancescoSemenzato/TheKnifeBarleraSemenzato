@@ -103,11 +103,12 @@ public abstract class Utente{
         return pswDecifrata;
     }
 
-    public String getPasswordDecifrata(String ConfermaPassword, String Username){
-        if(ConfermaPassword.equals(DecifraPassword(Password)))
-            return DecifraPassword(getPassword());
-        else
-            return "Sbgliato";
+    public String getPasswordDecifrata(String passwordInserita, String Username) {
+        if (CifraPassword(passwordInserita).equals(Password)) {
+            return passwordInserita; // Restituisce la password in chiaro se corrisponde
+        } else {
+            return null;
+        }
     }
 
     @Override

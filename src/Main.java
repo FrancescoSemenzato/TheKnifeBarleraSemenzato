@@ -56,12 +56,12 @@ public class Main {
                 case 1:{ // CLIENTI O RISTORATORI
                     pulisciTerminale();
                     System.out.println("PER TORNARE INDIETRO INSERIRE '#'");
-                    System.out.println("POSSIEDI GIA' UN ACCOUNT? [SI/NO]");
+                    System.out.println("POSSIEDI GIA' UN ACCOUNT? [SI/NO]\n");
                     selezioneStringa = in.nextLine();
                     pulisciTerminale();
                     if(selezioneStringa.toLowerCase().charAt(0) == 's'){ // Form ACCEDI
                         do{
-                            System.out.println("INSERISCI USERNAME, PASSWORD E RUOLO PER ACCEDERE");
+                            System.out.println("INSERISCI USERNAME, PASSWORD E RUOLO PER ACCEDERE\n");
                             System.out.print("USERNAME ->\t");
                             username = in.nextLine();
                             System.out.print("PASSWORD ->\t");
@@ -71,7 +71,8 @@ public class Main {
             
                             if(ruolo.toLowerCase().charAt(0) == 'c'){
                                 for(Cliente c : ListaClienti) {
-                                    if(c.getUsername().equals(username) && c.getPasswordDecifrata(password, username).equals(password)){
+                                    String passwordDecifrata = c.getPasswordDecifrata(password, c.getUsername());
+                                    if(c.getUsername().equals(username) && passwordDecifrata != null && passwordDecifrata.equals(password)){
                                         cl = c;
                                         datiCorretti = true;
                                         ruolo = "cliente";
@@ -79,12 +80,14 @@ public class Main {
                                     }
                                 }    
                             }
-                            else if(ruolo.toLowerCase().charAt(0) == 'r'){
-                                for(Ristoratore r : ListaRistoratori) {
-                                    if(r.getUsername().equals(username) && r.getPasswordDecifrata(password, username).equals(password)){
+                            if (ruolo.toLowerCase().charAt(0) == 'r') {
+                                for (Ristoratore r : ListaRistoratori) {
+                                    String passwordDecifrata = r.getPasswordDecifrata(password, r.getUsername());
+                                    if (r.getUsername().equals(username) && passwordDecifrata != null && passwordDecifrata.equals(password)) {
                                         ris = r;
                                         datiCorretti = true;
                                         ruolo = "ristoratore";
+                                        ris.CaricaListaRistoranti(ris.getUsername(), gestoreRistoranti);
                                         break;
                                     }
                                 }
@@ -102,7 +105,7 @@ public class Main {
                             System.out.println("1- REGISTRATI COME CLIENTE");
                             System.out.println("2- REGISTRATI COME RISTORATORE");
                             System.out.println("3- ENTRA COME GUEST");
-                            System.out.println("4- TORNA AL MENU'");
+                            System.out.println("4- TORNA AL MENU'\n");
                             do {
                                 System.out.print("SELEZIONE ->\t");
                                 try {
@@ -115,7 +118,7 @@ public class Main {
                         
                         switch (selezioneInt) {
                             case 1:{
-                                System.out.print("NOME ->\t");
+                                System.out.print("\nNOME ->\t\t");
                                 nome = in.nextLine();
                                 System.out.print("COGNOME ->\t");
                                 cognome = in.nextLine();
@@ -134,7 +137,7 @@ public class Main {
                                 break;
                             }
                             case 2:{
-                                System.out.print("NOME ->\t");
+                                System.out.print("\nNOME ->\t\t");
                                 nome = in.nextLine();
                                 System.out.print("COGNOME ->\t");
                                 cognome = in.nextLine();
@@ -161,7 +164,9 @@ public class Main {
                             }
                         }
                     }
-                
+                    
+
+                    //Funzionalità in base al ruolo
                     pulisciTerminale();
                     switch (ruolo) {
                         case "cliente":{
@@ -277,6 +282,217 @@ public class Main {
                         
                         case "ristoratore":{
                             // operazioni per ristoratore
+                            pulisciTerminale();
+                            boolean continuaRistoratore = true;
+                            System.out.println("BENVENUTO IN MODALITA' RISTORATORE\n");
+                            while(continuaRistoratore){
+                                do{
+                                    System.out.println("1- VISUALIZZA I TUOI RISTORANTI");
+                                    System.out.println("2- AGGIUNGI UN RISTORANTE");
+                                    System.out.println("3- MODIFICA UN RISTORANTE");
+                                    System.out.println("4- ELIMINA UN RISTORANTE");
+                                    System.out.println("5- VISUALIZZA LE RECENSIONI DI UN RISTORANTE");
+                                    System.out.println("6- RISPONDI A UNA RECENSIONE");
+                                    System.out.println("7- MODIFICA UNA RISPOSTA");
+                                    System.out.println("8- ELIMINA UNA RISPOSTA");
+                                    System.out.println("9- TORNA AL MENU' PRINCIPALE");
+                                    do {
+                                        System.out.print("SELEZIONE ->\t");
+                                        try {
+                                            selezioneInt = Integer.parseInt(in.nextLine());
+                                        } catch (NumberFormatException e) {
+                                            selezioneInt = -1;
+                                        }
+                                    } while(selezioneInt < 1 || selezioneInt > 9);
+                                }while(false); 
+                                pulisciTerminale();
+                                switch (selezioneInt) {
+                                    case 1:{
+                                        System.out.println("I TUOI RISTORANTI SONO:");
+                                        if(ris.getListaRistoranti().isEmpty()) {
+                                            System.out.println("Nessun ristorante associato al tuo account.");
+                                        } else {
+                                            for(Ristorante r : ris.getListaRistoranti()){
+                                                System.out.println(r.visualizzaRistorante());
+                                            }
+                                        }
+                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                                    case 2: { // Aggiungi un ristorante
+                                        String Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo = "";
+                                        double Latitudine = 0, Longitudine = 0;
+                                        int Stelle = 0, FasciaDiPrezzo = 0;
+                                        boolean Delivery = false, PrenotazioneOnline = false;
+                                    
+                                        // Input nome
+                                        System.out.print("Nome del ristorante: ");
+                                        Nome = in.nextLine().trim();
+                                    
+                                        // Input nazione
+                                        System.out.print("Nazione: ");
+                                        Nazione = in.nextLine().trim();
+                                    
+                                        // Input città
+                                        System.out.print("Città: ");
+                                        Citta = in.nextLine().trim();
+                                    
+                                        // Input indirizzo
+                                        System.out.print("Indirizzo: ");
+                                        Indirizzo = in.nextLine().trim();
+                                    
+                                        // Input tipo di cucina
+                                        System.out.print("Tipo di cucina: ");
+                                        TipoDiCucina = in.nextLine().trim();
+                                    
+                                        // Input servizi
+                                        System.out.print("Servizi offerti (es. WiFi, Parcheggio): ");
+                                        Servizi = in.nextLine().trim();
+                                    
+                                        // Input URL del sito web
+                                        System.out.print("URL del sito web: ");
+                                        URLWeb = in.nextLine().trim();
+                                    
+                                        // Input prezzo 
+                                        while (true) {
+                                            System.out.print("Prezzo (solo numero): ");
+                                            try {
+                                                int temp = Integer.parseInt(in.nextLine().trim());
+                                                if (temp >= 0) {
+                                                    // Calcolo della fascia di prezzo in base al valore inserito
+                                                    if (temp > 100) {
+                                                        Prezzo = "€€€€";
+                                                    } else if (temp > 70) {
+                                                        Prezzo = "€€€";
+                                                    } else if (temp > 40) {
+                                                        Prezzo = "€€";
+                                                    } else {
+                                                        Prezzo = "€";
+                                                    }
+                                                    break;
+                                                } else {
+                                                    System.out.println("Il prezzo non può essere negativo.");
+                                                }
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Inserisci un numero valido.");
+                                            }
+                                        }
+                                    
+                                        // Input latitudine
+                                        while (true) {
+                                            System.out.print("Latitudine (-90 a 90): ");
+                                            try {
+                                                Latitudine = Double.parseDouble(in.nextLine().trim());
+                                                if (Latitudine >= -90 && Latitudine <= 90) break;
+                                                else System.out.println("Latitudine non valida.");
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Inserisci un numero valido.");
+                                            }
+                                        }
+                                    
+                                        // Input longitudine
+                                        while (true) {
+                                            System.out.print("Longitudine (-180 a 180): ");
+                                            try {
+                                                Longitudine = Double.parseDouble(in.nextLine().trim());
+                                                if (Longitudine >= -180 && Longitudine <= 180) break;
+                                                else System.out.println("Longitudine non valida.");
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Inserisci un numero valido.");
+                                            }
+                                        }
+                                    
+                                        // Input stelle
+                                        String result = "";
+                                        while (true) {
+                                            System.out.print("Numero di stelle (0-5): ");
+                                            try {
+                                                int stelle = Integer.parseInt(in.nextLine().trim());
+                                                if (stelle >= 0 && stelle <= 5) {
+                                                    if (stelle == 0) {
+                                                        result = "Selected Restaurants";
+                                                    } else {
+                                                        result = stelle + " Stars";
+                                                    }
+                                                    break;
+                                                } else {
+                                                    System.out.println("Inserisci un numero da 0 a 5.");
+                                                }
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Inserisci un numero valido.");
+                                            }
+                                        }
+                                    
+                                        // Input delivery
+                                        while (true) {
+                                            System.out.print("Offre servizio di delivery? (s/n): ");
+                                            String input = in.nextLine().trim().toLowerCase();
+                                            if (input.equals("s")) {
+                                                Delivery = true;
+                                                break;
+                                            } else if (input.equals("n")) {
+                                                Delivery = false;
+                                                break;
+                                            } else {
+                                                System.out.println("Risposta non valida. Inserisci 's' o 'n'.");
+                                            }
+                                        }
+                                    
+                                        // Input prenotazione online
+                                        while (true) {
+                                            System.out.print("Permette la prenotazione online? (s/n): ");
+                                            String input = in.nextLine().trim().toLowerCase();
+                                            if (input.equals("s")) {
+                                                PrenotazioneOnline = true;
+                                                break;
+                                            } else if (input.equals("n")) {
+                                                PrenotazioneOnline = false;
+                                                break;
+                                            } else {
+                                                System.out.println("Risposta non valida. Inserisci 's' o 'n'.");
+                                            }
+                                        }
+
+                                        // Input prezzo
+                                        System.out.print("Fascia di prezzo (numero intero): ");
+                                        FasciaDiPrezzo = Integer.parseInt(in.nextLine().trim());
+                                    
+                                        // Chiamata al metodo per aggiungere il ristorante
+                                        ris.AggiungiRistorante(Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo, Latitudine, Longitudine, FasciaDiPrezzo, result, Delivery, PrenotazioneOnline);
+                                        System.out.println("RISTORANTE AGGIUNTO CORRETTAMENTE");
+                                    
+                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                                    
+                                    case 3:{
+                                        
+                                    }
+                                    case 4:{
+                                        
+                                    }
+                                    case 5:{
+                                        
+                                    }
+                                    case 6:{
+                                        
+                                    }
+                                    case 7:{
+                                        
+                                    }
+                                    case 8:{
+                                        
+                                    }
+                                    case 9:{
+                                        continuaRistoratore = false;
+                                        break;
+                                    }
+                                }
+                            }
                             break;
                         }
                         

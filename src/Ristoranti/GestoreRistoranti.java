@@ -12,6 +12,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -54,8 +55,8 @@ public class GestoreRistoranti {
                     String prezzo = campi[4];
                     int fasciaDiPrezzo = Integer.parseInt(campi[5]);
                     String tipoDiCucina = campi[6];
-                    Double latitudine = Double.parseDouble(campi[8]);
-                    Double longitudine = Double.parseDouble(campi[7]);
+                    Double latitudine = Double.parseDouble(campi[7].replace(",", "."));
+                    Double longitudine = Double.parseDouble(campi[8].replace(",", "."));
                     boolean prenotazioneOnline = campi[9].equalsIgnoreCase("SI");
                     boolean delivery = campi[10].equalsIgnoreCase("SI");
                     String urlWeb = campi[11];
@@ -77,7 +78,7 @@ public class GestoreRistoranti {
              BufferedWriter ba = new BufferedWriter(new FileWriter(filePathRecensioni))) {
     
             // intestazione ristoranti
-            bw.write("Nome;Indirizzo;Citta;Nazione;Prezzo;FasciaDiPrezzo;TipoDiCucina;Longitudine;Latitudine;PrenotazioneOnline;Delivery;UrlWeb;Stelle;Servizi");
+            bw.write("Nome;Indirizzo;Citta;Nazione;Prezzo;FasciaDiPrezzo;TipoDiCucina;Latitudine;Longitudine;PrenotazioneOnline;Delivery;UrlWeb;Stelle;Servizi");
             bw.newLine();
     
             // intestazione recensioni
@@ -168,6 +169,15 @@ public class GestoreRistoranti {
     //Filtra in base alla città, filtra anche in condizioni parziali
     public ArrayList<Ristorante> filtraPerCitta(String citta) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
+        
+        // Prima cerca direttamente nei dati locali
+        String cittaLower = citta.toLowerCase().trim();
+        for (Ristorante r : listaRistoranti) {
+            if (r.getCitta().toLowerCase().contains(cittaLower)) {
+                filtrati.add(r);
+            }
+        }
+        
         try {
             JOpenCageGeocoder geocoder = new JOpenCageGeocoder("650d3794aa3a411d9184bd19486bdb3e");
             JOpenCageForwardRequest request = new JOpenCageForwardRequest(citta);
@@ -177,7 +187,7 @@ public class GestoreRistoranti {
             if (!response.getResults().isEmpty()) {
                 String cittaNormalizzata = response.getResults().get(0).getComponents().getCity();
                 if (cittaNormalizzata == null) {
-                    cittaNormalizzata = response.getResults().get(0).getComponents().getTown(); // fallback
+                    cittaNormalizzata = response.getResults().get(0).getComponents().getTown();
                 }
     
                 if (cittaNormalizzata != null) {
@@ -192,6 +202,7 @@ public class GestoreRistoranti {
         } catch (Exception e) {
             System.out.println("Errore nel geocoding della città: " + e.getMessage());
         }
+        
         return filtrati;
     }
 
@@ -299,32 +310,30 @@ public class GestoreRistoranti {
     public ArrayList<Ristorante> filtraPerVicinoA(String indirizzoUtente, double distanzaMassimaKm) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         
+    
         try {
-            
             JOpenCageGeocoder geocoder = new JOpenCageGeocoder("650d3794aa3a411d9184bd19486bdb3e");
             JOpenCageForwardRequest request = new JOpenCageForwardRequest(indirizzoUtente);
             request.setLimit(1);
             JOpenCageResponse response = geocoder.forward(request);
     
-            if (!response.getResults().isEmpty()) {
+            if (response.getResults().isEmpty()) {
+                System.err.println("[DEBUG] Nessun risultato per il geocoding");
+            } else {
                 JOpenCageResult result = response.getResults().get(0);
                 double latUtente = result.getGeometry().getLat();
                 double lonUtente = result.getGeometry().getLng();
-                
     
                 for (Ristorante r : listaRistoranti) {
-                    
-                    double distanza = calcolaDistanza(latUtente, lonUtente, 
-                                                  r.getLatitudine(), r.getLongitudine());
-                    
-                    
+                    double distanza = calcolaDistanza(latUtente, lonUtente, r.getLatitudine(), r.getLongitudine());
                     if (distanza <= distanzaMassimaKm) {
                         filtrati.add(r);
+                        
                     }
                 }
             }
         } catch (Exception e) {
-            System.out.println("Errore: " + e.getMessage());
+            e.printStackTrace();
         }
         
         return filtrati;
@@ -340,8 +349,6 @@ public class GestoreRistoranti {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c; // distanza in km
     }
-
-
 
 }
 

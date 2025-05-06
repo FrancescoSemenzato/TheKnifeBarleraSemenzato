@@ -20,6 +20,7 @@ import src.Utenti.UtenteNonRegistrato;
 import src.Utenti.Utente;
 import src.Utenti.Indirizzo;
 
+import java.net.InetAddress;
 import com.byteowls.jopencage.JOpenCageGeocoder;
 import com.byteowls.jopencage.model.JOpenCageForwardRequest;
 import com.byteowls.jopencage.model.JOpenCageResponse;
@@ -357,8 +358,9 @@ public class Main {
                                         int distanza = 20;
                                         ArrayList<Ristorante> vicini = gestoreRistoranti.filtraPerVicinoA(cl.getDomicilio(), distanza);
 
-                                        pulisciTerminale();
+                                        //pulisciTerminale();
                                         if(vicini.isEmpty()){
+                                            System.out.println(cl.getDomicilio());
                                             System.out.println("Non hai ristoranti vicini nell'arco di " + distanza + "km");
                                         }
                                         else{
@@ -369,8 +371,9 @@ public class Main {
                                             for (int i = 0; i < vicini.size(); i++) {
                                                 System.out.printf("%d - %s\n", i + 1, vicini.get(i).getNome());
                                             }
-                                            if(GetSelezioneRistorante(vicini) != null){
-                                                System.out.println(GetSelezioneRistorante(vicini).visualizzaRistorante());
+                                            Ristorante ristoranteSelezionato = GetSelezioneRistorante(vicini);
+                                            if(ristoranteSelezionato != null){
+                                                System.out.println("\n" + ristoranteSelezionato.visualizzaRistorante());
                                             }
                                             else{
                                                 System.out.println("\nNessun ristorante selezionato.");
@@ -406,10 +409,14 @@ public class Main {
                                             pulisciTerminale();
                                             switch (selezioneInt) {
                                                 case 1:{
-                                                    System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
+                                                    System.out.print("INSERISCI LA CITTA' DI RICERCA -> ");
                                                     String citta = in.nextLine().trim();
-                                                    for(Ristorante r : gestoreRistoranti.filtraPerCitta(citta)){
-                                                        System.out.println(r.visualizzaRistorante());
+                                                    Ristorante ristoranteSelezionato = GetSelezioneRistorante(gestoreRistoranti.filtraPerCitta(citta));
+                                                    if(ristoranteSelezionato != null){
+                                                        System.out.println(ristoranteSelezionato.visualizzaRistorante());
+                                                    }
+                                                    else{
+                                                        System.out.println("\nNessun ristorante selezionato.");
                                                     }
                                                     System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
                                                     in.nextLine().trim();
@@ -701,6 +708,7 @@ public class Main {
                                         }
                                         break;
                                     }
+                                    break;
                                     }   
                                     case 4:{
                                         //Visualizza la lista dei preferiti
@@ -831,6 +839,7 @@ public class Main {
                                     }
                                 }
                             }
+                            break;
                         }
                         
                         case "ristoratore":{
@@ -1119,7 +1128,7 @@ public class Main {
                         case "guest":{
                             pulisciTerminale();
                             boolean continuaGuest = true;
-                            System.out.println("BENVENUTO IN GUEST MODE");
+                            System.out.println("BENVENUTO IN MODALITA' GUEST\n");
                             while(continuaGuest){
                                 do{
                                     System.out.println("1- VISUALIZZA RISTORANTI IN BASE ALLA CITTA'");
@@ -1145,7 +1154,7 @@ public class Main {
                                         }while(citta.length() < 3);
                                         ArrayList<Ristorante> filtrati = gestoreRistoranti.filtraPerCitta(citta);
                                         if(GetSelezioneRistorante(filtrati) != null){
-                                            System.out.println(GetSelezioneRistorante(filtrati).visualizzaRistorante());
+                                            System.out.println("\n" + GetSelezioneRistorante(filtrati).visualizzaRistorante());
                                         }
                                         else{
                                             System.out.println("\nNessun ristorante selezionato.");
@@ -1240,6 +1249,15 @@ public class Main {
         Esci(ListaClienti, ListaRistoratori, gestoreRistoranti);
     }
 
+
+    private static boolean isInternetReachable() {
+        try {
+            InetAddress.getByName("google.com").isReachable(3000); // Timeout 3 secondi
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
     private static void modificaRistorante(Ristorante ristorante){
         System.out.println("Cosa vuoi modificare?\n");
         System.out.println("1- Nome");
@@ -1267,43 +1285,65 @@ public class Main {
                 System.out.print("INSERISCI IL NUOVO NOME ->\t");
                 ristorante.setNome(in.nextLine().trim());
                 break;
-            case 2:
-                System.out.print("INSERISCI L'INDIRIZZO ->\t");
-                String indirizzo = in.nextLine().trim();
-                System.out.print("INSERISCI LA CITTA' ->\t");
-                String citta = in.nextLine().trim();
-                System.out.print("INSERISCI LA NAZIONE ->\t");
-                String nazione = in.nextLine().trim();
-            
-                ristorante.setIndirizzo(indirizzo);
-                ristorante.setCitta(citta);
-                ristorante.setNazione(nazione);
-            
-                // Componi l'indirizzo completo
-                String indirizzoCompleto = indirizzo + ", " + citta + ", " + nazione;
-            
-                // Inizializza il geocoder con la tua API key (sostituisci con la tua chiave reale)
-                JOpenCageGeocoder geocoder = new JOpenCageGeocoder("650d3794aa3a411d9184bd19486bdb3e");
-            
-                JOpenCageForwardRequest request = new JOpenCageForwardRequest(indirizzoCompleto);
-                request.setLanguage("it"); // lingua italiana
-                request.setLimit(1);       // un solo risultato
-            
-                JOpenCageResponse response = geocoder.forward(request);
-            
-                if (!response.getResults().isEmpty()) {
-                    JOpenCageResult result = response.getResults().get(0);
-                    double lat = result.getGeometry().getLat();
-                    double lng = result.getGeometry().getLng();
-            
-                    ristorante.setLatitudine(lat);
-                    ristorante.setLongitudine(lng);
-            
-                    System.out.println("Coordinate aggiornate: LAT=" + lat + " LNG=" + lng);
-                } else {
-                    System.out.println("Impossibile trovare le coordinate per l'indirizzo inserito.");
+                case 2: {
+                    System.out.print("INSERISCI L'INDIRIZZO ->\t");
+                    String indirizzo = in.nextLine().trim();
+                    System.out.print("INSERISCI LA CITTA' ->\t");
+                    String citta = in.nextLine().trim();
+                    System.out.print("INSERISCI LA NAZIONE ->\t");
+                    String nazione = in.nextLine().trim();
+                
+                    ristorante.setIndirizzo(indirizzo);
+                    ristorante.setCitta(citta);
+                    ristorante.setNazione(nazione);
+                
+                    if (isInternetReachable()) {
+                        String indirizzoCompleto = indirizzo + ", " + citta + ", " + nazione;
+                        JOpenCageGeocoder geocoder = new JOpenCageGeocoder("650d3794aa3a411d9184bd19486bdb3e");
+                        JOpenCageForwardRequest request = new JOpenCageForwardRequest(indirizzoCompleto);
+                        request.setLanguage("it");
+                        request.setLimit(1);
+                
+                        try {
+                            JOpenCageResponse response = geocoder.forward(request);
+                            if (!response.getResults().isEmpty()) {
+                                JOpenCageResult result = response.getResults().get(0);
+                                double lat = result.getGeometry().getLat();
+                                double lng = result.getGeometry().getLng();
+                                ristorante.setLatitudine(lat);
+                                ristorante.setLongitudine(lng);
+                                System.out.println("Coordinate aggiornate: LAT=" + lat + " LNG=" + lng);
+                            } else {
+                                System.out.println("Impossibile trovare le coordinate per l'indirizzo inserito.");
+                                System.out.println("Inserisci manualmente le coordinate:");
+                                System.out.print("Latitudine: ");
+                                double lat = Double.parseDouble(in.nextLine().trim());
+                                System.out.print("Longitudine: ");
+                                double lng = Double.parseDouble(in.nextLine().trim());
+                                ristorante.setLatitudine(lat);
+                                ristorante.setLongitudine(lng);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Errore durante il geocoding: " + e.getMessage());
+                            System.out.println("Inserisci manualmente le coordinate:");
+                            System.out.print("Latitudine: ");
+                            double lat = Double.parseDouble(in.nextLine().trim());
+                            System.out.print("Longitudine: ");
+                            double lng = Double.parseDouble(in.nextLine().trim());
+                            ristorante.setLatitudine(lat);
+                            ristorante.setLongitudine(lng);
+                        }
+                    } else {
+                        System.out.println("Connessione Internet assente. Inserisci manualmente le coordinate:");
+                        System.out.print("Latitudine: ");
+                        double lat = Double.parseDouble(in.nextLine().trim());
+                        System.out.print("Longitudine: ");
+                        double lng = Double.parseDouble(in.nextLine().trim());
+                        ristorante.setLatitudine(lat);
+                        ristorante.setLongitudine(lng);
+                    }
+                    break;
                 }
-                break;
             case 3:
                 System.out.print("INSERISCI IL TIPO DI CUCINA ->\t");
                 ristorante.setTipoDiCucina(in.nextLine().trim());
@@ -1656,7 +1696,7 @@ public class Main {
         do {
             System.out.print("Seleziona il numero del ristorante da visualizzare (0 per annullare) ->\t");
             try {
-                scelta = Integer.parseInt(in.nextLine().trim());
+                scelta = Integer.parseInt(in.nextLine());
             } catch (NumberFormatException e) {
                 scelta = -1;
             }

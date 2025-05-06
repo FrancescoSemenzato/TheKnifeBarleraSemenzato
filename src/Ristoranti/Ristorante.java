@@ -84,7 +84,7 @@ public class Ristorante {
                 "PrenotazioneOnline = " + (PrenotazioneOnline ? "E' possibile prenotare online" : "Non è possibile prenotare online" )+ '\n';
     }
 
-    public String VisualizzaRecensioni(){
+    public String getRecensioniString(){
         String s = "";
         for(Recensione r : ListaRecensioni)
             s += r.visualizzaRecensione() + "\n";
@@ -124,6 +124,12 @@ public class Ristorante {
         return somma / ListaRecensioni.size();
     }
 
+    public void VisualizzaRecensioni(){
+        System.out.println("La lista delle recensioni del ristorante " + this.Nome + ":");
+        for(Recensione rec: ListaRecensioni)
+            System.out.println(rec.visualizzaRecensione());
+    }
+
     private ArrayList<Recensione> leggiDaFile(String FilePath) {
         ArrayList<Recensione> lista = new ArrayList<>();
         String line;
@@ -151,7 +157,6 @@ public class Ristorante {
         }
         return lista;
     }
-
 
     @Override
     public String toString() {

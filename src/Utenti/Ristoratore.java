@@ -86,6 +86,10 @@ public class Ristoratore extends Utente {
         return r;
     }
 
+    public void RimuoviRistorante(Ristorante r){
+        ListaRistoranti.remove(r);
+        
+    }
     public String getRecensioniRistoranti(){
         String ris = "Lista di tutte le recensioni dei tuoi ristoranti\n";
         for(Ristorante r : ListaRistoranti)

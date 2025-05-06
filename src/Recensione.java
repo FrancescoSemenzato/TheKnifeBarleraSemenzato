@@ -23,9 +23,11 @@ public class Recensione {
     public String getRisposta(){return Risposta;}
     public String getUsername(){return Username;}
     
-    public void setCommento(String newCommento){Commento = newCommento;}
-    public void setVoto(int newVoto){Voto = newVoto;}
-    public void setRisposta(String newRisposta){Risposta = newRisposta;}
+    public void setCommento(String newCommento){this.Commento = newCommento;}
+    public void setVoto(int newVoto){this.Voto = newVoto;}
+    public void setRisposta(String newRisposta){this.Risposta = newRisposta;}
+
+    public void EliminaRisposta(){this.Risposta = "";}
 
     public String visualizzaRecensione(){
         if(Risposta.equals(""))

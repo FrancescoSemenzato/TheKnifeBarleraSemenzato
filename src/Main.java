@@ -48,7 +48,7 @@ public class Main {
         while(continua){
             pulisciTerminale();
             System.out.println("BENVENUTO NEL PROGETTO THE KNIFE\n");
-            System.out.println("SCEGLI CHE OPERAZIONE FARE:");
+            System.out.println("SCEGLI CHE OPERAZIONE FARE:\n");
             System.out.println("1- REGISTRATI, ACCEDI O ENTRA COME GUEST");
             System.out.println("2- ESCI\n");
             do {
@@ -215,7 +215,10 @@ public class Main {
                                 pulisciTerminale();
                                 switch (selezioneInt) {
                                     case 1: {
-                                        modificaUtente(cl);
+                                        boolean modificaUtente = true;
+                                        while (modificaUtente) {
+                                            modificaUtente = modificaUtente(cl);
+                                        }
 
                                         System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
                                         System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
@@ -676,7 +679,7 @@ public class Main {
                                     System.out.println("4- MODIFICA UN RISTORANTE");
                                     System.out.println("5- ELIMINA UN RISTORANTE");
                                     System.out.println("6- VISUALIZZA LE RECENSIONI DI UN RISTORANTE");
-                                    System.out.println("7- RISPONDI A UNA RECENSIONE");
+                                    System.out.println("7- RISPONDI AD UNA RECENSIONE");
                                     System.out.println("8- MODIFICA UNA RISPOSTA");
                                     System.out.println("9- ELIMINA UNA RISPOSTA");
                                     System.out.println("10- TORNA AL MENU' PRINCIPALE");
@@ -692,7 +695,10 @@ public class Main {
                                 pulisciTerminale();
                                 switch (selezioneInt) {
                                     case 1: {
-                                        modificaUtente(ris);
+                                        boolean modificaUtente = true;
+                                        while (modificaUtente) {
+                                            modificaUtente = modificaUtente(cl);
+                                        }
                                         System.out.println("L'ACCOUNT È STATO MODIFICATO CORRETTAMENTE.");
                                         System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
                                         in.nextLine();
@@ -869,18 +875,64 @@ public class Main {
                                         break;
                                     }
                                     case 5:{ // ELIMINA RISTORANTE
-                                        
+                                        Ristorante r = GetSelezioneRistorante(ris.getListaRistoranti());
+                                        ris.RimuoviRistorante(r);
+                                        gestoreRistoranti.RimuoviRistorante(r);
+                                        System.out.println("RISTORANTE RIMOSSO CORRETTAMENTE");
+                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
                                     }
                                     case 6:{ // Visualizza Recensioni ristorante
+                                        Ristorante r = GetSelezioneRistorante(ris.getListaRistoranti());
+                                        r.VisualizzaRecensioni();
+                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                                    case 7:{ // Aggiungi Risposta
+                                        Ristorante r = GetSelezioneRistorante(ris.getListaRistoranti());
+                                        Recensione rec = GetSelezioneRecensione(r.getRecensioni());
+                                        if(rec != null && rec.getRisposta().equals("")) {
+                                            System.out.println("INSERISCI LA RISPOSTA ALLA RECNESIONE ->\t");
+                                            rec.setRisposta(in.nextLine());
+                                        }
+                                        else
+                                            System.out.println("LA RECENSIONE HA GIA' UNA RISPOSTA");
+                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
+                                    }
+                                    case 8:{ // Modifica Una risposta
+                                        Ristorante r = GetSelezioneRistorante(ris.getListaRistoranti());
+                                        Recensione rec = GetSelezioneRecensione(r.getRecensioni());
+                                        if(rec != null && !rec.getRisposta().equals("")) {
+                                            System.out.println("INSERISCI LA NUOVA RISPOSTA ALLA RECENSIONE ->\t");
+                                            rec.setRisposta(in.nextLine());
+                                        }
+                                        else
+                                            System.out.println("LA RECENSIONE NON HA UNA RISPOSTA DA MODIFICARE");
+                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
                                         
                                     }
-                                    case 7:{
-                                        
-                                    }
-                                    case 8:{
-                                        
-                                    }
-                                    case 9:{
+                                    case 9:{ // Rimuovi Una risposta
+                                        Ristorante r = GetSelezioneRistorante(ris.getListaRistoranti());
+                                        Recensione rec = GetSelezioneRecensione(r.getRecensioni());
+                                        if(rec != null && !rec.getRisposta().equals("")) {
+                                            rec.EliminaRisposta();;
+                                        }
+                                        else
+                                            System.out.println("LA RECENSIONE NON HA UNA RISPOSTA DA ELIMINARE");
+                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        in.nextLine();
+                                        pulisciTerminale();
+                                        break;
                                         
                                     }
                                     case 10:{
@@ -1006,18 +1058,16 @@ public class Main {
     }
 
     public static void modificaRistorante(Ristorante ristorante){
-        System.out.println("Cosa vuoi modificare?");
+        System.out.println("Cosa vuoi modificare?\n");
         System.out.println("1- Nome");
-        System.out.println("2- Indirizzo");
-        System.out.println("3- Citta'");
-        System.out.println("4- Nazione");
-        System.out.println("5- Tipo di cucina");
-        System.out.println("6- Servizi");
-        System.out.println("7- URL web");
-        System.out.println("8- Fascia Di prezzo");
-        System.out.println("9- Disponibilita' servizio delivery");
-        System.out.println("10- Disponibilità prenotazione online");
-        System.out.println("11- Prezzo");
+        System.out.println("2- Indirizzo, Citta' e Nazione");
+        System.out.println("3- Tipo di cucina");
+        System.out.println("4- Servizi");
+        System.out.println("5- URL web");
+        System.out.println("6- Fascia Di prezzo");
+        System.out.println("7- Disponibilita' servizio delivery");
+        System.out.println("8- Disponibilità prenotazione online");
+        System.out.println("9- Prezzo");
         
         int selezione;
         do {
@@ -1036,32 +1086,136 @@ public class Main {
                 break;
             case 2:
                 System.out.print("INSERISCI L'INDIRIZZO ->\t");
-                ristorante.setIndirizzo(in.nextLine());
+                String indirizzo = in.nextLine();
+                System.out.print("INSERISCI LA CITTA' ->\t");
+                String citta = in.nextLine();
+                System.out.print("INSERISCI LA NAZIONE ->\t");
+                String nazione = in.nextLine();
+            
+                ristorante.setIndirizzo(indirizzo);
+                ristorante.setCitta(citta);
+                ristorante.setNazione(nazione);
+            
+                // Componi l'indirizzo completo
+                String indirizzoCompleto = indirizzo + ", " + citta + ", " + nazione;
+            
+                // Inizializza il geocoder con la tua API key (sostituisci con la tua chiave reale)
+                JOpenCageGeocoder geocoder = new JOpenCageGeocoder("650d3794aa3a411d9184bd19486bdb3e");
+            
+                JOpenCageForwardRequest request = new JOpenCageForwardRequest(indirizzoCompleto);
+                request.setLanguage("it"); // lingua italiana
+                request.setLimit(1);       // un solo risultato
+            
+                JOpenCageResponse response = geocoder.forward(request);
+            
+                if (!response.getResults().isEmpty()) {
+                    JOpenCageResult result = response.getResults().get(0);
+                    double lat = result.getGeometry().getLat();
+                    double lng = result.getGeometry().getLng();
+            
+                    ristorante.setLatitudine(lat);
+                    ristorante.setLongitudine(lng);
+            
+                    System.out.println("Coordinate aggiornate: LAT=" + lat + " LNG=" + lng);
+                } else {
+                    System.out.println("Impossibile trovare le coordinate per l'indirizzo inserito.");
+                }
                 break;
             case 3:
-                System.out.print("INSERISCI LA CITTA' ->\t");
-                ristorante.setCitta(in.nextLine());
+                System.out.print("INSERISCI IL TIPO DI CUCINA ->\t");
+                ristorante.setTipoDiCucina(in.nextLine());
                 break;
             case 4:
-                System.out.print("INSERISCI LA NAZIONE ->\t");
-                ristorante.setNazione(in.nextLine());
+                System.out.print("INSERISCI I SERVIZI ->\t");
+                ristorante.setServizi(in.nextLine());
                 break;
-            //DA FINIRE
-        
+            case 5:
+                System.out.print("INSERISCI L'URL WEB ->\t");
+                ristorante.setURLWeb(in.nextLine());
+                break;
+            case 6:
+                System.out.print("INSERISCI LA FASCIA DI PREZZO (numero intero)->\t");
+                Integer FasciaDiPrezzo = Integer.parseInt(in.nextLine().trim());
+                ristorante.setFasciaDiPrezzo(FasciaDiPrezzo);
+                break;
+            case 7:
+                boolean Delivery;
+                while (true) {
+                    System.out.print("Permette il servizio di delivery? (s/n): ");
+                    String input = in.nextLine().trim().toLowerCase();
+                    if (input.toLowerCase().startsWith("s")) {
+                        Delivery = true;
+                        break;
+                    } else if (input.toLowerCase().startsWith("s")) {
+                        Delivery = false;
+                        break;
+                    } else {
+                        System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
+                    }
+                }
+                ristorante.setDelivery(Delivery);
+                break;
+            case 8:
+                boolean PrenotazioneOnline;
+                while (true) {
+                    System.out.print("Permette la prenotazione online? (s/n): ");
+                    String input = in.nextLine().trim().toLowerCase();
+                    if (input.toLowerCase().startsWith("s")) {
+                        PrenotazioneOnline = true;
+                        break;
+                    } else if (input.toLowerCase().startsWith("s")) {
+                        PrenotazioneOnline = false;
+                        break;
+                    } else {
+                        System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
+                    }
+                }
+                ristorante.setPrenotazioneOnline(PrenotazioneOnline);
+                break;
+            case 9:
+                String Prezzo;
+                System.out.print("INSERISCI IL PREZZO ->\t");
+                while (true) {
+                    System.out.print("Prezzo (solo numero): ");
+                    try {
+                        int temp = Integer.parseInt(in.nextLine().trim());
+                        if (temp >= 0) {
+                            // Calcolo della fascia di prezzo in base al valore inserito
+                            if (temp > 100) {
+                                Prezzo = "€€€€";
+                            } else if (temp > 70) {
+                                Prezzo = "€€€";
+                            } else if (temp > 40) {
+                                Prezzo = "€€";
+                            } else {
+                                Prezzo = "€";
+                            }
+                            break;
+                        } else {
+                            System.out.println("Il prezzo non può essere negativo.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Inserisci un numero valido.");
+                    }
+                }
+                ristorante.setPrezzo(Prezzo);
+                break;
         }
     }
     
-    public static void modificaUtente(Utente utente){
-        System.out.println("Cosa vuoi modificare?");
+    public static boolean modificaUtente(Utente utente){
+        System.out.println("Cosa vuoi modificare?\n");
         System.out.println("1- Nome");
         System.out.println("2- Cognome");
         System.out.println("3- Username");
         System.out.println("4- Password");
         System.out.println("5- Data di nascita");
-        System.out.println("6- Ruolo");
+        System.out.println("6- Domicilio");
+        System.out.println("7- Ruolo");
+        System.out.println("8- Torna al menu precedente");
         int selezione;
         do {
-            System.out.print("SELEZIONE ->\t");
+            System.out.print("\nSELEZIONE ->\t");
             try {
                 selezione = Integer.parseInt(in.nextLine());
             } catch (NumberFormatException e) {
@@ -1072,55 +1226,72 @@ public class Main {
             case 1:{
                 String nome;
                 do {
-                    System.out.print("INSERISCI IL NUOVO NOME ->\t");
+                    System.out.print("\nINSERISCI IL NUOVO NOME ->\t");
                     nome = in.nextLine();
                     if(nome.length() < 2) {
                         System.out.println("Il nome deve contenere almeno 2 caratteri");
                     }
                 } while(nome.length() < 2);
                 utente.setNome(nome);
-                break;
+                return true;
             }
             case 2:{
                 String cognome;
                 do {
-                    System.out.print("INSERISCI IL NUOVO COGNOME ->\t");
+                    System.out.print("\nINSERISCI IL NUOVO COGNOME ->\t");
                     cognome = in.nextLine();
                     if(cognome.length() < 2) {
                         System.out.println("Il cognome deve contenere almeno 2 caratteri");
                     }
                 } while(cognome.length() < 2);
                 utente.setCognome(cognome);
-                break;
+                return true;
             }
             case 3:{
                 String username;
                 do {
-                    System.out.print("INSERISCI IL NUOVO USERNAME ->\t");
+                    System.out.print("\nINSERISCI IL NUOVO USERNAME ->\t");
                     username = in.nextLine();
                     if(username.length() < 2) {
                         System.out.println("L'username deve contenere almeno 2 caratteri");
                     }
                 } while(username.length() < 2);
                 utente.setUsername(username);
-                break;
+                return true;
             }
             case 4:{
-                String password;
+                System.out.print("\nINSERISCI LA VECCHIA PASSWORD ->\t");
+                String vecchiaPassword = in.nextLine();
+
+                // Verifica della vecchia password usando il metodo getPasswordDecifrata
+                String passwordDecifrata = utente.getPasswordDecifrata(vecchiaPassword, utente.getUsername());
+
+                if (passwordDecifrata == null || !passwordDecifrata.equals(vecchiaPassword)) {
+                    System.out.println("Password errata. Cambio password annullato.");
+                    return true;
+                }
+
+                // Se la vecchia password è corretta, chiedo la nuova
+                String nuovaPassword;
                 do {
-                    System.out.print("INSERISCI IL NUOVO PASSWORD ->\t");
-                    password = in.nextLine();
-                    if(password.length() < 2) {
-                        System.out.println("La password deve contenere almeno 2 caratteri");
+                    System.out.print("\nINSERISCI LA NUOVA PASSWORD ->\t");
+                    nuovaPassword = in.nextLine();
+                    if (nuovaPassword.length() < 2) {
+                        System.out.println("La password deve contenere almeno 2 caratteri.");
+                    } else if (nuovaPassword.equals(vecchiaPassword)) {
+                        System.out.println("La nuova password non può essere uguale a quella vecchia.");
+                        nuovaPassword = ""; // forza il ripetere del ciclo
                     }
-                } while(password.length() < 2);
-                utente.setPassword(password);
-                break;
+                } while (nuovaPassword.length() < 2);
+
+                utente.setPassword(nuovaPassword); // presumo che questo la cifri di nuovo
+                System.out.println("Password cambiata con successo.");
+                return true;
             }
             case 5:{
                 int giorno, mese, anno;
                 do {
-                    System.out.print("INSERISCI IL NUOVO GIORNO DI NASCITA ->\t");
+                    System.out.print("\nINSERISCI IL NUOVO GIORNO DI NASCITA ->\t");
                     giorno = Integer.parseInt(in.nextLine());
                 } while(giorno < 1 || giorno > 31);
                 do {
@@ -1132,12 +1303,24 @@ public class Main {
                     anno = Integer.parseInt(in.nextLine());
                 } while(anno < 1900 || anno > 2023);
                 utente.setDataDiNascita(giorno, mese, anno);
-                break;
+                return true;
             }
             case 6:{
+                String domicilio;
+                do {
+                    System.out.print("\nINSERISCI IL NUOVO DOMICILIO ->\t");
+                    domicilio = in.nextLine();
+                    if(domicilio.length() < 2) {
+                        System.out.println("Il domicilio deve contenere almeno 2 caratteri");
+                    }
+                } while(domicilio.length() < 2);
+                utente.setDomicilio(domicilio);
+                return true;
+            }
+            case 7:{
                 String ruolo;
                 do {
-                    System.out.print("INSERISCI IL NUOVO RUOLO [Cliente/Ristoratore] ->\t");
+                    System.out.print("\nINSERISCI IL NUOVO RUOLO [Cliente/Ristoratore] ->\t");
                     ruolo = in.nextLine();
                     if(ruolo.length() < 2) {
                         System.out.println("Il ruolo deve contenere almeno 2 caratteri");
@@ -1149,9 +1332,13 @@ public class Main {
                 if (ruolo.toLowerCase().startsWith("r")) {
                     utente.setRuolo("Ristoratore");
             }
-                break;
+                return true;
+            }
+            case 8:{
+                return false;
             }
         }
+        return false;
     }
 
     public static void CaricaListe(ArrayList<Cliente> cl , ArrayList<Ristoratore> rs){

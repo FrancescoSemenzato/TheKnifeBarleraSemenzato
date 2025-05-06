@@ -48,7 +48,7 @@ public abstract class Utente{
     public void setNome(String Nome){this.Nome = Nome;}
     public void setCognome(String Cognome){this.Cognome = Cognome;}
     public void setUsername(String Username){this.Username = Username;}
-    public void setPassword(String Password){this.Password = Password;}
+    public void setPassword(String Password){this.Password = CifraPassword(Password);}
     public void setDomicilio(String Domicilio){this.Domicilio = Domicilio;}
     public void setRuolo(String Ruolo){this.Ruolo = Ruolo;}
     public void setDataDiNascita(String Data){this.Data = new DataDiNascita(Data);}

@@ -83,7 +83,8 @@ public abstract class Utente{
         return pswCifrata;
     }
 
-    private String DecifraPassword(String pswCifrata) {
+    //Non viene usata
+    /*private String DecifraPassword(String pswCifrata) {
         String pswDecifrata = "";
     
         for (int i = 0; i < pswCifrata.length(); i++) {
@@ -111,7 +112,7 @@ public abstract class Utente{
         }
     
         return pswDecifrata;
-    }
+    }*/
 
     public String getPasswordDecifrata(String passwordInserita, String Username) {
         if (CifraPassword(passwordInserita).equals(Password)) {

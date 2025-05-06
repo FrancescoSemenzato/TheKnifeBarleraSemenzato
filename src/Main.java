@@ -18,6 +18,7 @@ import src.Utenti.DataDiNascita;
 import src.Utenti.Ristoratore;
 import src.Utenti.UtenteNonRegistrato;
 import src.Utenti.Utente;
+import src.Utenti.Indirizzo;
 
 import com.byteowls.jopencage.JOpenCageGeocoder;
 import com.byteowls.jopencage.model.JOpenCageForwardRequest;
@@ -128,42 +129,64 @@ public class Main {
                         
                         switch (selezioneInt) {
                             case 1: {
-                                System.out.print("\nNOME ->\t\t");
-                                nome = in.nextLine();
-                                System.out.print("COGNOME ->\t");
-                                cognome = in.nextLine();
+                                do { //Nome
+                                    System.out.print("\nNOME ->\t\t");
+                                    nome = in.nextLine().trim();
+                                    if (!nome.matches("^[a-zA-Z\\s]+$")) {
+                                        System.out.println("Il nome può contenere solo lettere e spazi.");
+                                    } else if (nome.length() < 2) {
+                                        System.out.println("Il nome deve contenere almeno 2 caratteri.");
+                                    }
+                                } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
+                                //Cognome
+                                do {
+                                    System.out.print("\nCOGNOME ->\t");
+                                    cognome = in.nextLine().trim();
+                                    if (!cognome.matches("^[a-zA-Z\\s]+$")) {
+                                        System.out.println("Il Conome può contenere solo lettere e spazi.");
+                                    } else if (cognome.length() < 2) {
+                                        System.out.println("Il Cognome deve contenere almeno 2 caratteri.");
+                                    }
+                                } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
                                 //USERNAME, univoco
                                 do {
-                                    System.out.print("USERNAME ->\t");
+                                    System.out.print("\nUSERNAME ->\t");
                                     username = in.nextLine();
                                     if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
                                         System.out.println("Username già esistente. Inseriscine un altro.");
                                     }
                                 } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
                                 
-                                //PASSWORD
-                                do {
+                                do { //Password
                                     System.out.println("\nRequisiti password:");
                                     System.out.println("- Almeno 6 caratteri");
                                     System.out.println("- Almeno 1 lettera maiuscola");
                                     System.out.println("- Almeno 1 numero");
-                                    System.out.println("- Almeno 1 carattere speciale (!@#$%^&*)");
+                                    System.out.println("- Almeno 1 carattere speciale (!@#$%^&*?)");
                                     System.out.print("PASSWORD ->\t");
                                     password = in.nextLine();
                                     
-                                    if (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*]).{6,}$")) {
-                                        System.out.println("Password non conforme ai requisiti di sicurezza");
+                                    if (password.length() < 6) {
+                                        System.out.println("La password deve contenere almeno 6 caratteri.");
+                                    } else if (!password.matches(".*[A-Z].*")) {
+                                        System.out.println("La password deve contenere almeno 1 lettera maiuscola.");
+                                    } else if (!password.matches(".*\\d.*")) {
+                                        System.out.println("La password deve contenere almeno 1 numero.");
+                                    } else if (!password.matches(".*[!@#$%^&*?].*")) {
+                                        System.out.println("La password deve contenere almeno 1 carattere speciale (!@#$%^&*?).");
                                     }
-                                } while (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*]).{6,}$"));
+                                } while (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*?]).{6,}$"));
 
-                                System.out.print("DOMICILIO [Città, Nazione] ->\t");
-                                domicilio = in.nextLine();
+                                //DOMICILIO, corretto usando Libreria
+                                System.out.print("\nINSERISCI INDIRIZZO [Via, Città] ->\t");
+                                String indirizzoInput = in.nextLine();
+                                domicilio = Indirizzo.getSelezionaIndirizzo(indirizzoInput);
                                 
                                 //DATA DI NASCITA, controlli vari e che sia >14 anni
                                 boolean dataValida = false;
                                 do {
                                     try {
-                                        System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
+                                        System.out.print("\nDATA DI NASCITA [gg/mm/aaaa] ->\t");
                                         datadinascita = in.nextLine();
                                         
                                         if (!datadinascita.matches("^\\d{2}[/-]\\d{2}[/-]\\d{4}$")) {
@@ -188,45 +211,68 @@ public class Main {
                                 cl.CaricaListaPreferiti(username, gestoreRistoranti);
                                 ListaClienti.add(cl);
                                 ruolo = "cliente";
+                                System.out.println("\nRegistrazione completata con successo! Benvenuto, " + username + "!");
+                                System.out.println("Premi INVIO per continuare.");
+                                in.nextLine();
                                 break;
                             }
                             case 2:{
-                                System.out.print("\nNOME ->\t\t");
-                                nome = in.nextLine().trim();
-                                System.out.print("COGNOME ->\t");
-                                cognome = in.nextLine().trim();
-                                //USERNAME, univoco
-                                do {
-                                    System.out.print("USERNAME ->\t");
-                                    username = in.nextLine().trim();
+                                do { //Nome
+                                    System.out.print("\nNOME ->\t\t");
+                                    nome = in.nextLine().trim();
+                                    if (!nome.matches("^[a-zA-Z\\s]+$")) {
+                                        System.out.println("Il nome può contenere solo lettere e spazi.");
+                                    } else if (nome.length() < 2) {
+                                        System.out.println("Il nome deve contenere almeno 2 caratteri.");
+                                    }
+                                } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
+                                do { //Cognome
+                                    System.out.print("\nCOGNOME ->\t");
+                                    cognome = in.nextLine().trim();
+                                    if (!cognome.matches("^[a-zA-Z\\s]+$")) {
+                                        System.out.println("Il Conome può contenere solo lettere e spazi.");
+                                    } else if (cognome.length() < 2) {
+                                        System.out.println("Il Cognome deve contenere almeno 2 caratteri.");
+                                    }
+                                } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
+                                do { //USERNAME, univoco
+                                    System.out.print("\nUSERNAME ->\t");
+                                    username = in.nextLine();
                                     if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
                                         System.out.println("Username già esistente. Inseriscine un altro.");
                                     }
                                 } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
                                 
-                                //PASSWORD
-                                do {
+                                do { //Password
                                     System.out.println("\nRequisiti password:");
                                     System.out.println("- Almeno 6 caratteri");
                                     System.out.println("- Almeno 1 lettera maiuscola");
                                     System.out.println("- Almeno 1 numero");
-                                    System.out.println("- Almeno 1 carattere speciale (!@#$%^&*)");
+                                    System.out.println("- Almeno 1 carattere speciale (!@#$%^&*?)");
                                     System.out.print("PASSWORD ->\t");
                                     password = in.nextLine();
                                     
-                                    if (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*]).{6,}$")) {
-                                        System.out.println("Password non conforme ai requisiti di sicurezza");
+                                    if (password.length() < 6) {
+                                        System.out.println("La password deve contenere almeno 6 caratteri.");
+                                    } else if (!password.matches(".*[A-Z].*")) {
+                                        System.out.println("La password deve contenere almeno 1 lettera maiuscola.");
+                                    } else if (!password.matches(".*\\d.*")) {
+                                        System.out.println("La password deve contenere almeno 1 numero.");
+                                    } else if (!password.matches(".*[!@#$%^&*?].*")) {
+                                        System.out.println("La password deve contenere almeno 1 carattere speciale (!@#$%^&*?).");
                                     }
-                                } while (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*]).{6,}$"));
+                                } while (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*?]).{6,}$"));
                                 
-                                System.out.print("DOMICILIO [Città, Nazione] ->\t");
-                                domicilio = in.nextLine().trim();
+                                //DOMICILIO, corretto usando Libreria
+                                System.out.print("\nINSERISCI INDIRIZZO [Via, Città] ->\t");
+                                String indirizzoInput = in.nextLine();
+                                domicilio = Indirizzo.getSelezionaIndirizzo(indirizzoInput);
 
                                 //DATA DI NASCITA, controlli vari e che sia >14 anni
                                 boolean dataValida = false;
                                 do {
                                     try {
-                                        System.out.print("DATA DI NASCITA [gg/mm/aaaa] ->\t");
+                                        System.out.print("\nDATA DI NASCITA [gg/mm/aaaa] ->\t");
                                         datadinascita = in.nextLine();
                                         
                                         if (!datadinascita.matches("^\\d{2}[/-]\\d{2}[/-]\\d{4}$")) {
@@ -250,6 +296,9 @@ public class Main {
                                 ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita, true);
                                 ListaRistoratori.add(ris);
                                 ruolo = "ristoratore";
+                                System.out.println("\nRegistrazione completata con successo! Benvenuto, " + username + "!");
+                                System.out.println("Premi INVIO per continuare.");
+                                in.nextLine();
                                 break;
                             }
                             case 3:{
@@ -296,10 +345,9 @@ public class Main {
                                     case 1: {
                                         boolean modificaUtente = true;
                                         while (modificaUtente) {
-                                            modificaUtente = modificaUtente(cl);
+                                            modificaUtente = modificaUtente(cl, ListaClienti, ListaRistoratori);
                                         }
 
-                                        System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
                                         System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
@@ -321,7 +369,12 @@ public class Main {
                                             for (int i = 0; i < vicini.size(); i++) {
                                                 System.out.printf("%d - %s\n", i + 1, vicini.get(i).getNome());
                                             }
-                                            SelezioneRistorante(vicini);
+                                            if(GetSelezioneRistorante(vicini) != null){
+                                                System.out.println(GetSelezioneRistorante(vicini).visualizzaRistorante());
+                                            }
+                                            else{
+                                                System.out.println("\nNessun ristorante selezionato.");
+                                            }
                                         }
                                         System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
                                         in.nextLine().trim();
@@ -374,7 +427,12 @@ public class Main {
                                                     } while(nomeRistorante.length() < 2);
 
                                                     ArrayList<Ristorante> filtrati = gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante);
-                                                    SelezioneRistorante(filtrati);
+                                                    if(GetSelezioneRistorante(filtrati) != null){
+                                                        System.out.println(GetSelezioneRistorante(filtrati).visualizzaRistorante());
+                                                    }
+                                                    else{
+                                                        System.out.println("\nNessun ristorante selezionato.");
+                                                    }
                                                     System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
                                                     in.nextLine().trim();
                                                     pulisciTerminale();
@@ -386,7 +444,7 @@ public class Main {
                                                     String tipoCucina = in.nextLine().trim();
                                                     System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
                                                     String citta = in.nextLine().trim();
-                                                    for(Ristorante r : gestoreRistoranti.filtraPerCitta(citta)){
+                                                    for(Ristorante r : gestoreRistoranti.filtraPerTipoDiCucina(tipoCucina, citta)){
                                                         System.out.println(r.visualizzaRistorante());
                                                     }
 
@@ -448,7 +506,13 @@ public class Main {
                                                     //Visualizza i ristoranti in base alla disponibilita' del servizio di delivery
                                                     System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
                                                     String citta = in.nextLine().trim();
-                                                    SelezioneRistorante(gestoreRistoranti.filtraPerDelivery(citta));
+                                                    ArrayList<Ristorante> filtrati = gestoreRistoranti.filtraPerDelivery(citta);
+                                                    if(GetSelezioneRistorante(filtrati) != null){
+                                                        System.out.println(GetSelezioneRistorante(filtrati).visualizzaRistorante());
+                                                    }
+                                                    else{
+                                                        System.out.println("\nNessun ristorante selezionato.");
+                                                    }
 
                                                     System.out.println("\n\n");
                                                     System.out.println("PREMERE UN TASTO PER CONTINUARE");
@@ -460,7 +524,14 @@ public class Main {
                                                     //Visualizza i ristoranti in base alla disponibilita' di prenotazione online
                                                     System.out.print("INSERISCI LA CITTA' DI RICERCA ->");
                                                     String citta = in.nextLine().trim();
-                                                    SelezioneRistorante(gestoreRistoranti.filtraPerPrenotazioneOnline(citta));
+                                                    ArrayList<Ristorante> filtrati = gestoreRistoranti.filtraPerPrenotazioneOnline(citta);
+                                                    if(GetSelezioneRistorante(filtrati) != null){
+                                                        System.out.println(GetSelezioneRistorante(filtrati).visualizzaRistorante());
+                                                    }
+                                                    else{
+                                                        System.out.println("\nNessun ristorante selezionato.");
+                                                    }
+                                                    
 
                                                     System.out.println("\n\n");
                                                     System.out.println("PREMERE UN TASTO PER CONTINUARE");
@@ -477,7 +548,13 @@ public class Main {
                                                         System.out.print("INSERISCI LA MEDIA DI STELLE [0-5]->");
                                                         stelle = Float.parseFloat(in.nextLine().trim());
                                                     }while(stelle<0 || stelle>5);
-                                                    SelezioneRistorante(gestoreRistoranti.filtraPerMediaStelle(stelle,citta));
+                                                    ArrayList<Ristorante> filtrati = gestoreRistoranti.filtraPerMediaStelle(stelle,citta); 
+                                                    if(GetSelezioneRistorante(filtrati) != null){
+                                                        System.out.println(GetSelezioneRistorante(filtrati).visualizzaRistorante());
+                                                    }
+                                                    else{
+                                                        System.out.println("\nNessun ristorante selezionato.");
+                                                    }
     
                                                     System.out.println("\n\n");
                                                     System.out.println("PREMERE UN TASTO PER CONTINUARE");
@@ -601,8 +678,14 @@ public class Main {
                                                         }
                                                         if(risultati.isEmpty()) 
                                                                 System.out.println("NESSUN RISTORANTE TROVATO CON I FILTRI INSERITI.");
-                                                            else 
-                                                                SelezioneRistorante(risultati);
+                                                            else {
+                                                                if(GetSelezioneRistorante(risultati) != null){
+                                                                    System.out.println(GetSelezioneRistorante(risultati).visualizzaRistorante());
+                                                                }
+                                                                else{
+                                                                    System.out.println("\nNessun ristorante selezionato.");
+                                                                }
+                                                            }
                                                 
                                                         
                                                             System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
@@ -626,7 +709,12 @@ public class Main {
                                             System.out.println("NESSUN RISTORANTE NELLA LISTA DEI TUOI PREFERITI.");
                                         } else {
                                             System.out.println("ECCO LA LISTA DEI TUOI RISTORANTI PREFERITI:");
-                                            SelezioneRistorante(cl.getPreferiti());
+                                            if(GetSelezioneRistorante(cl.getPreferiti()) != null){
+                                                System.out.println(GetSelezioneRistorante(cl.getPreferiti()).visualizzaRistorante());
+                                            }
+                                            else{
+                                                System.out.println("\nNessun ristorante selezionato.");
+                                            }
                                         }
                                         System.out.println("\n\n");
                                         System.out.println("\nPREMERE INVIO PER CONTINUARE");
@@ -776,7 +864,7 @@ public class Main {
                                     case 1: {
                                         boolean modificaUtente = true;
                                         while (modificaUtente) {
-                                            modificaUtente = modificaUtente(cl);
+                                            modificaUtente = modificaUtente(ris, ListaClienti, ListaRistoratori);
                                         }
                                         System.out.println("L'ACCOUNT È STATO MODIFICATO CORRETTAMENTE.");
                                         System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
@@ -801,7 +889,7 @@ public class Main {
                                     case 3: { // Aggiungi un ristorante
                                         String Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo = "";
                                         double Latitudine = 0, Longitudine = 0;
-                                        int Stelle = 0, FasciaDiPrezzo = 0;
+                                        int FasciaDiPrezzo = 0;
                                         boolean Delivery = false, PrenotazioneOnline = false;
                                     
                                         // Input nome
@@ -945,8 +1033,13 @@ public class Main {
                                     
                                     case 4:{ // MODIFICA RISTORANTE
                                         Ristorante r = GetSelezioneRistorante(ris.getListaRistoranti());
-                                        modificaRistorante(r);
-                                        System.out.println("RISTORANTE MODIFICATO CORRETTAMENTE");
+                                        if (r == null) {
+                                            System.out.println("Nessun ristorante selezionato.");
+                                        }
+                                        else {
+                                            modificaRistorante(r);
+                                            System.out.println("RISTORANTE MODIFICATO CORRETTAMENTE");
+                                        }
 
                                         System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
                                         in.nextLine().trim();
@@ -1050,7 +1143,13 @@ public class Main {
                                             System.out.print("INSERISCI LA CITTA' ->\t");
                                             citta = in.nextLine().trim();
                                         }while(citta.length() < 3);
-                                        SelezioneRistorante(gestoreRistoranti.filtraPerCitta(citta));
+                                        ArrayList<Ristorante> filtrati = gestoreRistoranti.filtraPerCitta(citta);
+                                        if(GetSelezioneRistorante(filtrati) != null){
+                                            System.out.println(GetSelezioneRistorante(filtrati).visualizzaRistorante());
+                                        }
+                                        else{
+                                            System.out.println("\nNessun ristorante selezionato.");
+                                        }
                                         System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
@@ -1070,7 +1169,12 @@ public class Main {
                                         if (risultati.isEmpty()) {
                                             System.out.println("Nessun ristorante trovato con quel nome.");
                                         } else {
-                                            SelezioneRistorante(risultati);
+                                            if(GetSelezioneRistorante(risultati) != null){
+                                                System.out.println(GetSelezioneRistorante(risultati).visualizzaRistorante());
+                                            }
+                                            else{
+                                                System.out.println("\nNessun ristorante selezionato.");
+                                            }
                                         }
                                         System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
                                         in.nextLine().trim();
@@ -1136,7 +1240,7 @@ public class Main {
         Esci(ListaClienti, ListaRistoratori, gestoreRistoranti);
     }
 
-    public static void modificaRistorante(Ristorante ristorante){
+    private static void modificaRistorante(Ristorante ristorante){
         System.out.println("Cosa vuoi modificare?\n");
         System.out.println("1- Nome");
         System.out.println("2- Indirizzo, Citta' e Nazione");
@@ -1282,7 +1386,7 @@ public class Main {
         }
     }
     
-    public static boolean modificaUtente(Utente utente){
+    private static boolean modificaUtente(Utente utente, ArrayList<Cliente> cl , ArrayList<Ristoratore> rs) {
         System.out.println("Cosa vuoi modificare?\n");
         System.out.println("1- Nome");
         System.out.println("2- Cognome");
@@ -1300,42 +1404,48 @@ public class Main {
             } catch (NumberFormatException e) {
                 selezione = -1;
             }
-        } while(selezione < 1 || selezione > 5);
+        } while(selezione < 1 || selezione > 8);
         switch (selezione) {
             case 1:{
                 String nome;
-                do {
-                    System.out.print("\nINSERISCI IL NUOVO NOME ->\t");
+                do { //Nome
+                    System.out.print("\nNUOVONOME ->\t\t");
                     nome = in.nextLine().trim();
-                    if(nome.length() < 2) {
-                        System.out.println("Il nome deve contenere almeno 2 caratteri");
+                    if (!nome.matches("^[a-zA-Z\\s]+$")) {
+                        System.out.println("Il nome può contenere solo lettere e spazi.");
+                    } else if (nome.length() < 2) {
+                        System.out.println("Il nome deve contenere almeno 2 caratteri.");
                     }
-                } while(nome.length() < 2);
+                } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
                 utente.setNome(nome);
+                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
                 return true;
             }
             case 2:{
                 String cognome;
-                do {
-                    System.out.print("\nINSERISCI IL NUOVO COGNOME ->\t");
+                do { //Cognome
+                    System.out.print("\nCOGNOME ->\t\t");
                     cognome = in.nextLine().trim();
-                    if(cognome.length() < 2) {
-                        System.out.println("Il cognome deve contenere almeno 2 caratteri");
+                    if (!cognome.matches("^[a-zA-Z\\s]+$")) {
+                        System.out.println("Il Conome può contenere solo lettere e spazi.");
+                    } else if (cognome.length() < 2) {
+                        System.out.println("Il Cognome deve contenere almeno 2 caratteri.");
                     }
-                } while(cognome.length() < 2);
+                } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
                 utente.setCognome(cognome);
                 return true;
             }
             case 3:{
                 String username;
-                do {
-                    System.out.print("\nINSERISCI IL NUOVO USERNAME ->\t");
-                    username = in.nextLine().trim();
-                    if(username.length() < 2) {
-                        System.out.println("L'username deve contenere almeno 2 caratteri");
+                do { //USERNAME, univoco
+                    System.out.print("\nUSERNAME ->\t");
+                    username = in.nextLine();
+                    if (usernameEsiste(username, cl, rs)) {
+                        System.out.println("Username già esistente. Inseriscine un altro.");
                     }
-                } while(username.length() < 2);
+                } while (usernameEsiste(username, cl, rs));
                 utente.setUsername(username);
+                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
                 return true;
             }
             case 4:{
@@ -1380,8 +1490,13 @@ public class Main {
                         anno = Integer.parseInt(in.nextLine());
                         
                         // Verifica se l'utente è maggiorenne
-                        if (!DataDiNascita.etaValida(giorno, mese, anno)) {
+                        if (!DataDiNascita.etaValida(giorno, mese, anno) && utente instanceof Cliente ) {
                             System.out.println("Devi avere almeno 14 anni per registrarti!");
+                            continue;
+                        }
+
+                        if (!DataDiNascita.maggiorenne(giorno, mese, anno) && utente instanceof Ristoratore ) {
+                            System.out.println("Devi avere almeno 18 anni per registrarti!");
                             continue;
                         }
                         
@@ -1393,18 +1508,16 @@ public class Main {
                         System.out.println("Data non valida: " + e.getMessage());
                     }
                 } while(!dataValida);
+                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
                 return true;
             }
             case 6:{
                 String domicilio;
-                do {
-                    System.out.print("\nINSERISCI IL NUOVO DOMICILIO ->\t");
-                    domicilio = in.nextLine().trim();
-                    if(domicilio.length() < 2) {
-                        System.out.println("Il domicilio deve contenere almeno 2 caratteri");
-                    }
-                } while(domicilio.length() < 2);
+                System.out.print("\nINSERISCI IL NUOVO INDIRIZZO [Via, Città] ->\t");
+                String indirizzoInput = in.nextLine();
+                domicilio = Indirizzo.getSelezionaIndirizzo(indirizzoInput);
                 utente.setDomicilio(domicilio);
+                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
                 return true;
             }
             case 7:{
@@ -1422,6 +1535,7 @@ public class Main {
                 if (ruolo.toLowerCase().startsWith("r")) {
                     utente.setRuolo("Ristoratore");
             }
+                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
                 return true;
             }
             case 8:{
@@ -1431,7 +1545,7 @@ public class Main {
         return false;
     }
 
-    public static void CaricaListe(ArrayList<Cliente> cl , ArrayList<Ristoratore> rs){
+    private static void CaricaListe(ArrayList<Cliente> cl , ArrayList<Ristoratore> rs){
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(FilePathUtenti))) {
             br.readLine();  // Questa riga legge la prima riga e la ignora
@@ -1449,7 +1563,7 @@ public class Main {
         }
     }
 
-    public static void SalvaPreferitiClienti(ArrayList<Cliente> cl, BufferedWriter bw) throws IOException {
+    private static void SalvaPreferitiClienti(ArrayList<Cliente> cl, BufferedWriter bw) throws IOException {
         for (Cliente c : cl) {
             String linea = String.join(";",
                 c.getUsername(),
@@ -1467,7 +1581,7 @@ public class Main {
         }
     }
 
-    public static void SalvaRistorantiRistoratori(ArrayList<Ristoratore> ris, BufferedWriter bw) throws IOException {
+    private static void SalvaRistorantiRistoratori(ArrayList<Ristoratore> ris, BufferedWriter bw) throws IOException {
         for (Ristoratore r : ris) {
             String linea = String.join(";",
                 r.getUsername(),
@@ -1485,7 +1599,7 @@ public class Main {
         }
     }
     
-    public static void Esci(ArrayList<Cliente> cl, ArrayList<Ristoratore> ris, GestoreRistoranti risto) {
+    private static void Esci(ArrayList<Cliente> cl, ArrayList<Ristoratore> ris, GestoreRistoranti risto) {
         risto.scriviSuFile();  // Salva i ristoranti su file (non utente)
     
         for (Cliente c : cl) {
@@ -1511,12 +1625,12 @@ public class Main {
         }
     }
 
-    public static void pulisciTerminale() {
+    private static void pulisciTerminale() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    public static boolean usernameEsiste(String username, List<Cliente> clienti, List<Ristoratore> ristoratori) {
+    private static boolean usernameEsiste(String username, List<Cliente> clienti, List<Ristoratore> ristoratori) {
         for (Cliente c : clienti) {
             if (c.getUsername().equalsIgnoreCase(username)) {
                 return true;
@@ -1530,33 +1644,7 @@ public class Main {
         return false;
     }
 
-    public static void SelezioneRistorante(ArrayList<Ristorante> risultati) {
-        pulisciTerminale();
-        System.out.println("Ristoranti trovati:");
-        for (int i = 0; i < risultati.size(); i++) {
-            System.out.printf("%d - %s\n", i + 1, risultati.get(i).getNome());
-        }
-        System.out.println("0 - Nessun ristorante");
-    
-        int scelta = -1;
-        do {
-            System.out.print("Seleziona il numero del ristorante da visualizzare (0 per annullare) ->\t");
-            try {
-                scelta = Integer.parseInt(in.nextLine().trim());
-            } catch (NumberFormatException e) {
-                scelta = -1;
-            }
-        } while (scelta < 0 || scelta > risultati.size());
-    
-        if (scelta == 0) {
-            System.out.println("\nNessun ristorante selezionato.");
-        } else {
-            System.out.println("\nHAI SELEZIONATO: \n");
-            System.out.println(risultati.get(scelta - 1).visualizzaRistorante());
-        }
-    }
-
-    public static Ristorante GetSelezioneRistorante(ArrayList<Ristorante> risultati) {
+    private static Ristorante GetSelezioneRistorante(ArrayList<Ristorante> risultati) {
         pulisciTerminale();
         System.out.println("Ristoranti trovati:");
         for (int i = 0; i < risultati.size(); i++) {
@@ -1581,7 +1669,7 @@ public class Main {
         return risultati.get(scelta - 1);
     }
 
-    public static Recensione GetSelezioneRecensione(ArrayList<Recensione> risultati) {
+    private static Recensione GetSelezioneRecensione(ArrayList<Recensione> risultati) {
         pulisciTerminale();
         System.out.println("Recensioni trovate:");
         for (int i = 0; i < risultati.size(); i++) {

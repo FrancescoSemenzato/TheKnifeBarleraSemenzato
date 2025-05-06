@@ -1,8 +1,6 @@
 package src.Utenti;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class DataDiNascita {
     private int Giorno, Mese, Anno;
@@ -18,30 +16,22 @@ public class DataDiNascita {
         this.Anno = Anno;
     }
 
-    public DataDiNascita(String data) throws IllegalArgumentException {
-        String[] campi;
+    public DataDiNascita(String data) {
+        String[] parts = data.split("[-/]");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Formato data non valido: " + data);
+        }
+    
         try {
-            if (data.contains("-")) {
-                campi = data.split("-");
-            } else if (data.contains("/")) {
-                campi = data.split("/");
-            } else {
-                throw new IllegalArgumentException("Formato data non valido. Usare '-' o '/' come separatori");
-            }
-
-            if (campi.length != 3) {
-                throw new IllegalArgumentException("Formato data non valido. Usare GG-MM-AAAA o GG/MM/AAAA");
-            }
-
-            this.Giorno = Integer.parseInt(campi[0]);
-            this.Mese = Integer.parseInt(campi[1]);
-            this.Anno = Integer.parseInt(campi[2]);
-
-            if (!dataValida(Giorno, Mese, Anno)) {
-                throw new IllegalArgumentException("Data di nascita non valida");
-            }
+            Giorno = Integer.parseInt(parts[0]);
+            Mese = Integer.parseInt(parts[1]);
+            Anno = Integer.parseInt(parts[2]);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("I valori della data devono essere numerici");
+            throw new IllegalArgumentException("Numeri non validi nella data: " + data);
+        }
+    
+        if (!dataValida(Giorno, Mese, Anno)) {
+            throw new IllegalArgumentException("Data di nascita non valida: " + data);
         }
     }
 

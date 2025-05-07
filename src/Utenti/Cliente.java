@@ -102,11 +102,13 @@ public class Cliente extends Utente{
     public String AggiungiAiPreferiti(Ristorante ristorante){
         boolean trovato = false;
         for(Ristorante r : ListaPreferiti)
-            if(r.getNome().equals(ristorante.getNome())){
+            if(r.equals(ristorante)){
                 trovato = true;
                 break;
             }
-        return (trovato) ? "Già presente nella lista dei preferiti" : "Aggiunto alla lista dei preferiti";
+        if(!trovato)
+            ListaPreferiti.add(ristorante);
+        return (trovato) ? "Già presente nella lista dei preferiti" : "Ristorante aggiunto alla lista dei preferiti";
     }
 
     public String VisualizzaPreferiti(){

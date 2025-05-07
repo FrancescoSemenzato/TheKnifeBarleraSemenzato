@@ -1,0 +1,4 @@
+- Uscita completa dal programma se si seleziona '#' durante la registrazione (non dovrebbe farlo)
+- Non aggiunge i preferiti al cliente
+- Modificare in modo che non sia key-sensitive l'input dell'indirizzo
+- Fare che se in GetSelezioneRistorante due o più ristoranti abbiano lo stesso nome veda anche l'indirizzo oltre al nome

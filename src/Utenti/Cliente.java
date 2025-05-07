@@ -111,6 +111,14 @@ public class Cliente extends Utente{
         return (trovato) ? "Già presente nella lista dei preferiti" : "Ristorante aggiunto alla lista dei preferiti";
     }
 
+    public void RimuoviPreferiti(Ristorante ristorante){
+        for(Ristorante r : ListaPreferiti)
+            if(r.equals(ristorante)){
+                ListaPreferiti.remove(ristorante);
+                break;
+            }
+    }
+
     public String VisualizzaPreferiti(){
         String ris="LISTA DEI PREFERITI:\n";
         for(Ristorante r : ListaPreferiti)

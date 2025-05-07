@@ -18,7 +18,7 @@ public class Indirizzo {
         JOpenCageGeocoder geocoder = new JOpenCageGeocoder(API_KEY);
         JOpenCageForwardRequest request = new JOpenCageForwardRequest(indirizzoInput);
         // Aggiunge una versione semplificata per una ricerca più permissiva
-        String relaxedInput = indirizzoInput.replaceAll("\\d+", "").trim();
+        String relaxedInput = indirizzoInput.toLowerCase().replaceAll("\\d+", "").trim();
         JOpenCageForwardRequest relaxedRequest = new JOpenCageForwardRequest(relaxedInput);
         relaxedRequest.setLimit(5);
         relaxedRequest.setNoAnnotations(true);

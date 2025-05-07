@@ -58,7 +58,11 @@ public class Main {
                 System.out.print("SELEZIONE ->\t");
                 try {
                     selezioneInt = Integer.parseInt(in.nextLine().trim());
-                    break;
+                    if (selezioneInt == 1 || selezioneInt == 2) {
+                        break; 
+                    } else {
+                        System.out.println("Inserisci un numero valido.");
+                    }
                 } catch (NumberFormatException e) {
                     System.out.println("Inserisci un numero valido.");
                 }
@@ -126,220 +130,225 @@ public class Main {
                         break;
                     }
                     else {
+                        boolean continuaRegistrazione = true;
                         // Registrati o entra come Guest o Esci
-                        do {
-                            pulisciTerminale();
-                            System.out.println("SCEGLI TRA UNA DI QUESTE OPZIONI: \n");
-                            System.out.println("1- REGISTRATI COME CLIENTE");
-                            System.out.println("2- REGISTRATI COME RISTORATORE");
-                            System.out.println("3- ENTRA COME GUEST");
-                            System.out.println("4- TORNA AL MENU'\n");
-                            System.out.println("Inserisci '#' in qualsiasi momento per annullare\n");
+                        while (continuaRegistrazione) {
                             
                             do {
-                                System.out.print("SELEZIONE ->\t");
-                                try {
-                                    selezioneInt = Integer.parseInt(leggiInputConAnnullamento(in, ""));
-                                } catch (NumberFormatException e) {
-                                    selezioneInt = -1;
-                                } catch (InputAnnullatoException e) {
+                                pulisciTerminale();
+                                System.out.println("SCEGLI TRA UNA DI QUESTE OPZIONI: \n");
+                                System.out.println("1- REGISTRATI COME CLIENTE");
+                                System.out.println("2- REGISTRATI COME RISTORATORE");
+                                System.out.println("3- ENTRA COME GUEST");
+                                System.out.println("4- TORNA AL MENU'\n");
+                                System.out.println("Inserisci '#' in qualsiasi momento per annullare\n");
+                                
+                                do {
+                                    System.out.print("SELEZIONE ->\t");
+                                    try {
+                                        selezioneInt = Integer.parseInt(leggiInputConAnnullamento(in, ""));
+                                    } catch (NumberFormatException e) {
+                                        selezioneInt = -1;
+                                    } catch (InputAnnullatoException e) {
+                                        ruolo = "esci";
+                                    }
+                                } while(selezioneInt < 1 || selezioneInt > 4);
+                            } while(false);
+                            
+                            switch (selezioneInt) {
+                                case 1: {
+                                    try {
+                                        // Nome
+                                        do {
+                                            nome = leggiInputConAnnullamento(in, "\nNOME ->\t\t");
+                                            if (!nome.matches("^[a-zA-Z\\s]+$")) {
+                                                System.out.println("Il nome può contenere solo lettere e spazi.");
+                                            } else if (nome.length() < 2) {
+                                                System.out.println("Il nome deve contenere almeno 2 caratteri.");
+                                            }
+                                        } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
+                                        
+                                        // Cognome
+                                        do {
+                                            cognome = leggiInputConAnnullamento(in, "\nCOGNOME ->\t");
+                                            if (!cognome.matches("^[a-zA-Z\\s]+$")) {
+                                                System.out.println("Il cognome può contenere solo lettere e spazi.");
+                                            } else if (cognome.length() < 2) {
+                                                System.out.println("Il cognome deve contenere almeno 2 caratteri.");
+                                            }
+                                        } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
+                                        
+                                        // Username
+                                        do {
+                                            username = leggiInputConAnnullamento(in, "\nUSERNAME ->\t");
+                                            if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
+                                                System.out.println("Username già esistente. Inseriscine un altro.");
+                                            }
+                                        } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
+                                        
+                                        // Password
+                                        do {
+                                            System.out.println("\nRequisiti password:");
+                                            System.out.println("- Almeno 6 caratteri");
+                                            System.out.println("- Almeno 1 lettera maiuscola");
+                                            System.out.println("- Almeno 1 numero");
+                                            System.out.println("- Almeno 1 carattere speciale (!@#$%^&*?)");
+                                            password = leggiInputConAnnullamento(in, "PASSWORD ->\t");
+                                            
+                                            if (password.length() < 6) {
+                                                System.out.println("La password deve contenere almeno 6 caratteri.");
+                                            } else if (!password.matches(".*[A-Z].*")) {
+                                                System.out.println("La password deve contenere almeno 1 lettera maiuscola.");
+                                            } else if (!password.matches(".*\\d.*")) {
+                                                System.out.println("La password deve contenere almeno 1 numero.");
+                                            } else if (!password.matches(".*[!@#$%^&*?].*")) {
+                                                System.out.println("La password deve contenere almeno 1 carattere speciale (!@#$%^&*?).");
+                                            }
+                                        } while (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*?]).{6,}$"));
+                                        
+                                        // Indirizzo
+                                        String indirizzoInput = leggiInputConAnnullamento(in, "\nINSERISCI INDIRIZZO [Via, Città] ->\t");
+                                        domicilio = Indirizzo.getSelezionaIndirizzo(indirizzoInput);
+                                        
+                                        // Data di nascita
+                                        boolean dataValida = false;
+                                        do {
+                                            try {
+                                                datadinascita = leggiInputConAnnullamento(in, "\nDATA DI NASCITA [gg/mm/aaaa] ->\t");
+                                                
+                                                if (!datadinascita.matches("^\\d{2}[/-]\\d{2}[/-]\\d{4}$")) {
+                                                    throw new IllegalArgumentException("Formato data non valido. Usare gg/mm/aaaa o gg-mm-aaaa");
+                                                }
+                                                
+                                                DataDiNascita dataNascita = new DataDiNascita(datadinascita);
+                                                
+                                                if (!DataDiNascita.etaValida(dataNascita.getGiorno(), dataNascita.getMese(), dataNascita.getAnno())) {
+                                                    System.out.println("Devi avere almeno 14 anni per registrarti!");
+                                                    continue;
+                                                }
+                                                
+                                                dataValida = true;
+                                            } catch (IllegalArgumentException e) {
+                                                System.out.println("Errore: " + e.getMessage());
+                                                System.out.println("Inserisci una data valida nel formato gg/mm/aaaa");
+                                            }
+                                        } while (!dataValida);
+                                        
+                                        cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita, true);
+                                        cl.CaricaListaPreferiti(username, gestoreRistoranti);
+                                        ListaClienti.add(cl);
+                                        ruolo = "cliente";
+                                        continuaRegistrazione = false;
+                                        System.out.println("\nRegistrazione completata con successo! Benvenuto, " + username + "!");
+                                        System.out.println("Premi INVIO per continuare.");
+                                        in.nextLine();
+                                        
+                                    } catch (InputAnnullatoException e) {
+                                        System.out.println("\nRegistrazione annullata. Torno al menu precedente...");
+                                    }
+                                    break;
+                                }
+                                case 2: {
+                                    try {
+                                        // Nome
+                                        do {
+                                            nome = leggiInputConAnnullamento(in, "\nNOME ->\t\t");
+                                            if (!nome.matches("^[a-zA-Z\\s]+$")) {
+                                                System.out.println("Il nome può contenere solo lettere e spazi.");
+                                            } else if (nome.length() < 2) {
+                                                System.out.println("Il nome deve contenere almeno 2 caratteri.");
+                                            }
+                                        } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
+                                        
+                                        // Cognome
+                                        do {
+                                            cognome = leggiInputConAnnullamento(in, "\nCOGNOME ->\t");
+                                            if (!cognome.matches("^[a-zA-Z\\s]+$")) {
+                                                System.out.println("Il cognome può contenere solo lettere e spazi.");
+                                            } else if (cognome.length() < 2) {
+                                                System.out.println("Il cognome deve contenere almeno 2 caratteri.");
+                                            }
+                                        } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
+                                        
+                                        // Username
+                                        do {
+                                            username = leggiInputConAnnullamento(in, "\nUSERNAME ->\t");
+                                            if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
+                                                System.out.println("Username già esistente. Inseriscine un altro.");
+                                            }
+                                        } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
+                                        
+                                        // Password
+                                        do {
+                                            System.out.println("\nRequisiti password:");
+                                            System.out.println("- Almeno 6 caratteri");
+                                            System.out.println("- Almeno 1 lettera maiuscola");
+                                            System.out.println("- Almeno 1 numero");
+                                            System.out.println("- Almeno 1 carattere speciale (!@#$%^&*?)");
+                                            password = leggiInputConAnnullamento(in, "PASSWORD ->\t");
+                                            
+                                            if (password.length() < 6) {
+                                                System.out.println("La password deve contenere almeno 6 caratteri.");
+                                            } else if (!password.matches(".*[A-Z].*")) {
+                                                System.out.println("La password deve contenere almeno 1 lettera maiuscola.");
+                                            } else if (!password.matches(".*\\d.*")) {
+                                                System.out.println("La password deve contenere almeno 1 numero.");
+                                            } else if (!password.matches(".*[!@#$%^&*?].*")) {
+                                                System.out.println("La password deve contenere almeno 1 carattere speciale (!@#$%^&*?).");
+                                            }
+                                        } while (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*?]).{6,}$"));
+                                        
+                                        // Indirizzo
+                                        String indirizzoInput = leggiInputConAnnullamento(in, "\nINSERISCI INDIRIZZO [Via, Città] ->\t");
+                                        domicilio = Indirizzo.getSelezionaIndirizzo(indirizzoInput);
+                                        
+                                        // Data di nascita
+                                        boolean dataValida = false;
+                                        do {
+                                            try {
+                                                datadinascita = leggiInputConAnnullamento(in, "\nDATA DI NASCITA [gg/mm/aaaa] ->\t");
+                                                
+                                                if (!datadinascita.matches("^\\d{2}[/-]\\d{2}[/-]\\d{4}$")) {
+                                                    throw new IllegalArgumentException("Formato data non valido. Usare gg/mm/aaaa o gg-mm-aaaa");
+                                                }
+                                                
+                                                DataDiNascita dataNascita = new DataDiNascita(datadinascita);
+                                                
+                                                if (!DataDiNascita.maggiorenne(dataNascita.getGiorno(), dataNascita.getMese(), dataNascita.getAnno())) {
+                                                    System.out.println("Devi essere maggiorenne per registrarti!");
+                                                    continue;
+                                                }
+                                                
+                                                dataValida = true;
+                                            } catch (IllegalArgumentException e) {
+                                                System.out.println("Errore: " + e.getMessage());
+                                                System.out.println("Inserisci una data valida nel formato gg/mm/aaaa");
+                                            }
+                                        } while (!dataValida);
+                                        
+                                        ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita, true);
+                                        ListaRistoratori.add(ris);
+                                        ruolo = "ristoratore";
+                                        continuaRegistrazione = false;
+                                        System.out.println("\nRegistrazione completata con successo! Benvenuto, " + username + "!");
+                                        System.out.println("Premi INVIO per continuare.");
+                                        in.nextLine();
+                                        
+                                    } catch (InputAnnullatoException e) {
+                                        System.out.println("\nRegistrazione annullata. Torno al menu precedente...");
+                                    }
+                                    break;
+                                }
+                                case 3: {
+                                    ruolo = "guest";
+                                    continuaRegistrazione = false;
+                                    break;
+                                }
+                                case 4: {
                                     ruolo = "esci";
-                                    return;
+                                    continuaRegistrazione = false;
+                                    break;
                                 }
-                            } while(selezioneInt < 1 || selezioneInt > 4);
-                        } while(false);
-                        
-                        switch (selezioneInt) {
-                            case 1: {
-                                try {
-                                    // Nome
-                                    do {
-                                        nome = leggiInputConAnnullamento(in, "\nNOME ->\t\t");
-                                        if (!nome.matches("^[a-zA-Z\\s]+$")) {
-                                            System.out.println("Il nome può contenere solo lettere e spazi.");
-                                        } else if (nome.length() < 2) {
-                                            System.out.println("Il nome deve contenere almeno 2 caratteri.");
-                                        }
-                                    } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
-                                    
-                                    // Cognome
-                                    do {
-                                        cognome = leggiInputConAnnullamento(in, "\nCOGNOME ->\t");
-                                        if (!cognome.matches("^[a-zA-Z\\s]+$")) {
-                                            System.out.println("Il cognome può contenere solo lettere e spazi.");
-                                        } else if (cognome.length() < 2) {
-                                            System.out.println("Il cognome deve contenere almeno 2 caratteri.");
-                                        }
-                                    } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
-                                    
-                                    // Username
-                                    do {
-                                        username = leggiInputConAnnullamento(in, "\nUSERNAME ->\t");
-                                        if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
-                                            System.out.println("Username già esistente. Inseriscine un altro.");
-                                        }
-                                    } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
-                                    
-                                    // Password
-                                    do {
-                                        System.out.println("\nRequisiti password:");
-                                        System.out.println("- Almeno 6 caratteri");
-                                        System.out.println("- Almeno 1 lettera maiuscola");
-                                        System.out.println("- Almeno 1 numero");
-                                        System.out.println("- Almeno 1 carattere speciale (!@#$%^&*?)");
-                                        password = leggiInputConAnnullamento(in, "PASSWORD ->\t");
-                                        
-                                        if (password.length() < 6) {
-                                            System.out.println("La password deve contenere almeno 6 caratteri.");
-                                        } else if (!password.matches(".*[A-Z].*")) {
-                                            System.out.println("La password deve contenere almeno 1 lettera maiuscola.");
-                                        } else if (!password.matches(".*\\d.*")) {
-                                            System.out.println("La password deve contenere almeno 1 numero.");
-                                        } else if (!password.matches(".*[!@#$%^&*?].*")) {
-                                            System.out.println("La password deve contenere almeno 1 carattere speciale (!@#$%^&*?).");
-                                        }
-                                    } while (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*?]).{6,}$"));
-                                    
-                                    // Indirizzo
-                                    String indirizzoInput = leggiInputConAnnullamento(in, "\nINSERISCI INDIRIZZO [Via, Città] ->\t");
-                                    domicilio = Indirizzo.getSelezionaIndirizzo(indirizzoInput);
-                                    
-                                    // Data di nascita
-                                    boolean dataValida = false;
-                                    do {
-                                        try {
-                                            datadinascita = leggiInputConAnnullamento(in, "\nDATA DI NASCITA [gg/mm/aaaa] ->\t");
-                                            
-                                            if (!datadinascita.matches("^\\d{2}[/-]\\d{2}[/-]\\d{4}$")) {
-                                                throw new IllegalArgumentException("Formato data non valido. Usare gg/mm/aaaa o gg-mm-aaaa");
-                                            }
-                                            
-                                            DataDiNascita dataNascita = new DataDiNascita(datadinascita);
-                                            
-                                            if (!DataDiNascita.etaValida(dataNascita.getGiorno(), dataNascita.getMese(), dataNascita.getAnno())) {
-                                                System.out.println("Devi avere almeno 14 anni per registrarti!");
-                                                continue;
-                                            }
-                                            
-                                            dataValida = true;
-                                        } catch (IllegalArgumentException e) {
-                                            System.out.println("Errore: " + e.getMessage());
-                                            System.out.println("Inserisci una data valida nel formato gg/mm/aaaa");
-                                        }
-                                    } while (!dataValida);
-                                    
-                                    cl = new Cliente(nome, cognome, username, password, domicilio, datadinascita, true);
-                                    cl.CaricaListaPreferiti(username, gestoreRistoranti);
-                                    ListaClienti.add(cl);
-                                    ruolo = "cliente";
-                                    System.out.println("\nRegistrazione completata con successo! Benvenuto, " + username + "!");
-                                    System.out.println("Premi INVIO per continuare.");
-                                    in.nextLine();
-                                    
-                                } catch (InputAnnullatoException e) {
-                                    System.out.println("\nRegistrazione annullata. Torno al menu precedente...");
-                                    return;
-                                }
-                                break;
-                            }
-                            case 2: {
-                                try {
-                                    // Nome
-                                    do {
-                                        nome = leggiInputConAnnullamento(in, "\nNOME ->\t\t");
-                                        if (!nome.matches("^[a-zA-Z\\s]+$")) {
-                                            System.out.println("Il nome può contenere solo lettere e spazi.");
-                                        } else if (nome.length() < 2) {
-                                            System.out.println("Il nome deve contenere almeno 2 caratteri.");
-                                        }
-                                    } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
-                                    
-                                    // Cognome
-                                    do {
-                                        cognome = leggiInputConAnnullamento(in, "\nCOGNOME ->\t");
-                                        if (!cognome.matches("^[a-zA-Z\\s]+$")) {
-                                            System.out.println("Il cognome può contenere solo lettere e spazi.");
-                                        } else if (cognome.length() < 2) {
-                                            System.out.println("Il cognome deve contenere almeno 2 caratteri.");
-                                        }
-                                    } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
-                                    
-                                    // Username
-                                    do {
-                                        username = leggiInputConAnnullamento(in, "\nUSERNAME ->\t");
-                                        if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
-                                            System.out.println("Username già esistente. Inseriscine un altro.");
-                                        }
-                                    } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
-                                    
-                                    // Password
-                                    do {
-                                        System.out.println("\nRequisiti password:");
-                                        System.out.println("- Almeno 6 caratteri");
-                                        System.out.println("- Almeno 1 lettera maiuscola");
-                                        System.out.println("- Almeno 1 numero");
-                                        System.out.println("- Almeno 1 carattere speciale (!@#$%^&*?)");
-                                        password = leggiInputConAnnullamento(in, "PASSWORD ->\t");
-                                        
-                                        if (password.length() < 6) {
-                                            System.out.println("La password deve contenere almeno 6 caratteri.");
-                                        } else if (!password.matches(".*[A-Z].*")) {
-                                            System.out.println("La password deve contenere almeno 1 lettera maiuscola.");
-                                        } else if (!password.matches(".*\\d.*")) {
-                                            System.out.println("La password deve contenere almeno 1 numero.");
-                                        } else if (!password.matches(".*[!@#$%^&*?].*")) {
-                                            System.out.println("La password deve contenere almeno 1 carattere speciale (!@#$%^&*?).");
-                                        }
-                                    } while (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*?]).{6,}$"));
-                                    
-                                    // Indirizzo
-                                    String indirizzoInput = leggiInputConAnnullamento(in, "\nINSERISCI INDIRIZZO [Via, Città] ->\t");
-                                    domicilio = Indirizzo.getSelezionaIndirizzo(indirizzoInput);
-                                    
-                                    // Data di nascita
-                                    boolean dataValida = false;
-                                    do {
-                                        try {
-                                            datadinascita = leggiInputConAnnullamento(in, "\nDATA DI NASCITA [gg/mm/aaaa] ->\t");
-                                            
-                                            if (!datadinascita.matches("^\\d{2}[/-]\\d{2}[/-]\\d{4}$")) {
-                                                throw new IllegalArgumentException("Formato data non valido. Usare gg/mm/aaaa o gg-mm-aaaa");
-                                            }
-                                            
-                                            DataDiNascita dataNascita = new DataDiNascita(datadinascita);
-                                            
-                                            if (!DataDiNascita.maggiorenne(dataNascita.getGiorno(), dataNascita.getMese(), dataNascita.getAnno())) {
-                                                System.out.println("Devi essere maggiorenne per registrarti!");
-                                                continue;
-                                            }
-                                            
-                                            dataValida = true;
-                                        } catch (IllegalArgumentException e) {
-                                            System.out.println("Errore: " + e.getMessage());
-                                            System.out.println("Inserisci una data valida nel formato gg/mm/aaaa");
-                                        }
-                                    } while (!dataValida);
-                                    
-                                    ris = new Ristoratore(nome, cognome, username, password, domicilio, datadinascita, true);
-                                    ListaRistoratori.add(ris);
-                                    ruolo = "ristoratore";
-                                    System.out.println("\nRegistrazione completata con successo! Benvenuto, " + username + "!");
-                                    System.out.println("Premi INVIO per continuare.");
-                                    in.nextLine();
-                                    
-                                } catch (InputAnnullatoException e) {
-                                    System.out.println("\nRegistrazione annullata. Torno al menu precedente...");
-                                    return;
-                                }
-                                break;
-                            }
-                            case 3: {
-                                ruolo = "guest";
-                                break;
-                            }
-                            case 4: {
-                                ruolo = "esci";
-                                break;
                             }
                         }
                     }

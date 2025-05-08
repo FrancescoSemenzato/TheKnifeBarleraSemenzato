@@ -72,11 +72,16 @@ public class Main {
                 case 1:{ // CLIENTI O RISTORATORI
                     pulisciTerminale();
                     System.out.println("PER TORNARE INDIETRO INSERIRE '#'");
-                    System.out.println("POSSIEDI GIA' UN ACCOUNT? [SI/NO]\n");
-                    System.out.print("RISPOSTA ->\t");
-                    selezioneStringa = in.nextLine().trim();
+                    System.out.println("POSSIEDI GIA' UN ACCOUNT? [SI/NO]");
+                    do {
+                        System.out.print("\nRISPOSTA ->\t");
+                        selezioneStringa = in.nextLine().trim();
+                        if (!selezioneStringa.toLowerCase().equals("si") && !selezioneStringa.toLowerCase().equals("no")) {
+                            System.out.println("Inserisci una risposta valida.");
+                        }
+                    } while (!selezioneStringa.toLowerCase().equals("si") && !selezioneStringa.toLowerCase().equals("no"));
                     pulisciTerminale();
-                    if (selezioneStringa.toLowerCase().charAt(0) == 's') { // Form ACCEDI
+                    if (selezioneStringa.toLowerCase().charAt(0) == 's' || selezioneStringa.length() == 2) { // Form ACCEDI
                         boolean uscitaRichiesta = false;
                         do {
                             System.out.println("INSERISCI USERNAME E PASSWORD PER ACCEDERE (digita '#' per tornare indietro)\n");
@@ -129,7 +134,7 @@ public class Main {
                     } else if (selezioneStringa.toLowerCase().charAt(0) == '#') {
                         break;
                     }
-                    else {
+                    else if(selezioneStringa.toLowerCase().charAt(0) == 'n' || selezioneStringa.length() == 2) {
                         boolean continuaRegistrazione = true;
                         // Registrati o entra come Guest o Esci
                         while (continuaRegistrazione) {
@@ -383,12 +388,14 @@ public class Main {
                                 }while(false); 
                                 pulisciTerminale();
                                 switch (selezioneInt) {
-                                    case 1: {
+                                    case 1:{
                                         boolean modificaUtente = true;
                                         while (modificaUtente) {
                                             modificaUtente = modificaUtente(cl, ListaClienti, ListaRistoratori);
                                         }
-
+                                        if(cl.getRuolo().equals("Ristoratore")){
+                                            continuaCliente = false;
+                                        }
                                         System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
@@ -953,11 +960,15 @@ public class Main {
                                 }while(false); 
                                 pulisciTerminale();
                                 switch (selezioneInt) {
-                                    case 1: {
+                                    case 1:{
                                         boolean modificaUtente = true;
                                         while (modificaUtente) {
                                             modificaUtente = modificaUtente(ris, ListaClienti, ListaRistoratori);
                                         }
+                                        if(ris.getRuolo().equals("Cliente")){
+                                            continuaRistoratore = false;
+                                        }
+
                                         System.out.println("L'ACCOUNT È STATO MODIFICATO CORRETTAMENTE.");
                                         System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
@@ -978,7 +989,7 @@ public class Main {
                                         pulisciTerminale();
                                         break;
                                     }
-                                    case 3: { // Aggiungi un ristorante
+                                    case 3:{ // Aggiungi un ristorante
                                         String Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo = "";
                                         double Latitudine = 0, Longitudine = 0;
                                         int FasciaDiPrezzo = 0;
@@ -1495,6 +1506,7 @@ public class Main {
     }
     
     private static boolean modificaUtente(Utente utente, ArrayList<Cliente> cl , ArrayList<Ristoratore> rs) {
+        pulisciTerminale();
         try {
             System.out.println("Cosa vuoi modificare?\n");
             System.out.println("1- Nome");
@@ -1508,7 +1520,6 @@ public class Main {
             System.out.println("Inserisci '#' in qualsiasi momento per annullare\n");
             int selezione;
             do {
-                System.out.print("\nSELEZIONE ->\t");
                 try {
                     selezione = Integer.parseInt(leggiInputConAnnullamento(in, "\nSELEZIONE ->\t").trim());
                 } catch (NumberFormatException e) {
@@ -1519,11 +1530,11 @@ public class Main {
                 case 1:{
                     String nome;
                     do { //Nome
-                        nome = leggiInputConAnnullamento(in, "\nNUOVONOME ->\t\t").trim();
+                        nome = leggiInputConAnnullamento(in, "\nNUOVO NOME ->\t\t").trim();
                         if (!nome.matches("^[a-zA-Z\\s]+$")) {
-                            System.out.println("Il nome può contenere solo lettere e spazi.");
+                            System.out.println("Il nome può contenere solo lettere e spazi.\n");
                         } else if (nome.length() < 2) {
-                            System.out.println("Il nome deve contenere almeno 2 caratteri.");
+                            System.out.println("Il nome deve contenere almeno 2 caratteri.\n");
                         }
                     } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
                     utente.setNome(nome);
@@ -1535,9 +1546,9 @@ public class Main {
                     do { //Cognome
                         cognome = leggiInputConAnnullamento(in, "\nCOGNOME ->\t\t").trim();
                         if (!cognome.matches("^[a-zA-Z\\s]+$")) {
-                            System.out.println("Il Conome può contenere solo lettere e spazi.");
+                            System.out.println("Il Conome può contenere solo lettere e spazi.\n");
                         } else if (cognome.length() < 2) {
-                            System.out.println("Il Cognome deve contenere almeno 2 caratteri.");
+                            System.out.println("Il Cognome deve contenere almeno 2 caratteri.\n");
                         }
                     } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
                     utente.setCognome(cognome);
@@ -1548,7 +1559,7 @@ public class Main {
                     do { //USERNAME, univoco
                         username = leggiInputConAnnullamento(in, "\nUSERNAME ->\t");
                         if (usernameEsiste(username, cl, rs)) {
-                            System.out.println("Username già esistente. Inseriscine un altro.");
+                            System.out.println("Username già esistente. Inseriscine un altro.\n");
                         }
                     } while (usernameEsiste(username, cl, rs));
                     utente.setUsername(username);
@@ -1593,12 +1604,12 @@ public class Main {
                             
                             // Verifica se l'utente è maggiorenne
                             if (!DataDiNascita.etaValida(giorno, mese, anno) && utente instanceof Cliente ) {
-                                System.out.println("Devi avere almeno 14 anni per registrarti!");
+                                System.out.println("Devi avere almeno 14 anni per registrarti!\n");
                                 continue;
                             }
     
                             if (!DataDiNascita.maggiorenne(giorno, mese, anno) && utente instanceof Ristoratore ) {
-                                System.out.println("Devi avere almeno 18 anni per registrarti!");
+                                System.out.println("Devi avere almeno 18 anni per registrarti!\n");
                                 continue;
                             }
                             
@@ -1622,21 +1633,37 @@ public class Main {
                     return true;
                 }
                 case 7:{
-                    String ruolo;
+                    String ruoloNuovo;
                     do {
-                        ruolo = leggiInputConAnnullamento(in, "\nINSERISCI IL NUOVO RUOLO [Cliente/Ristoratore] ->\t").trim();
-                        if(ruolo.length() < 2) {
-                            System.out.println("Il ruolo deve contenere almeno 2 caratteri");
+                        ruoloNuovo = leggiInputConAnnullamento(in, "\nINSERISCI IL NUOVO RUOLO [Cliente/Ristoratore] ->\t").trim();
+                        ruoloNuovo = ruoloNuovo.toLowerCase();
+                        if(ruoloNuovo.length() < 2) {
+                            System.out.println("Il ruolo deve contenere almeno 2 caratteri\n");
                         }
-                    } while(ruolo.length() < 2);
-                    if (ruolo.startsWith("c")) {
-                            utente.setRuolo("Cliente");
+                        if(!ruoloNuovo.startsWith("c") && !ruoloNuovo.startsWith("r")) {
+                            System.out.println(ruoloNuovo + " non corrisponde a nessun ruolo.\n");
+                        }
+                        if (ruoloNuovo.startsWith("c") && utente instanceof Cliente) {
+                            System.out.println("L'utente è gia' associato al ruolo Cliente.\n");
+                        }
+                        if (ruoloNuovo.startsWith("r") && utente instanceof Ristoratore) {
+                            System.out.println("L'utente è gia' associato al ruolo Ristoratore.\n");
+                        }
+                    } while(ruoloNuovo.length() < 2 || !ruoloNuovo.startsWith("c") && !ruoloNuovo.startsWith("r") );
+                    if (ruoloNuovo.startsWith("c")) {
+                        utente.setRuolo("Cliente");
+                        rs.remove(utente);
+                        Cliente modifica = new Cliente(utente.getNome(), utente.getCognome(), utente.getUsername(), utente.getPassword(), utente.getDomicilio(), utente.getDataDiNascita(), false);
+                        cl.add(modifica);
                     }
-                    if (ruolo.toLowerCase().startsWith("r")) {
+                    if (ruoloNuovo.toLowerCase().startsWith("r")) {
                         utente.setRuolo("Ristoratore");
+                        cl.remove(utente);
+                        Ristoratore modifica = new Ristoratore(utente.getNome(), utente.getCognome(), utente.getUsername(), utente.getPassword(), utente.getDomicilio(), utente.getDataDiNascita(), false);
+                        rs.add(modifica);
                 }
                     System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
-                    return true;
+                    return false;
                 }
                 case 8:{
                     return false;

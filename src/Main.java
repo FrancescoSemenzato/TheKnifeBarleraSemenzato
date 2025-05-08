@@ -366,8 +366,8 @@ public class Main {
                                     System.out.println("1- MODIFICA ACCOUNT \n");
                                     System.out.println("2- VISUALIZZA RISTORANTI VICINO A TE");
                                     System.out.println("3- VISUALIZZA FILTRI DI RICERCA");
-                                    System.out.println("4- VISUALIZZA LISTA PREFERITI");
-                                    System.out.println("5- AGGIUNGI RISTORANTE A LISTA PREFERITI");
+                                    System.out.println("4- VISUALIZZA LISTA DEI PREFERITI");
+                                    System.out.println("5- MODIFICA LA LISTA DEI PREFERITI");
                                     System.out.println("6- SCRIVI UNA RECENSIONE");
                                     System.out.println("7- MODIFICA UNA RECENSIONE");
                                     System.out.println("8- RIMUOVI UNA RECENSIONE");
@@ -771,21 +771,65 @@ public class Main {
                                         break;
                                     }
                                     case 5:{
-                                        //Aggiungi un ristorante alla lista dei preferiti
-                                        System.out.print("INSERISCI IL NOME DEL RISTORANTE -> ");
-                                        String nomeRistorante = in.nextLine().trim();
-                                        Ristorante r = GetSelezioneRistorante(gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante));
-                                        if(r == null) {
-                                            System.out.println("NESSUN RISTORANTE VERRA' AGGIUNTO AI PREFERITI.");
-                                        } else {
-                                            System.out.println(cl.AggiungiAiPreferiti(r));
-                                        }
+                                        boolean continuaFiltro = true;
+                                        while (continuaFiltro) {
+                                        //Aggiungi un ristorante alla lista dei preferiti ed elimina un ristorante dalla lista dei preferiti
+                                        System.out.println("SCEGLI CHE OPERAZIONE EFFETTUARE\n");
+                                        System.out.println("1- AGGIUNGI UN RISTORANTE ALLA LISTA PREFERITI");
+                                        System.out.println("2- ELIMINA UN RISTORANTE ALLA LISTA PREFERITI");
+                                        System.out.println("3- Torna Indietro\n");
+                                        do {
+                                            System.out.print("SELEZIONE ->\t");
+                                            try {
+                                                selezioneInt = Integer.parseInt(in.nextLine().trim());
+                                            } catch (NumberFormatException e) {
+                                                selezioneInt = -1;
+                                            }
+                                        } while(selezioneInt < 1 || selezioneInt > 2);
+                                        
+                                        switch(selezioneInt){
+                                            case 1:{
+                                                //Aggiungi un ristorante alla lista dei preferiti
+                                                System.out.print("INSERISCI IL NOME DEL RISTORANTE -> ");
+                                                String nomeRistorante = in.nextLine().trim();
+                                                Ristorante r = GetSelezioneRistorante(gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante));
+                                                if(r == null) {
+                                                    System.out.println("NESSUN RISTORANTE VERRA' AGGIUNTO AI PREFERITI.");
+                                                } else {
+                                                    System.out.println(cl.AggiungiAiPreferiti(r));
+                                                }
 
-                                        System.out.println("\n\n");
-                                        System.out.println("\nPREMERE INVIO PER CONTINUARE");
-                                        in.nextLine().trim();
-                                        pulisciTerminale();
-                                        break;
+                                                System.out.println("\n\n");
+                                                System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                                in.nextLine().trim();
+                                                pulisciTerminale();
+                                                break;
+                                            }
+                                            case 2:{
+                                                //Elimina un ristorante alla lista dei preferiti
+                                                System.out.print("INSERISCI IL NOME DEL RISTORANTE -> ");
+                                                String nomeRistorante = in.nextLine().trim();
+                                                Ristorante r = GetSelezioneRistorante(gestoreRistoranti.filtraPerNomeRistorante(nomeRistorante));
+                                                if(r == null) {
+                                                    System.out.println("NESSUN RISTORANTE VERRA' ELIMINATO DAI PREFERITI.");
+                                                } else {
+                                                    cl.RimuoviPreferiti(r);
+                                                    System.out.println("RISTORANTE ELIMINATO DAI PREFERITI.");
+                                                }
+
+                                                System.out.println("\n\n");
+                                                System.out.println("\nPREMERE INVIO PER CONTINUARE");
+                                                in.nextLine().trim();
+                                                pulisciTerminale();
+                                                break;
+                                            }
+                                            case 3:{
+                                                //Torna al menu' cliente
+                                                continuaFiltro = false;
+                                                break;
+                                            }
+                                        }
+                                        }
                                     }
                                     case 6:{
                                         // Scrivi una recensione
@@ -1306,39 +1350,36 @@ public class Main {
         }
     }
     private static void modificaRistorante(Ristorante ristorante){
-        System.out.println("Cosa vuoi modificare?\n");
-        System.out.println("1- Nome");
-        System.out.println("2- Indirizzo, Citta' e Nazione");
-        System.out.println("3- Tipo di cucina");
-        System.out.println("4- Servizi");
-        System.out.println("5- URL web");
-        System.out.println("6- Fascia Di prezzo");
-        System.out.println("7- Disponibilita' servizio delivery");
-        System.out.println("8- Disponibilità prenotazione online");
-        System.out.println("9- Prezzo");
-        
-        int selezione;
-        do {
-            System.out.print("SELEZIONE ->\t");
-            try {
-                selezione = Integer.parseInt(in.nextLine().trim());
-            } catch (NumberFormatException e) {
+        try {
+            System.out.println("Cosa vuoi modificare?\n");
+            System.out.println("1- Nome");
+            System.out.println("2- Indirizzo, Citta' e Nazione");
+            System.out.println("3- Tipo di cucina");
+            System.out.println("4- Servizi");
+            System.out.println("5- URL web");
+            System.out.println("6- Fascia Di prezzo");
+            System.out.println("7- Disponibilita' servizio delivery");
+            System.out.println("8- Disponibilità prenotazione online");
+            System.out.println("9- Prezzo");
+            System.out.println("Inserisci '#' in qualsiasi momento per annullare\n");
+            int selezione;
+            do {
                 selezione = -1;
-            }
-        } while(selezione < 1 || selezione > 11);
-        
-        switch (selezione) {
-            case 1:
-                System.out.print("INSERISCI IL NUOVO NOME ->\t");
-                ristorante.setNome(in.nextLine().trim());
-                break;
+                try {
+                    selezione = Integer.parseInt(leggiInputConAnnullamento(in, "SELEZIONE ->\t").trim());
+                } catch (NumberFormatException e) {
+                    selezione = -1;
+                }
+            } while(selezione < 1 || selezione > 11);
+            
+            switch (selezione) {
+                case 1:
+                    ristorante.setNome(leggiInputConAnnullamento(in, "INSERISCI IL NUOVO NOME ->\t").trim());
+                    break;
                 case 2: {
-                    System.out.print("INSERISCI L'INDIRIZZO ->\t");
-                    String indirizzo = in.nextLine().trim();
-                    System.out.print("INSERISCI LA CITTA' ->\t");
-                    String citta = in.nextLine().trim();
-                    System.out.print("INSERISCI LA NAZIONE ->\t");
-                    String nazione = in.nextLine().trim();
+                    String indirizzo = leggiInputConAnnullamento(in, "INSERISCI L'INDIRIZZO ->\t").trim();
+                    String citta = leggiInputConAnnullamento(in, "INSERISCI LA CITTA' ->\t").trim();
+                    String nazione = leggiInputConAnnullamento(in, "INSERISCI LA NAZIONE ->\t").trim();
                 
                     ristorante.setIndirizzo(indirizzo);
                     ristorante.setCitta(citta);
@@ -1363,273 +1404,258 @@ public class Main {
                             } else {
                                 System.out.println("Impossibile trovare le coordinate per l'indirizzo inserito.");
                                 System.out.println("Inserisci manualmente le coordinate:");
-                                System.out.print("Latitudine: ");
-                                double lat = Double.parseDouble(in.nextLine().trim());
-                                System.out.print("Longitudine: ");
-                                double lng = Double.parseDouble(in.nextLine().trim());
+                                double lat = Double.parseDouble(leggiInputConAnnullamento(in, "Latitudine: ").trim());
+                                double lng = Double.parseDouble(leggiInputConAnnullamento(in, "Longitudine: ").trim());
                                 ristorante.setLatitudine(lat);
                                 ristorante.setLongitudine(lng);
                             }
                         } catch (Exception e) {
                             System.out.println("Errore durante il geocoding: " + e.getMessage());
                             System.out.println("Inserisci manualmente le coordinate:");
-                            System.out.print("Latitudine: ");
-                            double lat = Double.parseDouble(in.nextLine().trim());
-                            System.out.print("Longitudine: ");
-                            double lng = Double.parseDouble(in.nextLine().trim());
+                            double lat = Double.parseDouble(leggiInputConAnnullamento(in, "Latitudine: ").trim());
+                            double lng = Double.parseDouble(leggiInputConAnnullamento(in, "Longitudine: ").trim());
                             ristorante.setLatitudine(lat);
                             ristorante.setLongitudine(lng);
                         }
                     } else {
                         System.out.println("Connessione Internet assente. Inserisci manualmente le coordinate:");
-                        System.out.print("Latitudine: ");
-                        double lat = Double.parseDouble(in.nextLine().trim());
-                        System.out.print("Longitudine: ");
-                        double lng = Double.parseDouble(in.nextLine().trim());
+                        double lat = Double.parseDouble(leggiInputConAnnullamento(in, "Latitudine: ").trim());
+                        double lng = Double.parseDouble(leggiInputConAnnullamento(in, "Longitudine: ").trim());
                         ristorante.setLatitudine(lat);
                         ristorante.setLongitudine(lng);
                     }
                     break;
                 }
-            case 3:
-                System.out.print("INSERISCI IL TIPO DI CUCINA ->\t");
-                ristorante.setTipoDiCucina(in.nextLine().trim());
-                break;
-            case 4:
-                System.out.print("INSERISCI I SERVIZI ->\t");
-                ristorante.setServizi(in.nextLine().trim());
-                break;
-            case 5:
-                System.out.print("INSERISCI L'URL WEB ->\t");
-                ristorante.setURLWeb(in.nextLine().trim());
-                break;
-            case 6:
-                System.out.print("INSERISCI LA FASCIA DI PREZZO (numero intero)->\t");
-                Integer FasciaDiPrezzo = Integer.parseInt(in.nextLine().trim().trim());
-                ristorante.setFasciaDiPrezzo(FasciaDiPrezzo);
-                break;
-            case 7:
-                boolean Delivery;
-                while (true) {
-                    System.out.print("Permette il servizio di delivery? (s/n): ");
-                    String input = in.nextLine().trim().trim().toLowerCase();
-                    if (input.toLowerCase().startsWith("s")) {
-                        Delivery = true;
-                        break;
-                    } else if (input.toLowerCase().startsWith("s")) {
-                        Delivery = false;
-                        break;
-                    } else {
-                        System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
-                    }
-                }
-                ristorante.setDelivery(Delivery);
-                break;
-            case 8:
-                boolean PrenotazioneOnline;
-                while (true) {
-                    System.out.print("Permette la prenotazione online? (s/n): ");
-                    String input = in.nextLine().trim().trim().toLowerCase();
-                    if (input.toLowerCase().startsWith("s")) {
-                        PrenotazioneOnline = true;
-                        break;
-                    } else if (input.toLowerCase().startsWith("s")) {
-                        PrenotazioneOnline = false;
-                        break;
-                    } else {
-                        System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
-                    }
-                }
-                ristorante.setPrenotazioneOnline(PrenotazioneOnline);
-                break;
-            case 9:
-                String Prezzo;
-                System.out.print("INSERISCI IL PREZZO ->\t");
-                while (true) {
-                    System.out.print("Prezzo (solo numero): ");
-                    try {
-                        int temp = Integer.parseInt(in.nextLine().trim().trim());
-                        if (temp >= 0) {
-                            // Calcolo della fascia di prezzo in base al valore inserito
-                            if (temp > 100) {
-                                Prezzo = "€€€€";
-                            } else if (temp > 70) {
-                                Prezzo = "€€€";
-                            } else if (temp > 40) {
-                                Prezzo = "€€";
-                            } else {
-                                Prezzo = "€";
-                            }
+                case 3:
+                    ristorante.setTipoDiCucina(leggiInputConAnnullamento(in, "INSERISCI IL TIPO DI CUCINA ->\t").trim());
+                    break;
+                case 4:
+                    ristorante.setServizi(leggiInputConAnnullamento(in, "INSERISCI I SERVIZI ->\t").trim());
+                    break;
+                case 5:
+                    ristorante.setURLWeb(leggiInputConAnnullamento(in, "INSERISCI L'URL WEB ->\t").trim());
+                    break;
+                case 6:
+                    Integer FasciaDiPrezzo = Integer.parseInt(leggiInputConAnnullamento(in, "INSERISCI LA FASCIA DI PREZZO (numero intero)->\t").trim());
+                    ristorante.setFasciaDiPrezzo(FasciaDiPrezzo);
+                    break;
+                case 7:
+                    boolean Delivery;
+                    while (true) {
+                        String input = leggiInputConAnnullamento(in, "Permette il servizio di delivery? (s/n): ").trim().toLowerCase();
+                        if (input.startsWith("s")) {
+                            Delivery = true;
+                            break;
+                        } else if (input.startsWith("n")) {
+                            Delivery = false;
                             break;
                         } else {
-                            System.out.println("Il prezzo non può essere negativo.");
+                            System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
                         }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Inserisci un numero valido.");
                     }
-                }
-                ristorante.setPrezzo(Prezzo);
-                break;
+                    ristorante.setDelivery(Delivery);
+                    break;
+                case 8:
+                    boolean PrenotazioneOnline;
+                    while (true) {
+                        String input = leggiInputConAnnullamento(in, "Permette la prenotazione online? (s/n): ").trim().toLowerCase();
+                        if (input.startsWith("s")) {
+                            PrenotazioneOnline = true;
+                            break;
+                        } else if (input.startsWith("n")) {
+                            PrenotazioneOnline = false;
+                            break;
+                        } else {
+                            System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
+                        }
+                    }
+                    ristorante.setPrenotazioneOnline(PrenotazioneOnline);
+                    break;
+                case 9:
+                    String Prezzo;
+                    while (true) {
+                        try {
+                            int temp = Integer.parseInt(leggiInputConAnnullamento(in, "Prezzo (solo numero): ").trim());
+                            if (temp >= 0) {
+                                // Calcolo della fascia di prezzo in base al valore inserito
+                                if (temp > 100) {
+                                    Prezzo = "€€€€";
+                                } else if (temp > 70) {
+                                    Prezzo = "€€€";
+                                } else if (temp > 40) {
+                                    Prezzo = "€€";
+                                } else {
+                                    Prezzo = "€";
+                                }
+                                break;
+                            } else {
+                                System.out.println("Il prezzo non può essere negativo.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Inserisci un numero valido.");
+                        }
+                    }
+                    ristorante.setPrezzo(Prezzo);
+                    break;
+            }
+        } catch (InputAnnullatoException e) {
+            System.out.println("Operazione annullata.");
         }
     }
     
     private static boolean modificaUtente(Utente utente, ArrayList<Cliente> cl , ArrayList<Ristoratore> rs) {
-        System.out.println("Cosa vuoi modificare?\n");
-        System.out.println("1- Nome");
-        System.out.println("2- Cognome");
-        System.out.println("3- Username");
-        System.out.println("4- Password");
-        System.out.println("5- Data di nascita");
-        System.out.println("6- Domicilio");
-        System.out.println("7- Ruolo");
-        System.out.println("8- Torna al menu precedente");
-        int selezione;
-        do {
-            System.out.print("\nSELEZIONE ->\t");
-            try {
-                selezione = Integer.parseInt(in.nextLine().trim());
-            } catch (NumberFormatException e) {
-                selezione = -1;
-            }
-        } while(selezione < 1 || selezione > 8);
-        switch (selezione) {
-            case 1:{
-                String nome;
-                do { //Nome
-                    System.out.print("\nNUOVONOME ->\t\t");
-                    nome = in.nextLine().trim();
-                    if (!nome.matches("^[a-zA-Z\\s]+$")) {
-                        System.out.println("Il nome può contenere solo lettere e spazi.");
-                    } else if (nome.length() < 2) {
-                        System.out.println("Il nome deve contenere almeno 2 caratteri.");
-                    }
-                } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
-                utente.setNome(nome);
-                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
-                return true;
-            }
-            case 2:{
-                String cognome;
-                do { //Cognome
-                    System.out.print("\nCOGNOME ->\t\t");
-                    cognome = in.nextLine().trim();
-                    if (!cognome.matches("^[a-zA-Z\\s]+$")) {
-                        System.out.println("Il Conome può contenere solo lettere e spazi.");
-                    } else if (cognome.length() < 2) {
-                        System.out.println("Il Cognome deve contenere almeno 2 caratteri.");
-                    }
-                } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
-                utente.setCognome(cognome);
-                return true;
-            }
-            case 3:{
-                String username;
-                do { //USERNAME, univoco
-                    System.out.print("\nUSERNAME ->\t");
-                    username = in.nextLine();
-                    if (usernameEsiste(username, cl, rs)) {
-                        System.out.println("Username già esistente. Inseriscine un altro.");
-                    }
-                } while (usernameEsiste(username, cl, rs));
-                utente.setUsername(username);
-                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
-                return true;
-            }
-            case 4:{
-                System.out.print("\nINSERISCI LA VECCHIA PASSWORD ->\t");
-                String vecchiaPassword = in.nextLine().trim();
-
-                // Verifica della vecchia password usando il metodo getPasswordDecifrata
-                String passwordDecifrata = utente.getPasswordDecifrata(vecchiaPassword, utente.getUsername());
-
-                if (passwordDecifrata == null || !passwordDecifrata.equals(vecchiaPassword)) {
-                    System.out.println("Password errata. Cambio password annullato.");
+        try {
+            System.out.println("Cosa vuoi modificare?\n");
+            System.out.println("1- Nome");
+            System.out.println("2- Cognome");
+            System.out.println("3- Username");
+            System.out.println("4- Password");
+            System.out.println("5- Data di nascita");
+            System.out.println("6- Domicilio");
+            System.out.println("7- Ruolo");
+            System.out.println("8- Torna al menu precedente\n");
+            System.out.println("Inserisci '#' in qualsiasi momento per annullare\n");
+            int selezione;
+            do {
+                System.out.print("\nSELEZIONE ->\t");
+                try {
+                    selezione = Integer.parseInt(leggiInputConAnnullamento(in, "\nSELEZIONE ->\t").trim());
+                } catch (NumberFormatException e) {
+                    selezione = -1;
+                }
+            } while(selezione < 1 || selezione > 8);
+            switch (selezione) {
+                case 1:{
+                    String nome;
+                    do { //Nome
+                        nome = leggiInputConAnnullamento(in, "\nNUOVONOME ->\t\t").trim();
+                        if (!nome.matches("^[a-zA-Z\\s]+$")) {
+                            System.out.println("Il nome può contenere solo lettere e spazi.");
+                        } else if (nome.length() < 2) {
+                            System.out.println("Il nome deve contenere almeno 2 caratteri.");
+                        }
+                    } while (!nome.matches("^[a-zA-Z\\s]+$") || nome.length() < 2);
+                    utente.setNome(nome);
+                    System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
                     return true;
                 }
-
-                // Se la vecchia password è corretta, chiedo la nuova
-                String nuovaPassword;
-                do {
-                    System.out.print("\nINSERISCI LA NUOVA PASSWORD ->\t");
-                    nuovaPassword = in.nextLine().trim();
-                    if (nuovaPassword.length() < 2) {
-                        System.out.println("La password deve contenere almeno 2 caratteri.");
-                    } else if (nuovaPassword.equals(vecchiaPassword)) {
-                        System.out.println("La nuova password non può essere uguale a quella vecchia.");
-                        nuovaPassword = ""; // forza il ripetere del ciclo
-                    }
-                } while (nuovaPassword.length() < 2);
-
-                utente.setPassword(nuovaPassword); // presumo che questo la cifri di nuovo
-                System.out.println("Password cambiata con successo.");
-                return true;
-            }
-            case 5:{
-                int giorno, mese, anno;
-                boolean dataValida = false;
-                do {
-                    try {
-                        System.out.print("\nINSERISCI IL NUOVO GIORNO DI NASCITA ->\t");
-                        giorno = Integer.parseInt(in.nextLine());
-                        System.out.print("INSERISCI IL NUOVO MESE DI NASCITA ->\t");
-                        mese = Integer.parseInt(in.nextLine());
-                        System.out.print("INSERISCI IL NUOVO ANNO DI NASCITA ->\t");
-                        anno = Integer.parseInt(in.nextLine());
-                        
-                        // Verifica se l'utente è maggiorenne
-                        if (!DataDiNascita.etaValida(giorno, mese, anno) && utente instanceof Cliente ) {
-                            System.out.println("Devi avere almeno 14 anni per registrarti!");
-                            continue;
+                case 2:{
+                    String cognome;
+                    do { //Cognome
+                        cognome = leggiInputConAnnullamento(in, "\nCOGNOME ->\t\t").trim();
+                        if (!cognome.matches("^[a-zA-Z\\s]+$")) {
+                            System.out.println("Il Conome può contenere solo lettere e spazi.");
+                        } else if (cognome.length() < 2) {
+                            System.out.println("Il Cognome deve contenere almeno 2 caratteri.");
                         }
-
-                        if (!DataDiNascita.maggiorenne(giorno, mese, anno) && utente instanceof Ristoratore ) {
-                            System.out.println("Devi avere almeno 18 anni per registrarti!");
-                            continue;
-                        }
-                        
-                        utente.setDataDiNascita(giorno, mese, anno);
-                        dataValida = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Inserisci un numero valido!");
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Data non valida: " + e.getMessage());
-                    }
-                } while(!dataValida);
-                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
-                return true;
-            }
-            case 6:{
-                String domicilio;
-                System.out.print("\nINSERISCI IL NUOVO INDIRIZZO [Via, Città] ->\t");
-                String indirizzoInput = in.nextLine();
-                domicilio = Indirizzo.getSelezionaIndirizzo(indirizzoInput);
-                utente.setDomicilio(domicilio);
-                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
-                return true;
-            }
-            case 7:{
-                String ruolo;
-                do {
-                    System.out.print("\nINSERISCI IL NUOVO RUOLO [Cliente/Ristoratore] ->\t");
-                    ruolo = in.nextLine().trim();
-                    if(ruolo.length() < 2) {
-                        System.out.println("Il ruolo deve contenere almeno 2 caratteri");
-                    }
-                } while(ruolo.length() < 2);
-                if (ruolo.startsWith("c")) {
-                        utente.setRuolo("Cliente");
+                    } while (!cognome.matches("^[a-zA-Z\\s]+$") || cognome.length() < 2);
+                    utente.setCognome(cognome);
+                    return true;
                 }
-                if (ruolo.toLowerCase().startsWith("r")) {
-                    utente.setRuolo("Ristoratore");
+                case 3:{
+                    String username;
+                    do { //USERNAME, univoco
+                        username = leggiInputConAnnullamento(in, "\nUSERNAME ->\t");
+                        if (usernameEsiste(username, cl, rs)) {
+                            System.out.println("Username già esistente. Inseriscine un altro.");
+                        }
+                    } while (usernameEsiste(username, cl, rs));
+                    utente.setUsername(username);
+                    System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
+                    return true;
+                }
+                case 4:{
+                    String vecchiaPassword = leggiInputConAnnullamento(in, "\nINSERISCI LA VECCHIA PASSWORD ->\t").trim();
+    
+                    // Verifica della vecchia password usando il metodo getPasswordDecifrata
+                    String passwordDecifrata = utente.getPasswordDecifrata(vecchiaPassword, utente.getUsername());
+    
+                    if (passwordDecifrata == null || !passwordDecifrata.equals(vecchiaPassword)) {
+                        System.out.println("Password errata. Cambio password annullato.");
+                        return true;
+                    }
+    
+                    // Se la vecchia password è corretta, chiedo la nuova
+                    String nuovaPassword;
+                    do {
+                        nuovaPassword = leggiInputConAnnullamento(in, "\nINSERISCI LA NUOVA PASSWORD ->\t").trim();
+                        if (nuovaPassword.length() < 2) {
+                            System.out.println("La password deve contenere almeno 2 caratteri.");
+                        } else if (nuovaPassword.equals(vecchiaPassword)) {
+                            System.out.println("La nuova password non può essere uguale a quella vecchia.");
+                            nuovaPassword = ""; // forza il ripetere del ciclo
+                        }
+                    } while (nuovaPassword.length() < 2);
+    
+                    utente.setPassword(nuovaPassword); // presumo che questo la cifri di nuovo
+                    System.out.println("Password cambiata con successo.");
+                    return true;
+                }
+                case 5:{
+                    int giorno, mese, anno;
+                    boolean dataValida = false;
+                    do {
+                        try {
+                            giorno = Integer.parseInt(leggiInputConAnnullamento(in, "\nINSERISCI IL NUOVO GIORNO DI NASCITA ->\t"));
+                            mese = Integer.parseInt(leggiInputConAnnullamento(in, "INSERISCI IL NUOVO MESE DI NASCITA ->\t"));
+                            anno = Integer.parseInt(leggiInputConAnnullamento(in, "INSERISCI IL NUOVO ANNO DI NASCITA ->\t"));
+                            
+                            // Verifica se l'utente è maggiorenne
+                            if (!DataDiNascita.etaValida(giorno, mese, anno) && utente instanceof Cliente ) {
+                                System.out.println("Devi avere almeno 14 anni per registrarti!");
+                                continue;
+                            }
+    
+                            if (!DataDiNascita.maggiorenne(giorno, mese, anno) && utente instanceof Ristoratore ) {
+                                System.out.println("Devi avere almeno 18 anni per registrarti!");
+                                continue;
+                            }
+                            
+                            utente.setDataDiNascita(giorno, mese, anno);
+                            dataValida = true;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Inserisci un numero valido!");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Data non valida: " + e.getMessage());
+                        }
+                    } while(!dataValida);
+                    System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
+                    return true;
+                }
+                case 6:{
+                    System.out.print("\nINSERISCI IL NUOVO INDIRIZZO [Via, Città] ->\t");
+                    String indirizzoInput = leggiInputConAnnullamento(in, "\nINSERISCI IL NUOVO INDIRIZZO [Via, Città] ->\t");
+                    String domicilio = Indirizzo.getSelezionaIndirizzo(indirizzoInput);
+                    utente.setDomicilio(domicilio);
+                    System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
+                    return true;
+                }
+                case 7:{
+                    String ruolo;
+                    do {
+                        ruolo = leggiInputConAnnullamento(in, "\nINSERISCI IL NUOVO RUOLO [Cliente/Ristoratore] ->\t").trim();
+                        if(ruolo.length() < 2) {
+                            System.out.println("Il ruolo deve contenere almeno 2 caratteri");
+                        }
+                    } while(ruolo.length() < 2);
+                    if (ruolo.startsWith("c")) {
+                            utente.setRuolo("Cliente");
+                    }
+                    if (ruolo.toLowerCase().startsWith("r")) {
+                        utente.setRuolo("Ristoratore");
+                }
+                    System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
+                    return true;
+                }
+                case 8:{
+                    return false;
+                }
             }
-                System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
-                return true;
-            }
-            case 8:{
-                return false;
-            }
+            return false;
+        } catch (InputAnnullatoException e) {
+            System.out.println("Operazione annullata.");
+            return false;
         }
-        return false;
     }
 
     private static void CaricaListe(ArrayList<Cliente> cl , ArrayList<Ristoratore> rs){

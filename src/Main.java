@@ -389,7 +389,7 @@ public class Main {
                                             modificaUtente = modificaUtente(cl, ListaClienti, ListaRistoratori);
                                         }
 
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -419,7 +419,7 @@ public class Main {
                                                 System.out.println("\nNessun ristorante selezionato.");
                                             }
                                         }
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -458,7 +458,7 @@ public class Main {
                                                     else{
                                                         System.out.println("\nNessun ristorante selezionato.");
                                                     }
-                                                    System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                                    System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                                     in.nextLine().trim();
                                                     pulisciTerminale();
                                                     break;
@@ -480,7 +480,7 @@ public class Main {
                                                     else{
                                                         System.out.println("\nNessun ristorante selezionato.");
                                                     }
-                                                    System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                                    System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                                     in.nextLine().trim();
                                                     pulisciTerminale();
                                                     break;
@@ -496,7 +496,7 @@ public class Main {
                                                     }
 
                                                     System.out.println("\n\n");
-                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    System.out.println("PREMERE INVIO PER CONTINUARE");
                                                     in.nextLine().trim();
                                                     pulisciTerminale();
                                                     break;
@@ -562,7 +562,7 @@ public class Main {
                                                     }
 
                                                     System.out.println("\n\n");
-                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    System.out.println("PREMERE INVIO PER CONTINUARE");
                                                     in.nextLine().trim();
                                                     pulisciTerminale();
                                                     break;
@@ -581,7 +581,7 @@ public class Main {
                                                     
 
                                                     System.out.println("\n\n");
-                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    System.out.println("PREMERE INVIO PER CONTINUARE");
                                                     in.nextLine().trim();
                                                     pulisciTerminale();
                                                     break;
@@ -604,7 +604,7 @@ public class Main {
                                                     }
     
                                                     System.out.println("\n\n");
-                                                    System.out.println("PREMERE UN TASTO PER CONTINUARE");
+                                                    System.out.println("PREMERE INVIO PER CONTINUARE");
                                                     in.nextLine().trim();
                                                     pulisciTerminale();
                                                     break;
@@ -959,7 +959,7 @@ public class Main {
                                             modificaUtente = modificaUtente(ris, ListaClienti, ListaRistoratori);
                                         }
                                         System.out.println("L'ACCOUNT È STATO MODIFICATO CORRETTAMENTE.");
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -973,7 +973,7 @@ public class Main {
                                                 System.out.println(r.visualizzaRistorante());
                                             }
                                         }
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -1117,7 +1117,7 @@ public class Main {
                                         System.out.println("RISTORANTE AGGIUNTO CORRETTAMENTE");
 
 
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -1133,7 +1133,7 @@ public class Main {
                                             System.out.println("RISTORANTE MODIFICATO CORRETTAMENTE");
                                         }
 
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -1143,7 +1143,7 @@ public class Main {
                                         ris.RimuoviRistorante(r);
                                         gestoreRistoranti.RimuoviRistorante(r);
                                         System.out.println("RISTORANTE RIMOSSO CORRETTAMENTE");
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -1151,7 +1151,7 @@ public class Main {
                                     case 6:{ // Visualizza Recensioni ristorante
                                         Ristorante r = GetSelezioneRistorante(ris.getListaRistoranti());
                                         r.VisualizzaRecensioni();
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -1165,7 +1165,7 @@ public class Main {
                                         }
                                         else
                                             System.out.println("LA RECENSIONE HA GIA' UNA RISPOSTA");
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -1179,7 +1179,7 @@ public class Main {
                                         }
                                         else
                                             System.out.println("LA RECENSIONE NON HA UNA RISPOSTA DA MODIFICARE");
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -1193,7 +1193,7 @@ public class Main {
                                         }
                                         else
                                             System.out.println("LA RECENSIONE NON HA UNA RISPOSTA DA ELIMINARE");
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -1242,7 +1242,7 @@ public class Main {
                                         else{
                                             System.out.println("\nNessun ristorante selezionato.");
                                         }
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
@@ -1261,14 +1261,15 @@ public class Main {
                                         if (risultati.isEmpty()) {
                                             System.out.println("Nessun ristorante trovato con quel nome.");
                                         } else {
-                                            if(GetSelezioneRistorante(risultati) != null){
-                                                System.out.println(GetSelezioneRistorante(risultati).visualizzaRistorante());
+                                            Ristorante r = GetSelezioneRistorante(risultati);
+                                            if(r != null){
+                                                System.out.println(r.visualizzaRistorante());
                                             }
                                             else{
                                                 System.out.println("\nNessun ristorante selezionato.");
                                             }
                                         }
-                                        System.out.println("\n\nPREMERE UN TASTO PER CONTINUARE");
+                                        System.out.println("\n\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;

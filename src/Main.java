@@ -1349,7 +1349,9 @@ public class Main {
             return false;
         }
     }
+    
     private static void modificaRistorante(Ristorante ristorante){
+        pulisciTerminale();
         try {
             System.out.println("Cosa vuoi modificare?\n");
             System.out.println("1- Nome");
@@ -1377,21 +1379,17 @@ public class Main {
                     ristorante.setNome(leggiInputConAnnullamento(in, "INSERISCI IL NUOVO NOME ->\t").trim());
                     break;
                 case 2: {
-                    String indirizzo = leggiInputConAnnullamento(in, "INSERISCI L'INDIRIZZO ->\t").trim();
-                    String citta = leggiInputConAnnullamento(in, "INSERISCI LA CITTA' ->\t").trim();
-                    String nazione = leggiInputConAnnullamento(in, "INSERISCI LA NAZIONE ->\t").trim();
-                
-                    ristorante.setIndirizzo(indirizzo);
-                    ristorante.setCitta(citta);
-                    ristorante.setNazione(nazione);
-                
-                    if (isInternetReachable()) {
-                        String indirizzoCompleto = indirizzo + ", " + citta + ", " + nazione;
+                    String indirizzo = leggiInputConAnnullamento(in, "\nINSERISCI L'INDIRIZZO COMPLETO (Via, Città, Nazione) ->\t").trim();
+                    String indirizzoCompleto;
+                    indirizzoCompleto = Indirizzo.getSelezionaIndirizzo(indirizzo);
+
+                    ristorante.setIndirizzo(indirizzoCompleto);
+                    
                         JOpenCageGeocoder geocoder = new JOpenCageGeocoder("650d3794aa3a411d9184bd19486bdb3e");
                         JOpenCageForwardRequest request = new JOpenCageForwardRequest(indirizzoCompleto);
                         request.setLanguage("it");
                         request.setLimit(1);
-                
+
                         try {
                             JOpenCageResponse response = geocoder.forward(request);
                             if (!response.getResults().isEmpty()) {
@@ -1400,10 +1398,9 @@ public class Main {
                                 double lng = result.getGeometry().getLng();
                                 ristorante.setLatitudine(lat);
                                 ristorante.setLongitudine(lng);
-                                System.out.println("Coordinate aggiornate: LAT=" + lat + " LNG=" + lng);
+                                System.out.println("\nCoordinate aggiornate: LAT=" + lat + " LNG=" + lng + "\n");
                             } else {
                                 System.out.println("Impossibile trovare le coordinate per l'indirizzo inserito.");
-                                System.out.println("Inserisci manualmente le coordinate:");
                                 double lat = Double.parseDouble(leggiInputConAnnullamento(in, "Latitudine: ").trim());
                                 double lng = Double.parseDouble(leggiInputConAnnullamento(in, "Longitudine: ").trim());
                                 ristorante.setLatitudine(lat);
@@ -1411,21 +1408,14 @@ public class Main {
                             }
                         } catch (Exception e) {
                             System.out.println("Errore durante il geocoding: " + e.getMessage());
-                            System.out.println("Inserisci manualmente le coordinate:");
                             double lat = Double.parseDouble(leggiInputConAnnullamento(in, "Latitudine: ").trim());
                             double lng = Double.parseDouble(leggiInputConAnnullamento(in, "Longitudine: ").trim());
                             ristorante.setLatitudine(lat);
                             ristorante.setLongitudine(lng);
                         }
-                    } else {
-                        System.out.println("Connessione Internet assente. Inserisci manualmente le coordinate:");
-                        double lat = Double.parseDouble(leggiInputConAnnullamento(in, "Latitudine: ").trim());
-                        double lng = Double.parseDouble(leggiInputConAnnullamento(in, "Longitudine: ").trim());
-                        ristorante.setLatitudine(lat);
-                        ristorante.setLongitudine(lng);
+                        break;
                     }
-                    break;
-                }
+    
                 case 3:
                     ristorante.setTipoDiCucina(leggiInputConAnnullamento(in, "INSERISCI IL TIPO DI CUCINA ->\t").trim());
                     break;

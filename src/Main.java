@@ -80,7 +80,7 @@ public class Main {
                         }
                     } while (!selezioneStringa.toLowerCase().equals("si") && !selezioneStringa.toLowerCase().equals("no"));
                     pulisciTerminale();
-                    if (selezioneStringa.toLowerCase().charAt(0) == 's' || selezioneStringa.length() == 2) { // Form ACCEDI
+                    if (selezioneStringa.toLowerCase().charAt(0) == 's' && selezioneStringa.length() == 2) { // Form ACCEDI
                         boolean uscitaRichiesta = false;
                         do {
                             System.out.println("INSERISCI USERNAME E PASSWORD PER ACCEDERE (digita '#' per tornare indietro)\n");
@@ -130,10 +130,11 @@ public class Main {
                             System.out.println("DATI INSERITI CORRETTAMENTE! Ruolo: " + ruolo);
                         }
                     
-                    } else if (selezioneStringa.toLowerCase().charAt(0) == '#') {
+                    }
+                    if (selezioneStringa.toLowerCase().charAt(0) == '#') {
                         break;
                     }
-                    else if(selezioneStringa.toLowerCase().charAt(0) == 'n' || selezioneStringa.length() == 2) {
+                    if(selezioneStringa.toLowerCase().charAt(0) == 'n' && selezioneStringa.length() == 2) {
                         boolean continuaRegistrazione = true;
                         // Registrati o entra come Guest o Esci
                         while (continuaRegistrazione) {
@@ -155,10 +156,14 @@ public class Main {
                                         selezioneInt = -1;
                                     } catch (InputAnnullatoException e) {
                                         ruolo = "esci";
+                                        continuaRegistrazione = false;
+                                        break;
                                     }
                                 } while(selezioneInt < 1 || selezioneInt > 4);
                             } while(false);
-                            
+                            if(!continuaRegistrazione) {
+                                break;
+                            }
                             switch (selezioneInt) {
                                 case 1: {
                                     try {

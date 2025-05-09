@@ -125,7 +125,7 @@ public class Ristorante {
     }
 
     public void VisualizzaRecensioni(){
-        System.out.println("La lista delle recensioni del ristorante " + this.Nome + ":");
+        System.out.println("La lista delle recensioni del ristorante " + this.Nome + ":\n");
         for(Recensione rec: ListaRecensioni)
             System.out.println(rec.visualizzaRecensione());
     }

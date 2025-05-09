@@ -7,7 +7,7 @@ import src.Ristoranti.Ristorante;
 
 public class UtenteNonRegistrato extends Utente{
     public UtenteNonRegistrato(){
-        super(" ", " ", "Guest", " "," ", "Utente non registrato", 00,00, 0000, false);
+        super(" ", " ", "Guest", " "," ", "Utente non registrato", 01,01, 1900, false);
     }
 
     public String getDettagli(Ristorante ristorante){

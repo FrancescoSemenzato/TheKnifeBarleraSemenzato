@@ -90,6 +90,7 @@ public class Ristoratore extends Utente {
         ListaRistoranti.remove(r);
         
     }
+    
     public String getRecensioniRistoranti(){
         String ris = "Lista di tutte le recensioni dei tuoi ristoranti\n";
         for(Ristorante r : ListaRistoranti)
@@ -103,7 +104,7 @@ public class Ristoratore extends Utente {
         String ris = "Lista di tutte le recensioni del ristorante " + ListaRistoranti.get(index).getNome() + ":\n";
         
         for(int i=0; i<ListaRistoranti.get(index).getRecensioni().size(); i++){
-            ris += (i+1) + "- " + ListaRistoranti.get(index).getRecensione(i).toString();
+            ris += "\n"+ (i+1) + "- " + ListaRistoranti.get(index).getRecensione(i).toString();
         }
 
         return ris;

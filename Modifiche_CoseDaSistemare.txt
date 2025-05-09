@@ -1,7 +1,7 @@
 - Uscita completa dal programma se si seleziona '#' durante la registrazione (non dovrebbe farlo) √
 - Non aggiunge i preferiti al cliente √
-- Modificare in modo che non sia key-sensitive l'input dell'indirizzo 
+- Modificare in modo che non sia key-sensitive l'input dell'indirizzo √
 - Fare che se in GetSelezioneRistorante due o più ristoranti abbiano lo stesso nome veda anche l'indirizzo oltre al nome
 - Modificare tutti gli input in modo tale che se metto # annulli l'operazione
 - Rimuovere preferiti (case 5 diventa modifica lista preferiti dove puoi aggiungere o rimuovere ristoranti) √
-- Modifica frase "PREMI UN TASTO PER TORNARE IN DIETRO" in "PREMI INVIO...."
+- Modifica frase "PREMI UN TASTO PER TORNARE IN DIETRO" in "PREMI INVIO...." √

@@ -5,3 +5,4 @@
 - Modificare tutti gli input in modo tale che se metto # annulli l'operazione
 - Rimuovere preferiti (case 5 diventa modifica lista preferiti dove puoi aggiungere o rimuovere ristoranti) √
 - Modifica frase "PREMI UN TASTO PER TORNARE IN DIETRO" in "PREMI INVIO...." √
+- Correzzione salvataggio recensioni nel file di testo √

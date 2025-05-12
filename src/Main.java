@@ -1,5 +1,7 @@
-// javac -d bin $(find src -name "*.java")
-// java -cp bin src.Main
+/*
+javac -cp "lib/*" -d bin $(find src -name "*.java")
+java -cp "bin:lib/*" src.Main 
+ */
 
 package src;
 
@@ -407,7 +409,7 @@ public class Main {
                                         break;
                                     }
                                     case 2:{
-                                        int distanza = 20;
+                                        int distanza = 15;
                                         ArrayList<Ristorante> vicini = gestoreRistoranti.filtraPerVicinoA(cl.getDomicilio(), distanza);
 
                                         //pulisciTerminale();
@@ -1088,9 +1090,13 @@ public class Main {
                                         System.out.print("INSERISCI IL NUMERO DELLA RECENSIONE DA ELIMINARE -> ");
                                         Recensione rec = GetSelezioneRecensione(cl.getListaRecensioni());                       
 
-                                        cl.RemoveRecensione(cl.getListaRecensioni().indexOf(rec), gestoreRistoranti.getRistorante(rec.getNomeRistorante()));
-
-                                        System.out.println("LA RECENSIONE È STATA ELIMINATA CORRETTAMENTE.");
+                                       if (rec == null) {
+                                           System.out.println("NESSUNA RECENSIONE VERRA' ELIMINATA.");
+                                       }
+                                       else {
+                                            cl.RemoveRecensione(cl.getListaRecensioni().indexOf(rec), gestoreRistoranti.getRistorante(rec.getNomeRistorante()));
+                                            System.out.println("LA RECENSIONE È STATA ELIMINATA CORRETTAMENTE.");
+                                       }
 
                                         System.out.println("\nPREMERE INVIO PER CONTINUARE");
                                         in.nextLine().trim();
@@ -1135,7 +1141,7 @@ public class Main {
                                 }while(false); 
                                 pulisciTerminale();
                                 switch (selezioneInt) {
-                                    case 1:{
+                                    case 1:{ //Modifica Acount
                                         boolean modificaUtente = true;
                                         while (modificaUtente) {
                                             modificaUtente = modificaUtente(ris, ListaClienti, ListaRistoratori);
@@ -1150,7 +1156,7 @@ public class Main {
                                         pulisciTerminale();
                                         break;
                                     }
-                                    case 2:{
+                                    case 2:{ //Visualizza i tuoi ristoranti
                                         if(ris.getListaRistoranti().isEmpty()) {
                                             System.out.println("NESSUN RISTORANTE ASSOCIATO AL TUO ACCOUNT.");
                                         } else {
@@ -1171,40 +1177,67 @@ public class Main {
                                         boolean Delivery = false, PrenotazioneOnline = false;
                                     
                                         // Input nome
-                                        System.out.print("Nome del ristorante: ");
-                                        Nome = in.nextLine().trim().trim();
+                                        try {
+                                            Nome = leggiInputConAnnullamento(in, "INSERISCI IL NOME DEL RISTORANTE -> ");
+                                        } catch (InputAnnullatoException e) {
+                                            System.out.println("OPERAZIONE ANNULLATA.");
+                                            break;
+                                        }
                                     
                                         // Input nazione
-                                        System.out.print("Nazione: ");
-                                        Nazione = in.nextLine().trim().trim();
+                                        try {
+                                            Nazione = leggiInputConAnnullamento(in, "INSERISCI LA NAZIONE -> ");
+                                        } catch (InputAnnullatoException e) {
+                                            System.out.println("OPERAZIONE ANNULLATA.");
+                                            break;
+                                        }
                                     
                                         // Input città
-                                        System.out.print("Città: ");
-                                        Citta = in.nextLine().trim().trim();
+                                        try {
+                                            Citta = leggiInputConAnnullamento(in, "INSERISCI LA CITTA' DI RICERCA -> ");
+                                        } catch (InputAnnullatoException e) {
+                                            System.out.println("OPERAZIONE ANNULLATA.");
+                                            break;
+                                        }
                                     
                                         // Input indirizzo
-                                        System.out.print("Indirizzo: ");
-                                        Indirizzo = in.nextLine().trim().trim();
+                                        try {
+                                            Indirizzo = leggiInputConAnnullamento(in, "INSERISCI L'INDIRIZZO -> ");
+                                        } catch (InputAnnullatoException e) {
+                                            System.out.println("OPERAZIONE ANNULLATA.");
+                                            break;
+                                        }
                                     
                                         // Input tipo di cucina
-                                        System.out.print("Tipo di cucina: ");
-                                        TipoDiCucina = in.nextLine().trim().trim();
+                                        try {
+                                            TipoDiCucina = leggiInputConAnnullamento(in, "INSERISCI IL TIPO DI CUCINA -> ");
+                                        } catch (InputAnnullatoException e) {
+                                            System.out.println("OPERAZIONE ANNULLATA.");
+                                            break;
+                                        }
                                     
                                         // Input servizi
-                                        System.out.print("Servizi offerti (es. WiFi, Parcheggio): ");
-                                        Servizi = in.nextLine().trim().trim();
+                                        try {
+                                            Servizi = leggiInputConAnnullamento(in, "INSERISCI I SERVIZI OFFERTI -> ");
+                                        } catch (InputAnnullatoException e) {
+                                            System.out.println("OPERAZIONE ANNULLATA.");
+                                            break;
+                                        }
                                     
                                         // Input URL del sito web
-                                        System.out.print("URL del sito web: ");
-                                        URLWeb = in.nextLine().trim().trim();
+                                        try {
+                                            URLWeb = leggiInputConAnnullamento(in, "INSERISCI L'URL DEL SITO WEB -> ");
+                                        } catch (InputAnnullatoException e) {
+                                            System.out.println("OPERAZIONE ANNULLATA.");
+                                            break;
+                                        }
                                     
                                         // Input prezzo 
                                         while (true) {
-                                            System.out.print("Prezzo (solo numero): ");
                                             try {
-                                                int temp = Integer.parseInt(in.nextLine().trim().trim());
+                                                String input = leggiInputConAnnullamento(in, "PREZZO (solo numero): ");
+                                                int temp = Integer.parseInt(input.trim());
                                                 if (temp >= 0) {
-                                                    // Calcolo della fascia di prezzo in base al valore inserito
                                                     if (temp > 100) {
                                                         Prezzo = "€€€€";
                                                     } else if (temp > 70) {
@@ -1218,6 +1251,9 @@ public class Main {
                                                 } else {
                                                     System.out.println("Il prezzo non può essere negativo.");
                                                 }
+                                            } catch (InputAnnullatoException e) {
+                                                System.out.println("OPERAZIONE ANNULLATA.");
+                                                break;
                                             } catch (NumberFormatException e) {
                                                 System.out.println("Inserisci un numero valido.");
                                             }
@@ -1237,18 +1273,23 @@ public class Main {
                                             System.out.println("Coordinate trovate: Latitudine = " + Latitudine + ", Longitudine = " + Longitudine);
                                         } else {
                                             System.out.println("Coordinate non trovate. Inserisci manualmente:");
-                                            System.out.print("Latitudine: ");
-                                            Latitudine = Double.parseDouble(in.nextLine().trim().trim());
-                                            System.out.print("Longitudine: ");
-                                            Longitudine = Double.parseDouble(in.nextLine().trim().trim());
+                                            try {
+                                                String latInput = leggiInputConAnnullamento(in, "Latitudine: ");
+                                                Latitudine = Double.parseDouble(latInput.trim());
+                                                String lonInput = leggiInputConAnnullamento(in, "Longitudine: ");
+                                                Longitudine = Double.parseDouble(lonInput.trim());
+                                            } catch (InputAnnullatoException e) {
+                                                System.out.println("OPERAZIONE ANNULLATA.");
+                                                break;
+                                            }
                                         }
                                     
                                         // Input stelle
                                         String result = "";
                                         while (true) {
-                                            System.out.print("Numero di stelle (0-5): ");
                                             try {
-                                                int stelle = Integer.parseInt(in.nextLine().trim().trim());
+                                                String stelleInput = leggiInputConAnnullamento(in, "Numero di stelle (0-5): ");
+                                                int stelle = Integer.parseInt(stelleInput.trim());
                                                 if (stelle >= 0 && stelle <= 5) {
                                                     if (stelle == 0) {
                                                         result = "Selected Restaurants";
@@ -1259,6 +1300,9 @@ public class Main {
                                                 } else {
                                                     System.out.println("Inserisci un numero da 0 a 5.");
                                                 }
+                                            } catch (InputAnnullatoException e) {
+                                                System.out.println("OPERAZIONE ANNULLATA.");
+                                                break;
                                             } catch (NumberFormatException e) {
                                                 System.out.println("Inserisci un numero valido.");
                                             }
@@ -1266,37 +1310,50 @@ public class Main {
                                     
                                         // Input delivery
                                         while (true) {
-                                            System.out.print("Offre servizio di delivery? (s/n): ");
-                                            String input = in.nextLine().trim().trim().toLowerCase();
-                                            if (input.toLowerCase().startsWith("s")) {
-                                                Delivery = true;
+                                            try {
+                                                String input = leggiInputConAnnullamento(in, "Offre servizio di delivery? (s/n): ").toLowerCase();
+                                                if (input.startsWith("s")) {
+                                                    Delivery = true;
+                                                    break;
+                                                } else if (input.startsWith("n")) {
+                                                    Delivery = false;
+                                                    break;
+                                                } else {
+                                                    System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
+                                                }
+                                            } catch (InputAnnullatoException e) {
+                                                System.out.println("OPERAZIONE ANNULLATA.");
                                                 break;
-                                            } else if (input.toLowerCase().startsWith("n")) {
-                                                Delivery = false;
-                                                break;
-                                            } else {
-                                                System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
                                             }
                                         }
                                     
                                         // Input prenotazione online
                                         while (true) {
-                                            System.out.print("Permette la prenotazione online? (s/n): ");
-                                            String input = in.nextLine().trim().trim().toLowerCase();
-                                            if (input.toLowerCase().startsWith("s")) {
-                                                PrenotazioneOnline = true;
+                                            try {
+                                                String input = leggiInputConAnnullamento(in, "Permette la prenotazione online? (s/n): ").toLowerCase();
+                                                if (input.startsWith("s")) {
+                                                    PrenotazioneOnline = true;
+                                                    break;
+                                                } else if (input.startsWith("n")) {
+                                                    PrenotazioneOnline = false;
+                                                    break;
+                                                } else {
+                                                    System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
+                                                }
+                                            } catch (InputAnnullatoException e) {
+                                                System.out.println("OPERAZIONE ANNULLATA.");
                                                 break;
-                                            } else if (input.toLowerCase().startsWith("s")) {
-                                                PrenotazioneOnline = false;
-                                                break;
-                                            } else {
-                                                System.out.println("Risposta non valida. Inserisci 'si' o 'no'.");
                                             }
                                         }
 
                                         // Input prezzo
-                                        System.out.print("Fascia di prezzo (numero intero): ");
-                                        FasciaDiPrezzo = Integer.parseInt(in.nextLine().trim().trim());
+                                        try {
+                                            String fasciaInput = leggiInputConAnnullamento(in, "Fascia di prezzo (numero intero): ");
+                                            FasciaDiPrezzo = Integer.parseInt(fasciaInput.trim());
+                                        } catch (InputAnnullatoException e) {
+                                            System.out.println("OPERAZIONE ANNULLATA.");
+                                            break;
+                                        }
                                     
                                         // Chiamata al metodo per aggiungere il ristorante
                                         gestoreRistoranti.AggiungiRistorante(ris.AggiungiRistorante(Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo, Latitudine, Longitudine, FasciaDiPrezzo, result, Delivery, PrenotazioneOnline));
@@ -1380,8 +1437,13 @@ public class Main {
                                             else {
                                                 Recensione rec = GetSelezioneRecensione(recensioni);
                                                 if(rec != null && rec.getRisposta().equals("")) {
-                                                    System.out.print("\nINSERISCI LA RISPOSTA ALLA RECENSIONE ->\t");
-                                                    rec.setRisposta(in.nextLine().trim());
+                                                    try {
+                                                        String risposta = leggiInputConAnnullamento(in, "\nINSERISCI LA RISPOSTA ALLA RECENSIONE ->\t");
+                                                        rec.setRisposta(risposta.trim());
+                                                    } catch (InputAnnullatoException e) {
+                                                        System.out.println("OPERAZIONE ANNULLATA.");
+                                                        break;
+                                                    }
                                                 }
                                                 else
                                                     System.out.println("LA RECENSIONE HA GIA' UNA RISPOSTA");
@@ -1407,8 +1469,13 @@ public class Main {
                                             else {
                                                 Recensione rec = GetSelezioneRecensione(recensioni);
                                                 if(rec != null && !rec.getRisposta().equals("")) {
-                                                    System.out.println("INSERISCI LA NUOVA RISPOSTA ALLA RECENSIONE ->\t");
-                                                    rec.setRisposta(in.nextLine().trim());
+                                                    try {
+                                                        String nuovaRisposta = leggiInputConAnnullamento(in, "INSERISCI LA NUOVA RISPOSTA ALLA RECENSIONE ->\t");
+                                                        rec.setRisposta(nuovaRisposta.trim());
+                                                    } catch (InputAnnullatoException e) {
+                                                        System.out.println("OPERAZIONE ANNULLATA.");
+                                                        break;
+                                                    }
                                                 }
                                                 else
                                                     System.out.println("LA RECENSIONE NON HA UNA RISPOSTA DA MODIFICARE");
@@ -1418,7 +1485,6 @@ public class Main {
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
-                                        
                                     }
                                     case 9:{ // Rimuovi Una risposta
                                         ArrayList<Ristorante> listaRistoranti = ris.getListaRistoranti();
@@ -1426,13 +1492,25 @@ public class Main {
                                             System.out.println("Non ci sono ristoranti da visualizzare.");
                                         }
                                         else {
-                                            Ristorante r = GetSelezioneRistorante(listaRistoranti);
+                                            Ristorante r;
+                                            try {
+                                                r = GetSelezioneRistorante(listaRistoranti);
+                                            } catch (InputAnnullatoException e) {
+                                                System.out.println("OPERAZIONE ANNULLATA.");
+                                                break;
+                                            }
                                             ArrayList<Recensione> recensioni = r.getRecensioni();
                                             if (recensioni.isEmpty()) {
                                                 System.out.println("Non ci sono recensioni da visualizzare.");
                                             }
                                             else {
-                                                Recensione rec = GetSelezioneRecensione(recensioni);
+                                                Recensione rec;
+                                                try {
+                                                    rec = GetSelezioneRecensione(recensioni);
+                                                } catch (InputAnnullatoException e) {
+                                                    System.out.println("OPERAZIONE ANNULLATA.");
+                                                    break;
+                                                }
                                                 if(rec != null && !rec.getRisposta().equals("")) {
                                                     rec.EliminaRisposta();;
                                                 }
@@ -1444,7 +1522,6 @@ public class Main {
                                         in.nextLine().trim();
                                         pulisciTerminale();
                                         break;
-                                        
                                     }
                                     case 10:{
                                         continuaRistoratore = false;
@@ -2101,7 +2178,8 @@ public class Main {
         pulisciTerminale();
         System.out.println("Ristoranti trovati:\n");
         for (int i = 0; i < risultati.size(); i++) {
-            System.out.printf("%d - %s\n", i + 1, risultati.get(i).getNome());
+            //System.out.printf("%d - %s\n", i + 1, risultati.get(i).getNome());
+            System.out.printf("%d - %s, %s\n", i + 1, risultati.get(i).getNome(), risultati.get(i).getIndirizzo());  //  mette anche l'indirizzo
         }
         System.out.println("0 - Nessuno");
     
@@ -2126,13 +2204,13 @@ public class Main {
         pulisciTerminale();
         System.out.println("Recensioni trovate:");
         for (int i = 0; i < risultati.size(); i++) {
-            System.out.printf("%d - %s, %s\n", i + 1, risultati.get(i).getCommento(), risultati.get(i).getVoto());
+            System.out.printf("%d - %s, %s, %s\n", i + 1, risultati.get(i).getNomeRistorante(),risultati.get(i).getCommento(), risultati.get(i).getVoto());
         }
         System.out.println("0 - Nessuno");
     
         int scelta = -1;
         do {
-            System.out.print("Seleziona il numero della recensione da visualizzare (0 per annullare) ->\t");
+            System.out.print("\nSeleziona il numero della recensione che vuoi selezionare (0 per annullare) ->\t");
             try {
                 scelta = Integer.parseInt(in.nextLine().trim());
             } catch (NumberFormatException e) {

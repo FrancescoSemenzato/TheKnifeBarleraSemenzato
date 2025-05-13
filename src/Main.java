@@ -195,7 +195,10 @@ public class Main {
                                             if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
                                                 System.out.println("Username già esistente. Inseriscine un altro.");
                                             }
-                                        } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
+                                            if (username.length() < 3) {
+                                                System.out.println("L'username deve contenere almeno 3 caratteri.");
+                                            }
+                                        } while (usernameEsiste(username, ListaClienti, ListaRistoratori) || username.length() < 3);
                                         
                                         // Password
                                         do {
@@ -226,18 +229,25 @@ public class Main {
                                         do {
                                             try {
                                                 datadinascita = leggiInputConAnnullamento(in, "\nDATA DI NASCITA [gg/mm/aaaa] ->\t");
-                                                
-                                                if (!datadinascita.matches("^\\d{2}[/-]\\d{2}[/-]\\d{4}$")) {
+
+                                                if (!datadinascita.matches("^\\d{1,2}[/-]\\d{1,2}[/-]\\d{4}$")) {
                                                     throw new IllegalArgumentException("Formato data non valido. Usare gg/mm/aaaa o gg-mm-aaaa");
                                                 }
-                                                
+
+                                                // Normalizza la data rimuovendo zeri iniziali da giorno e mese
+                                                String[] parts = datadinascita.split("[/-]");
+                                                int giorno = Integer.parseInt(parts[0]);
+                                                int mese = Integer.parseInt(parts[1]);
+                                                int anno = Integer.parseInt(parts[2]);
+                                                datadinascita = String.format("%d-%d-%04d", giorno, mese, anno);
+
                                                 DataDiNascita dataNascita = new DataDiNascita(datadinascita);
-                                                
+
                                                 if (!DataDiNascita.etaValida(dataNascita.getGiorno(), dataNascita.getMese(), dataNascita.getAnno())) {
                                                     System.out.println("Devi avere almeno 14 anni per registrarti!");
                                                     continue;
                                                 }
-                                                
+
                                                 dataValida = true;
                                             } catch (IllegalArgumentException e) {
                                                 System.out.println("Errore: " + e.getMessage());
@@ -287,7 +297,10 @@ public class Main {
                                             if (usernameEsiste(username, ListaClienti, ListaRistoratori)) {
                                                 System.out.println("Username già esistente. Inseriscine un altro.");
                                             }
-                                        } while (usernameEsiste(username, ListaClienti, ListaRistoratori));
+                                            else if (username.length() < 3) {
+                                                System.out.println("L'username deve contenere almeno 3 caratteri.");
+                                            }
+                                        } while (usernameEsiste(username, ListaClienti, ListaRistoratori) || username.length() < 3);
                                         
                                         // Password
                                         do {
@@ -319,9 +332,16 @@ public class Main {
                                             try {
                                                 datadinascita = leggiInputConAnnullamento(in, "\nDATA DI NASCITA [gg/mm/aaaa] ->\t");
                                                 
-                                                if (!datadinascita.matches("^\\d{2}[/-]\\d{2}[/-]\\d{4}$")) {
+                                                if (!datadinascita.matches("^\\d{1,2}[/-]\\d{1,2}[/-]\\d{4}$")) {
                                                     throw new IllegalArgumentException("Formato data non valido. Usare gg/mm/aaaa o gg-mm-aaaa");
                                                 }
+
+                                                // Normalizza la data rimuovendo zeri iniziali da giorno e mese
+                                                String[] parts = datadinascita.split("[/-]");
+                                                int giorno = Integer.parseInt(parts[0]);
+                                                int mese = Integer.parseInt(parts[1]);
+                                                int anno = Integer.parseInt(parts[2]);
+                                                datadinascita = String.format("%d-%d-%04d", giorno, mese, anno);
                                                 
                                                 DataDiNascita dataNascita = new DataDiNascita(datadinascita);
                                                 
@@ -1377,8 +1397,11 @@ public class Main {
                                                 System.out.println("Nessun ristorante selezionato.");
                                             }
                                             else {
-                                                modificaRistorante(r);
-                                                System.out.println("RISTORANTE MODIFICATO CORRETTAMENTE");
+                                                boolean modificaRistorante = true;
+                                                while (modificaRistorante) {
+                                                    modificaRistorante = modificaRistorante(r);
+                                                    System.out.println("RISTORANTE MODIFICATO CORRETTAMENTE");
+                                                }
                                             }
                                         }
 
@@ -1688,7 +1711,7 @@ public class Main {
         return input;
     }
     
-    private static void modificaRistorante(Ristorante ristorante){
+    private static boolean modificaRistorante(Ristorante ristorante){
         pulisciTerminale();
         try {
             System.out.println("Cosa vuoi modificare?\n");
@@ -1700,7 +1723,8 @@ public class Main {
             System.out.println("6- Fascia Di prezzo");
             System.out.println("7- Disponibilita' servizio delivery");
             System.out.println("8- Disponibilità prenotazione online");
-            System.out.println("9- Prezzo\n");
+            System.out.println("9- Prezzo");
+            System.out.println("10- Torna al menu precedente\n");
             System.out.println("Inserisci '#' in qualsiasi momento per annullare\n");
             int selezione;
             do {
@@ -1721,20 +1745,20 @@ public class Main {
                             break;
                         }
                         ristorante.setNome(nuovoNome);
+                        return true;
                     } catch (InputAnnullatoException e) {
                         break;
                     }
-                    break;
                 case 2: {
                     try {
-                        String nuovoIndirizzo = leggiInputConAnnullamento(in, "\nINSERISCI L'INDIRIZZO COMPLETO (Via, Città, Nazione) ->\t").trim();
+                        String nuovoIndirizzo = leggiInputConAnnullamento(in, "\nINSERISCI IL NUOVO INDIRIZZO [Via, Città, Nazione] ->\t").trim();
                         if (nuovoIndirizzo.length() < 5) {
                             System.out.println("L'indirizzo inserito è troppo corto.");
                             break;
                         }
                         String indirizzoCompleto = Indirizzo.getSelezionaIndirizzo(nuovoIndirizzo);
                         ristorante.setIndirizzo(indirizzoCompleto);
-                        
+
                         JOpenCageGeocoder geocoder = new JOpenCageGeocoder("650d3794aa3a411d9184bd19486bdb3e");
                         JOpenCageForwardRequest request = new JOpenCageForwardRequest(indirizzoCompleto);
                         request.setLanguage("it");
@@ -1763,12 +1787,13 @@ public class Main {
                             ristorante.setLatitudine(lat);
                             ristorante.setLongitudine(lng);
                         }
+
+                        System.out.println("ACCOUNT MODIFICATO CORRETTAMENTE");
+                            return true;
                     } catch (InputAnnullatoException e) {
                         break;
                     }
-                    break;
                 }
-    
                 case 3:
                     try {
                         String nuovoTipoDiCucina = leggiInputConAnnullamento(in, "INSERISCI IL TIPO DI CUCINA ->\t").trim();
@@ -1777,10 +1802,10 @@ public class Main {
                             break;
                         }
                         ristorante.setTipoDiCucina(nuovoTipoDiCucina);
+                        return true;
                     } catch (InputAnnullatoException e) {
                         break;
                     }
-                    break;
                 case 4:
                     try {
                         String nuovoServizi = leggiInputConAnnullamento(in, "INSERISCI I SERVIZI ->\t").trim();
@@ -1789,10 +1814,10 @@ public class Main {
                             break;
                         }
                         ristorante.setServizi(nuovoServizi);
+                        return true;
                     } catch (InputAnnullatoException e) {
                         break;
                     }
-                    break;
                 case 5:
                     try {
                         String nuovoURLWeb = leggiInputConAnnullamento(in, "INSERISCI L'URL WEB ->\t").trim();
@@ -1801,10 +1826,10 @@ public class Main {
                             break;
                         }
                         ristorante.setURLWeb(nuovoURLWeb);
+                        return true;
                     } catch (InputAnnullatoException e) {
                         break;
                     }
-                    break;
                 case 6:
                     try {
                         String inputFasciaDiPrezzo = leggiInputConAnnullamento(in, "INSERISCI LA FASCIA DI PREZZO (numero intero)->\t").trim();
@@ -1814,13 +1839,13 @@ public class Main {
                             break;
                         }
                         ristorante.setFasciaDiPrezzo(nuovoFasciaDiPrezzo);
+                        return true;
                     } catch (InputAnnullatoException e) {
                         break;
                     } catch (NumberFormatException e) {
                         System.out.println("Inserisci un numero valido per la fascia di prezzo.");
                         break;
                     }
-                    break;
                 case 7:
                     try {
                         boolean nuovoDelivery;
@@ -1837,10 +1862,10 @@ public class Main {
                             }
                         }
                         ristorante.setDelivery(nuovoDelivery);
+                        return true;
                     } catch (InputAnnullatoException e) {
                         break;
                     }
-                    break;
                 case 8:
                     try {
                         boolean nuovoPrenotazioneOnline;
@@ -1857,10 +1882,10 @@ public class Main {
                             }
                         }
                         ristorante.setPrenotazioneOnline(nuovoPrenotazioneOnline);
+                        return true;
                     } catch (InputAnnullatoException e) {
                         break;
                     }
-                    break;
                 case 9:
                     try {
                         String nuovoPrezzo;
@@ -1888,14 +1913,17 @@ public class Main {
                             }
                         }
                         ristorante.setPrezzo(nuovoPrezzo);
+                        return true;
                     } catch (InputAnnullatoException e) {
                         break;
                     }
-                    break;
+                case 10: return false;
             }
         } catch (InputAnnullatoException e) {
             System.out.println("Operazione annullata.");
+            return false;
         }
+        return false;
     }
 
     private static boolean modificaUtente(Utente utente, ArrayList<Cliente> cl , ArrayList<Ristoratore> rs) {

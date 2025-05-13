@@ -10,10 +10,22 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * Classe di utilità per la gestione degli indirizzi utilizzando il servizio JOpenCage.
+ * Permette di selezionare un indirizzo corretto a partire da un input dell'utente.
+ */
 public class Indirizzo {
     private static final String API_KEY = "650d3794aa3a411d9184bd19486bdb3e"; 
     public static final Scanner in = new Scanner(System.in);
     
+    /**
+     * Tenta di trovare e far selezionare all'utente un indirizzo corretto e preciso a partire da una stringa di input.
+     * Usa il servizio JOpenCage per ottenere possibili corrispondenze e filtra i risultati poco significativi o duplicati.
+     *
+     * @param indirizzoInput l'indirizzo inserito dall'utente
+     * @return l'indirizzo formattato scelto tra le opzioni proposte, oppure l'input originale se nessun risultato è stato selezionato
+     */
     public static String getSelezionaIndirizzo(String indirizzoInput) {
         JOpenCageGeocoder geocoder = new JOpenCageGeocoder(API_KEY);
         JOpenCageForwardRequest request = new JOpenCageForwardRequest(indirizzoInput);

@@ -2,7 +2,6 @@ package src.Ristoranti;
 
 import com.byteowls.jopencage.JOpenCageGeocoder;
 import com.byteowls.jopencage.model.JOpenCageForwardRequest;
-//import com.byteowls.jopencage.model.JOpenCageRequest;
 import com.byteowls.jopencage.model.JOpenCageResponse;
 import com.byteowls.jopencage.model.JOpenCageResult;
 
@@ -18,11 +17,21 @@ import java.util.Set;
 
 import src.Recensione;
 
+/**
+ * GestoreRistoranti è una classe che gestisce una lista di ristoranti, 
+ * permettendo operazioni come caricamento da file, salvataggio su file, 
+ * filtri su vari criteri (nome, città, tipo di cucina, fascia di prezzo, servizi) 
+ * e ricerche basate sulla posizione geografica.
+ */
 public class GestoreRistoranti {
     private ArrayList<Ristorante> listaRistoranti;
     private String FilePath="FilesCSV/ListaRistoranti.csv";
     private String filePathRecensioni="FilesCSV/ListaRecensioni.csv";
 
+    /**
+     * Costruttore della classe GestoreRistoranti.
+     * Inizializza la lista dei ristoranti leggendo da file e carica le recensioni associate.
+     */
     public GestoreRistoranti() {
         this.listaRistoranti = leggiDaFile(FilePath);
         for (Ristorante r : listaRistoranti) {
@@ -30,6 +39,11 @@ public class GestoreRistoranti {
         }
     }
 
+    /**
+     * Restituisce un ristorante dato il suo nome.
+     * @param nome Il nome del ristorante da cercare.
+     * @return Il ristorante con il nome specificato, o null se non trovato.
+     */
     public Ristorante getRistorante(String nome) {
         for (Ristorante r : listaRistoranti) {
             if (r.getNome().trim().equals(nome.trim())) {
@@ -39,6 +53,11 @@ public class GestoreRistoranti {
         return null;
     }
 
+    /**
+     * Legge le informazioni dei ristoranti da un file CSV e le aggiunge alla lista.
+     * @param FilePath Percorso del file
+     * @return Lista dei ristoranti caricate
+     */
     private ArrayList<Ristorante> leggiDaFile(String FilePath) {
         ArrayList<Ristorante> lista = new ArrayList<>();
         String line;
@@ -72,6 +91,9 @@ public class GestoreRistoranti {
         return lista;
     }
 
+    /**
+     * Scrive la lista dei ristoranti e le loro recensioni su file.
+     */
     public void scriviSuFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FilePath));
              BufferedWriter ba = new BufferedWriter(new FileWriter(filePathRecensioni))) {
@@ -125,21 +147,35 @@ public class GestoreRistoranti {
         }
     }
 
+    /**
+     * Restituisce la lista completa dei ristoranti.
+     * @return Lista di ristoranti.
+     */
     public ArrayList<Ristorante> getListaRistoranti() {
         return listaRistoranti;
     }
 
-    //Aggiungi un ristorante, solo il ristoratore
+    /**
+     * Aggiunge un ristorante alla lista.
+     * @param r Il ristorante da aggiungere.
+     */
     public void AggiungiRistorante(Ristorante r) {
         this.listaRistoranti.add(r);
     }
 
-    //Rimuovi un ristorante, solo il ristoratore
+    /**
+     * Rimuove un ristorante dalla lista.
+     * @param r Il ristorante da rimuovere.
+     */
     public void RimuoviRistorante(Ristorante r) {
         this.listaRistoranti.remove(r);
     }
 
-    //Una lista perchè restituisce i ristoranti con il nome simile a quello cercato
+    /**
+     * Filtra la lista dei ristoranti in base al nome, cercando corrispondenze parziali o iniziali.
+     * @param nome Il nome o parte del nome da cercare.
+     * @return Lista di ristoranti che corrispondono al nome cercato.
+     */
     public ArrayList<Ristorante> filtraPerNomeRistorante(String nome) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         if (nome == null || nome.trim().length() < 2) return filtrati;
@@ -165,7 +201,11 @@ public class GestoreRistoranti {
         return filtrati;
     }
 
-    //Filtra in base alla città, filtra anche in condizioni parziali
+    /**
+     * Filtra la lista dei ristoranti in base alla città, anche con condizioni parziali e normalizzazione tramite geocoding.
+     * @param citta La città da cercare.
+     * @return Lista di ristoranti che si trovano nella città specificata.
+     */
     public ArrayList<Ristorante> filtraPerCitta(String citta) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         
@@ -205,7 +245,12 @@ public class GestoreRistoranti {
         return filtrati;
     }
 
-    //Filtra in base al tipo di cucina, controlla se la stringa tipo cercata è presente nel tipo di cucina del ristorante, ignorando maiuscole/minuscole
+    /**
+     * Filtra la lista dei ristoranti in base al tipo di cucina e alla città.
+     * @param tipo Il tipo di cucina da cercare.
+     * @param citta La città in cui cercare.
+     * @return Lista di ristoranti che corrispondono al tipo di cucina e si trovano nella città specificata.
+     */
     public ArrayList<Ristorante> filtraPerTipoDiCucina(String tipo, String citta) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         for (Ristorante r : filtraPerCitta(citta)) {
@@ -216,7 +261,13 @@ public class GestoreRistoranti {
         return filtrati;
     }
 
-    //Filtra in base prezzo maggiore, minore o uguale
+    /**
+     * Filtra la lista dei ristoranti in base alla fascia di prezzo con un segno di confronto.
+     * @param fascia La fascia di prezzo di riferimento.
+     * @param segno Il segno di confronto ('>', '<', '=').
+     * @param citta La città in cui cercare.
+     * @return Lista di ristoranti che soddisfano il criterio di fascia di prezzo nella città specificata.
+     */
     public ArrayList<Ristorante> filtraPerFasciaDiPrezzo(int fascia, char segno, String citta) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         switch (segno) {
@@ -243,7 +294,13 @@ public class GestoreRistoranti {
         }
         return filtrati;
     }
-    //Filtra in base alla fascia di prezzo, prima piccolo poi grande
+    /**
+     * Filtra la lista dei ristoranti in base a un intervallo di fasce di prezzo.
+     * @param fascia1 La fascia di prezzo minima.
+     * @param fascia2 La fascia di prezzo massima.
+     * @param citta La città in cui cercare.
+     * @return Lista di ristoranti che hanno una fascia di prezzo compresa tra fascia1 e fascia2 nella città specificata.
+     */
     public ArrayList<Ristorante> filtraPerFasciaDiPrezzo(int fascia1, int fascia2, String citta) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         for (Ristorante r : filtraPerCitta(citta)) {
@@ -254,7 +311,11 @@ public class GestoreRistoranti {
         return filtrati;
     }
 
-    //Filtra in base al delivery
+    /**
+     * Filtra la lista dei ristoranti che offrono il servizio di delivery nella città specificata.
+     * @param citta La città in cui cercare.
+     * @return Lista di ristoranti con servizio delivery nella città specificata.
+     */
     public ArrayList<Ristorante> filtraPerDelivery(String citta) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         for (Ristorante r : filtraPerCitta(citta)) {
@@ -265,7 +326,11 @@ public class GestoreRistoranti {
         return filtrati;
     }
 
-    //Filtra in base al servizio di prenotazioneOnline
+    /**
+     * Filtra la lista dei ristoranti che offrono il servizio di prenotazione online nella città specificata.
+     * @param citta La città in cui cercare.
+     * @return Lista di ristoranti con servizio di prenotazione online nella città specificata.
+     */
     public ArrayList<Ristorante> filtraPerPrenotazioneOnline(String citta) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         for (Ristorante r : filtraPerCitta(citta)) {
@@ -276,7 +341,12 @@ public class GestoreRistoranti {
         return filtrati;
     }
 
-    //Filtra in base alla media delle stelle
+    /**
+     * Filtra la lista dei ristoranti in base alla media delle stelle, nella città specificata.
+     * @param numero La media stelle minima richiesta.
+     * @param citta La città in cui cercare.
+     * @return Lista di ristoranti con media stelle maggiore o uguale a numero nella città specificata.
+     */
     public ArrayList<Ristorante> filtraPerMediaStelle(float numero, String citta) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         for (Ristorante r : filtraPerCitta(citta)) {
@@ -290,22 +360,46 @@ public class GestoreRistoranti {
         return filtrati;
     }
 
-    //Per quando hai due criteri di ricerche
+    /**
+     * Unisce due liste di ristoranti eliminando i duplicati.
+     * @param lista1 La prima lista di ristoranti.
+     * @param lista2 La seconda lista di ristoranti.
+     * @return Una lista unita senza duplicati.
+     */
     public ArrayList<Ristorante> unisciListe(ArrayList<Ristorante> lista1, ArrayList<Ristorante> lista2) {
         Set<Ristorante> set = new LinkedHashSet<>(lista1);
         set.addAll(lista2);
         return new ArrayList<>(set);
     }
-    //Per quando hai tre criteri di ricerca
+    /**
+     * Unisce tre liste di ristoranti eliminando i duplicati.
+     * @param lista1 La prima lista di ristoranti.
+     * @param lista2 La seconda lista di ristoranti.
+     * @param lista3 La terza lista di ristoranti.
+     * @return Una lista unita senza duplicati.
+     */
     public ArrayList<Ristorante> unisciListe(ArrayList<Ristorante> lista1, ArrayList<Ristorante> lista2, ArrayList<Ristorante> lista3) {
         return unisciListe(lista1, unisciListe(lista2, lista3));
     }
-    //Per quando hai quattro criteri di ricerca
+    /**
+     * Unisce quattro liste di ristoranti eliminando i duplicati.
+     * @param lista1 La prima lista di ristoranti.
+     * @param lista2 La seconda lista di ristoranti.
+     * @param lista3 La terza lista di ristoranti.
+     * @param lista4 La quarta lista di ristoranti.
+     * @return Una lista unita senza duplicati.
+     */
     public ArrayList<Ristorante> unisciListe(ArrayList<Ristorante> lista1, ArrayList<Ristorante> lista2, ArrayList<Ristorante> lista3,  ArrayList<Ristorante> lista4) {
         return unisciListe(unisciListe(lista1, lista2), unisciListe(lista3, lista4));
     }
 
 
+    /**
+     * Filtra la lista dei ristoranti che si trovano entro una certa distanza da un indirizzo utente.
+     * @param indirizzoUtente L'indirizzo dell'utente da cui calcolare la distanza.
+     * @param distanzaMassimaKm La distanza massima in chilometri.
+     * @return Lista di ristoranti entro la distanza specificata dall'indirizzo utente.
+     */
     public ArrayList<Ristorante> filtraPerVicinoA(String indirizzoUtente, double distanzaMassimaKm) {
         ArrayList<Ristorante> filtrati = new ArrayList<>();
         
@@ -350,5 +444,3 @@ public class GestoreRistoranti {
     }
 
 }
-
-    

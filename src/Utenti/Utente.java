@@ -9,8 +9,8 @@ public abstract class Utente{
     public Utente(){}
     
     public Utente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Ruolo, int Giorno, int Mese, int Anno, boolean nuovo) {
-        this.Nome = Nome;
-        this.Cognome = Cognome;
+        this.Nome = Nome.substring(0, 1).toUpperCase() + Nome.substring(1).toLowerCase();
+        this.Cognome = Cognome.substring(0, 1).toUpperCase() + Cognome.substring(1).toLowerCase();
         this.Username = Username;
         if (nuovo) {
             this.Password = CifraPassword(Password); // da cifrare
@@ -23,8 +23,8 @@ public abstract class Utente{
     }
 
     public Utente(String Nome, String Cognome, String Username, String Password, String Domicilio, String Ruolo, String Data, boolean nuovo) {
-        this.Nome = Nome;
-        this.Cognome = Cognome;
+        this.Nome = Nome.substring(0, 1).toUpperCase() + Nome.substring(1).toLowerCase();
+        this.Cognome = Cognome.substring(0, 1).toUpperCase() + Cognome.substring(1).toLowerCase();
         this.Username = Username;
         if (nuovo) {
             this.Password = CifraPassword(Password); // da cifrare
@@ -45,8 +45,8 @@ public abstract class Utente{
     public String getDataDiNascita(){return Data.getDataDiNascita();}
     public DataDiNascita geDataDiNascita(){return Data;}
 
-    public void setNome(String Nome){this.Nome = Nome;}
-    public void setCognome(String Cognome){this.Cognome = Cognome;}
+    public void setNome(String Nome){this.Nome = Nome.substring(0, 1).toUpperCase() + Nome.substring(1).toLowerCase();}
+    public void setCognome(String Cognome){this.Cognome = Cognome.substring(0, 1).toUpperCase() + Cognome.substring(1).toLowerCase();}
     public void setUsername(String Username){this.Username = Username;}
     public void setPassword(String Password){this.Password = CifraPassword(Password);}
     public void setDomicilio(String Domicilio){this.Domicilio = Domicilio;}
@@ -83,8 +83,8 @@ public abstract class Utente{
         return pswCifrata;
     }
 
-    //Non viene usata
-    /*private String DecifraPassword(String pswCifrata) {
+
+    private String DecifraPassword(String pswCifrata) {
         String pswDecifrata = "";
     
         for (int i = 0; i < pswCifrata.length(); i++) {
@@ -112,7 +112,7 @@ public abstract class Utente{
         }
     
         return pswDecifrata;
-    }*/
+    }
 
     public String getPasswordDecifrata(String passwordInserita, String Username) {
         if (CifraPassword(passwordInserita).equals(Password)) {

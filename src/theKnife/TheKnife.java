@@ -42,15 +42,27 @@ import com.byteowls.jopencage.model.JOpenCageResult;
  * Matricola: 760000
  * Sede: Varese
  * 
- * Descrizione: Metodo Main
+ * Descrizione: Classe principale dell'applicazione "TheKnife". Contiene il metodo main e i percorsi ai file CSV.
  * 
  * @author Semenzato Francesco 
  * @author Barlera Marco
  */
+/**
+ * Classe principale dell'applicazione TheKnife.
+ */
 public class TheKnife {
+    /**
+     * Percorso al file CSV degli utenti.
+     */
     public static final String FilePathUtenti="data/ListaUtenti.csv";
+    /**
+     * Scanner per leggere input da tastiera.
+     */
     public static final Scanner in = new Scanner(System.in);
-    
+    /**
+     * Metodo principale che avvia l'applicazione.
+     * @param args Argomenti da linea di comando.
+     */
     public static void main(String[] args) {
         //Permette di nascondere i messaggi di log
         System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "off");

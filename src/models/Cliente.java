@@ -73,19 +73,25 @@ public class Cliente extends Utente {
         ListaPreferiti = new ArrayList<>();
     }
 
-    /** @return La lista delle recensioni lasciate dall'utente. */
+    /**
+     * Restituisce la lista delle recensioni lasciate dall'utente.
+     * @return La lista delle recensioni lasciate dall'utente.
+     */
     public ArrayList<Recensione> getListaRecensioni() {
         return ListaRecensioniUtente;
     }
 
-    /** @return La lista dei ristoranti preferiti. */
+    /**
+     * Restituisce la lista dei ristoranti preferiti dall'utente.
+     * @return La lista dei ristoranti preferiti.
+     */
     public ArrayList<Ristorante> getPreferiti() {
         return ListaPreferiti;
     }
 
     /**
-     * @return Una stringa con i nomi dei ristoranti preferiti separati da underscore,
-     * oppure "//" se la lista è vuota.
+     * Restituisce i ristoranti preferiti dell'utente come stringa.
+     * @return Una stringa con i nomi dei ristoranti preferiti separati da underscore.
      */
     public String getPreferitiString() {
         if (ListaPreferiti.isEmpty()) return "//";

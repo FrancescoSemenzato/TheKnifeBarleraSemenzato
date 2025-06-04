@@ -66,16 +66,19 @@ public class DataDiNascita {
     }
 
     /**
+     * Restituisce il giorno della data di nascita.
      * @return il giorno della data di nascita
      */
     public int getGiorno() { return Giorno; }
 
     /**
+     * Restituisce il mese della data di nascita.
      * @return il mese della data di nascita
      */
     public int getMese() { return Mese; }
 
     /**
+     * Restituisce l'anno della data di nascita.
      * @return l'anno della data di nascita
      */
     public int getAnno() { return Anno; }

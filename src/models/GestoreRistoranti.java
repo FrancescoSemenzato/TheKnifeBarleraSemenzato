@@ -275,7 +275,7 @@ public class GestoreRistoranti {
     /**
      * Filtra la lista dei ristoranti in base alla fascia di prezzo con un segno di confronto.
      * @param fascia La fascia di prezzo di riferimento.
-     * @param segno Il segno di confronto ('>', '<', '=').
+     * @param segno Il segno di confronto (&gt;, &lt;, =).
      * @param citta La città in cui cercare.
      * @return Lista di ristoranti che soddisfano il criterio di fascia di prezzo nella città specificata.
      */

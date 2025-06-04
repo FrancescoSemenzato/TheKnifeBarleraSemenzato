@@ -90,16 +90,19 @@ public class Recensione {
     
     /**
      * Modifica il commento della recensione.
+     * @param newCommento Nuovo commento da associare
      */
     public void setCommento(String newCommento){this.Commento = newCommento;}
 
     /**
      * Modifica il voto della recensione.
+     * @param newVoto Nuovo voto da associare
      */
     public void setVoto(int newVoto){this.Voto = newVoto;}
     
     /**
      * Modifica la risposta della recensione.
+     * @param newRisposta Nuova risposta da associare
      */
     public void setRisposta(String newRisposta){this.Risposta = newRisposta;}
 

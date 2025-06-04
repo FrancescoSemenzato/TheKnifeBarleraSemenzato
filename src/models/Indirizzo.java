@@ -28,10 +28,20 @@ import java.util.Set;
  * @author Semenzato Francesco 
  * @author Barlera Marco
  */
+/**
+* Classe di utilità per la gestione degli indirizzi utilizzando il servizio JOpenCage.
+ * Permette di selezionare un indirizzo corretto a partire da un input dell'utente.
+ */
 public class Indirizzo {
     private static final String API_KEY = "650d3794aa3a411d9184bd19486bdb3e"; 
+    /**
+     * Scanner per l'input da tastiera.
+     */
     public static final Scanner in = new Scanner(System.in);
-    
+     /**
+     * Costruttore di default per la classe Indirizzo.
+     */
+    public Indirizzo() {}   
     /**
      * Tenta di trovare e far selezionare all'utente un indirizzo corretto e preciso a partire da una stringa di input.
      * Usa il servizio JOpenCage per ottenere possibili corrispondenze e filtra i risultati poco significativi o duplicati.

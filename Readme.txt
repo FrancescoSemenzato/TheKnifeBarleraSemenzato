@@ -22,8 +22,5 @@ NOTA: l'applicazione è stata sviluppata e testata su Windows 10 e MACOS.
 
 ++AVVIARE L'APPLICAZIONE DA MACOS++
 Doppio click sul jar eseguibile o tramite linea di comando digitare:
-java -jar TheKnife-MacOS-1.0.jar
+java -jar TheKnife-1.0.jar
 
-++AVVIARE L'APPLICAZIONE DA WINDOWS++
-Doppio click sul jar eseguibile o tramite linea di comando digitare:
-java -jar TheKnife-Windows-1.0.jar

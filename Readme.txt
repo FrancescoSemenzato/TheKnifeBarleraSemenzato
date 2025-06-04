@@ -20,6 +20,10 @@ L'applicazione richiede Java JDK 24 e il sistema operativo Windows 10.
 Per il corretto uso delle librerie geocoding è richiesta la connessione internet.
 NOTA: l'applicazione è stata sviluppata e testata su Windows 10 e MACOS.
 
-++AVVIARE L'APPLICAZIONE++
+++AVVIARE L'APPLICAZIONE DA MACOS++
 Doppio click sul jar eseguibile o tramite linea di comando digitare:
-java -jar TheKnife-1.0.jar
+java -jar TheKnife-MacOS-1.0.jar
+
+++AVVIARE L'APPLICAZIONE DA WINDOWS++
+Doppio click sul jar eseguibile o tramite linea di comando digitare:
+java -jar TheKnife-Windows-1.0.jar

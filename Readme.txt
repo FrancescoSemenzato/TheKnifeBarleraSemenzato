@@ -8,9 +8,9 @@ SEMENZATO FRANCESCO, MATRICOLA 760120
 BARLERA MARCO, MATRICOLA 760000
 ***********************************************************************************
 ++CONTENUTI DELL'ARCHIVIO++
-	--> EmotionalMaps-1.0.jar : file jar eseguibile
+	--> TheKnife-1.0.jar : file jar eseguibile
 	--> Original_project_all_folders.rar : progetto originale, contiene le
-	    le cartelle con i file sorgenti (.java), i file *.class e il file .pom
+	    le cartelle con i file sorgenti (.java), i file *.class e il file .csv
 	--> javadoc.rar : documentazione javadoc del progetto 
 	--> TechnicalManual.pdf : manuale tecnico
 	--> UserManual.pdf : manuale utente
@@ -22,4 +22,4 @@ NOTA: l'applicazione è stata sviluppata e testata su Windows 10 e MACOS.
 
 ++AVVIARE L'APPLICAZIONE++
 Doppio click sul jar eseguibile o tramite linea di comando digitare:
-java -jar EmotionalMaps-1.0.jar
+java -jar TheKnife-1.0.jar

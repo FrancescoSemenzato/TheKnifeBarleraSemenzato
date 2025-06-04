@@ -1,4 +1,4 @@
-package src.Utenti;
+package src.models;
 
 import com.byteowls.jopencage.JOpenCageGeocoder;
 import com.byteowls.jopencage.model.JOpenCageForwardRequest;
@@ -12,8 +12,21 @@ import java.util.Set;
 
 
 /**
- * Classe di utilità per la gestione degli indirizzi utilizzando il servizio JOpenCage.
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: Classe di utilità per la gestione degli indirizzi utilizzando il servizio JOpenCage.
  * Permette di selezionare un indirizzo corretto a partire da un input dell'utente.
+ * 
+ * @author Semenzato Francesco 
+ * @author Barlera Marco
  */
 public class Indirizzo {
     private static final String API_KEY = "650d3794aa3a411d9184bd19486bdb3e"; 

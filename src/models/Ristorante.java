@@ -1,14 +1,26 @@
-package src.Ristoranti;
+package src.models;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import src.Recensione;
 
 /**
- * Rappresenta un ristorante con tutte le sue informazioni e metodi
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: Rappresenta un ristorante con tutte le sue informazioni e metodi
  * per gestire recensioni, visualizzazione e confronto tra ristoranti.
+ * 
+ * @author Semenzato Francesco
+ * @author Barlera Marco
  */
 public class Ristorante {
     private String Nome, Nazione, Citta, Indirizzo, TipoDiCucina, Servizi, URLWeb, Prezzo, Stelle;

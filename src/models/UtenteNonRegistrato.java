@@ -1,14 +1,24 @@
-package src.Utenti;
+package src.models;
 
-import src.Recensione;
 import java.util.ArrayList;
 
-import src.Ristoranti.Ristorante;
-
 /**
- * Classe che rappresenta un utente non registrato nel sistema.
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: Classe che rappresenta un utente non registrato nel sistema.
  * Fornisce metodi per visualizzare i dettagli di un ristorante e le recensioni associate,
  * oltre a un metodo per registrare un nuovo cliente.
+ * 
+ * @author Semenzato Francesco 
+ * @author Barlera Marco
  */
 public class UtenteNonRegistrato extends Utente{
     /**

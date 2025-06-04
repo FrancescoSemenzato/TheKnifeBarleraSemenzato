@@ -3,7 +3,7 @@ javac -cp "lib/*" -d bin $(find src -name "*.java")
 java -cp "bin:lib/*" src.Main 
  */
 
-package src;
+package src.theKnife;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,22 +13,42 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import src.Ristoranti.GestoreRistoranti;
-import src.Ristoranti.Ristorante;
-import src.Utenti.Cliente;
-import src.Utenti.DataDiNascita;
-import src.Utenti.Ristoratore;
-import src.Utenti.UtenteNonRegistrato;
-import src.Utenti.Utente;
-import src.Utenti.Indirizzo;
+
+import src.models.Cliente;
+import src.models.DataDiNascita;
+import src.models.GestoreRistoranti;
+import src.models.Indirizzo;
+import src.models.InputAnnullatoException;
+import src.models.Recensione;
+import src.models.Ristorante;
+import src.models.Ristoratore;
+import src.models.Utente;
+import src.models.UtenteNonRegistrato;
 
 import com.byteowls.jopencage.JOpenCageGeocoder;
 import com.byteowls.jopencage.model.JOpenCageForwardRequest;
 import com.byteowls.jopencage.model.JOpenCageResponse;
 import com.byteowls.jopencage.model.JOpenCageResult;
 
-public class Main {
-    public static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
+
+/**
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: Metodo Main
+ * 
+ * @author Semenzato Francesco 
+ * @author Barlera Marco
+ */
+public class TheKnife {
+    public static final String FilePathUtenti="data/ListaUtenti.csv";
     public static final Scanner in = new Scanner(System.in);
     
     public static void main(String[] args) {

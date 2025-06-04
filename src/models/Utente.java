@@ -1,8 +1,21 @@
-package src.Utenti;
+package src.models;
 
 
 /**
- * Classe astratta che rappresenta un utente generico.
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: Classe astratta che rappresenta un utente generico.
+ * 
+ * @author Semenzato Francesco 
+ * @author Barlera Marco
  */
 public abstract class Utente{
     private String Nome, Cognome, Username, Password, Domicilio, Ruolo;

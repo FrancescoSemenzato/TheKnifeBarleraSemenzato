@@ -1,25 +1,34 @@
-package src.Utenti;
+package src.models;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import src.Recensione;
-import src.Ristoranti.GestoreRistoranti;
-import src.Ristoranti.Ristorante;
-
-/**
- * La classe Cliente rappresenta un utente registrato al sistema con ruolo "Cliente".
+/** 
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: La classe Cliente rappresenta un utente registrato al sistema con ruolo "Cliente".
  * Ogni cliente può aggiungere/rimuovere ristoranti preferiti e lasciare/modificare recensioni.
+ * 
+ * @author Semenzato Francesco 
+ * @author Barlera Marco
  */
 public class Cliente extends Utente {
 
     /** Percorso del file CSV contenente tutte le recensioni. */
-    public static final String FilePathRecensioni = "FilesCSV/ListaRecensioni.csv";
+    public static final String FilePathRecensioni = "data/ListaRecensioni.csv";
 
     /** Percorso del file CSV contenente tutti gli utenti. */
-    public static final String FilePathUtenti = "FilesCSV/ListaUtenti.csv";
+    public static final String FilePathUtenti = "data/ListaUtenti.csv";
 
     private ArrayList<Recensione> ListaRecensioniUtente;
     private ArrayList<Ristorante> ListaPreferiti;

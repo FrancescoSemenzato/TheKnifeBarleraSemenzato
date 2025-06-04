@@ -1,8 +1,21 @@
-package src;
+package src.models;
 
 /**
- * Rappresenta una recensione per un ristorante, con voto, commento, username dell'autore,
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: Rappresenta una recensione per un ristorante, con voto, commento, username dell'autore,
  * nome del ristorante e una possibile risposta da parte del ristoratore.
+ * 
+ * @author Semenzato Francesco 
+ * @author Barlera Marco
  */
 public class Recensione {
     private String Commento, Username, NomeRistorante, Risposta = "";

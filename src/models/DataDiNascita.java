@@ -1,11 +1,24 @@
 
-package src.Utenti;
+package src.models;
 
 import java.time.LocalDate;
 
 /**
- * Classe che rappresenta una data di nascita.
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: Classe che rappresenta una data di nascita.
  * Verifica la validità della data e consente di ottenere età e formati leggibili.
+ * 
+ * @author Semenzato Francesco 
+ * @author Barlera Marco
  */
 public class DataDiNascita {
     private int Giorno, Mese, Anno;

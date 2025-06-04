@@ -1,20 +1,29 @@
-package src.Utenti;
+package src.models;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import src.Recensione;
-import src.Ristoranti.GestoreRistoranti;
-import src.Ristoranti.Ristorante;
-
-/**
- * Classe che rappresenta un utente con ruolo di Ristoratore.
+/** 
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: Classe che rappresenta un utente con ruolo di Ristoratore. 
  * Estende la classe astratta Utente e gestisce una lista di ristoranti associati al ristoratore.
+ * 
+ * @author Semenzato Francesco 
+ * @author Barlera Marco
  */
 public class Ristoratore extends Utente {
-    private static final String FilePathUtenti="FilesCSV/ListaUtenti.csv";
+    private static final String FilePathUtenti="data/ListaUtenti.csv";
     private ArrayList <Ristorante> ListaRistoranti;
 
     /**

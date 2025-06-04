@@ -1,4 +1,4 @@
-package src.Ristoranti;
+package src.models;
 
 import com.byteowls.jopencage.JOpenCageGeocoder;
 import com.byteowls.jopencage.model.JOpenCageForwardRequest;
@@ -15,18 +15,29 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import src.Recensione;
-
 /**
- * GestoreRistoranti è una classe che gestisce una lista di ristoranti, 
+ * Nome: Francesco
+ * Cognome: Semenzato
+ * Matricola: 760120
+ * Sede: Varese
+ *
+ * Nome: Marco
+ * Cognome: Barlera
+ * Matricola: 760000
+ * Sede: Varese
+ * 
+ * Descrizione: GestoreRistoranti è una classe che gestisce una lista di ristoranti, 
  * permettendo operazioni come caricamento da file, salvataggio su file, 
  * filtri su vari criteri (nome, città, tipo di cucina, fascia di prezzo, servizi) 
  * e ricerche basate sulla posizione geografica.
+ * 
+ * @author Semenzato Francesco 
+ * @author Barlera Marco
  */
 public class GestoreRistoranti {
     private ArrayList<Ristorante> listaRistoranti;
-    private String FilePath="FilesCSV/ListaRistoranti.csv";
-    private String filePathRecensioni="FilesCSV/ListaRecensioni.csv";
+    private String FilePath="data/ListaRistoranti.csv";
+    private String filePathRecensioni="data/ListaRecensioni.csv";
 
     /**
      * Costruttore della classe GestoreRistoranti.

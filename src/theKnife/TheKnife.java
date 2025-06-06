@@ -100,7 +100,6 @@ public class TheKnife {
                     System.out.println("Inserisci un numero valido.\n");
                 }
             } while (true);
-
             switch (selezioneInt) {
                 case 1:{ // CLIENTI O RISTORATORI
                     pulisciTerminale();
@@ -115,6 +114,10 @@ public class TheKnife {
                     } while (!selezioneStringa.toLowerCase().equals("si") && !selezioneStringa.toLowerCase().equals("no"));
                     pulisciTerminale();
                     if (selezioneStringa.toLowerCase().charAt(0) == 's' && selezioneStringa.length() == 2) { // Form ACCEDI
+                        cl = new Cliente();
+                        ris = new Ristoratore();
+                        ruolo = "";
+                        datiCorretti = false;
                         boolean uscitaRichiesta = false;
                         do {
                             System.out.println("INSERISCI USERNAME E PASSWORD PER ACCEDERE (digita '#' per tornare indietro)\n");
